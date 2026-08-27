@@ -1,0 +1,29 @@
+[workspace]
+channels = ["conda-forge"]
+name = "vlm_proj"
+platforms = ["win-64"]
+version = "0.1.0"
+
+[dependencies]
+python = "3.10.*"
+
+[pypi-dependencies]
+torch = { version = ">=2.2.0", index = "https://download.pytorch.org/whl/cu121" }
+torchvision = { version = ">=0.17.0", index = "https://download.pytorch.org/whl/cu121" }
+clip = { git = "https://github.com/openai/CLIP.git" }
+transformers = "*"
+datasets = "*"
+pillow = "*"
+matplotlib = "*"
+seaborn = "*"
+scikit-learn = "*"
+tqdm = "*"
+pandas = "*"
+numpy = "*"
+pyyaml = "*"
+scipy = "*"
+statsmodels = "*"
+requests = "*"
+
+[tasks]
+test-cuda = "python -c \"import torch, clip; print('PyTorch:', torch.__version__, '| CUDA Available:', torch.cuda.is_available(), '| Device:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'N/A', '| CLIP models:', clip.available_models()[:3])\""

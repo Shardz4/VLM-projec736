@@ -1,1 +1,4 @@
 implementation_plan.md
+# pixi environments
+.pixi/*
+!.pixi/config.toml
