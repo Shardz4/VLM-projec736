@@ -1,4 +1,124 @@
-implementation_plan.md
-# pixi environments
+# ==============================================================================
+# Pixi Environment
+# ==============================================================================
 .pixi/*
 !.pixi/config.toml
+
+# ==============================================================================
+# Python Virtual Environments & Bytecode
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ==============================================================================
+# Deep Learning & Vision-Language Model Checkpoints / Weights
+# ==============================================================================
+*.pt
+*.pth
+*.pwf
+*.bin
+*.onnx
+*.safetensors
+*.ckpt
+*.h5
+*.tflite
+checkpoints/
+saved_models/
+weights/
+
+# Model download & Hugging Face caches
+.cache/
+cache/
+huggingface/
+transformers_cache/
+torch_cache/
+
+# ==============================================================================
+# Datasets & Large Archives
+# ==============================================================================
+data/*
+!data/.gitkeep
+!data/README.md
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.gz
+*.7z
+*.rar
+*.parquet
+*.feather
+*.arrow
+*.npy
+*.npz
+*.hdf5
+
+# ==============================================================================
+# Experiment Runs, Logs & Generated Figures
+# ==============================================================================
+results/*
+!results/.gitkeep
+!results/README.md
+runs/
+wandb/
+mlruns/
+tensorboard/
+*.log
+
+# ==============================================================================
+# Jupyter Notebooks
+# ==============================================================================
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# ==============================================================================
+# Secrets, Keys & Local Configurations
+# ==============================================================================
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets.yaml
+credentials.json
+
+# ==============================================================================
+# IDEs & OS Specific Files
+# ==============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==============================================================================
+# Project Specific
+# ==============================================================================
+implementation_plan.md
