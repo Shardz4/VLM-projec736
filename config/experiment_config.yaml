@@ -1,7 +1,9 @@
-clip_model: "ViT-N/32"
-baseline_model: "resent-50"
+# === Model Configuration ===
+clip_model: "ViT-B/32"
+baseline_model: "resnet50"
 device: "cuda"
 
+# === Dataset Paths ===
 datasets:
   clevr:
     root: "data/clevr"
@@ -14,13 +16,13 @@ datasets:
     root: "data/imagenet_v2"
     variant: "matched-frequency"
 
-# Inference:
+# === Inference Configuration ===
 inference:
   batch_size: 32
   num_workers: 4
   similarity_metric: "cosine"
 
-# Linear Probing
+# === Linear Probe Baseline ===
 linear_probe:
   optimizer: "adamw"
   learning_rate: 1.0e-4
@@ -29,18 +31,16 @@ linear_probe:
   epochs: 50
   weight_decay: 0.01
 
-# Prompt
-
+# === Prompt Templates ===
 prompts:
   counting:
     template: "A photo of {N} objects."
-    range: [1, 2, 3, 4, 5, 6, 7 ,8, 9, 10]
+    range: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   spatial:
     relations: ["on", "below", "left of", "right of", "in front of", "behind"]
 
-
-# Output
+# === Output Configuration ===
 output:
-results_dir: "./results/logs"
-figures_dir: "./results/figures"
-save_predictions: true
+  results_dir: "./results/logs"
+  figures_dir: "./results/figures"
+  save_predictions: true
