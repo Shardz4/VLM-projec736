@@ -1,28 +1,33 @@
-""" Convinience based function to build Dataloders from experiment config"""
-
+"""Factory function to build DataLoaders from experiment config."""
 import os
 import clip
 from torch.utils.data import DataLoader
-
-from.clevr_loader import CLEVRCountingDataset
+from .clevr_loader import CLEVRCountingDataset
 from .spatialsense_loader import SpatialSenseDataset
-
 from .imagenet_v2_loader import ImageNetV2Dataset
 
-def build_dataloaders(config):
 
+def build_dataloaders(config):
+    """Build DataLoaders for all datasets specified in the experiment config.
+    Args:
+        config: Parsed experiment config dict (from ``load_config()``).
+    Returns:
+        dict: Mapping of dataset name → DataLoader instance.
+              Keys: "clevr", "spatialsense", "imagenet_v2"
+              (only those present in config are included).
+    """
+    # Load CLIP model to get the preprocess transform
     device = config.get("device", "cuda")
     model_name = config.get("clip_model", "ViT-B/32")
     _, preprocess = clip.load(model_name, device=device)
 
-    batch_size = config = config["inference"]["batch_size"]
+    batch_size = config["inference"]["batch_size"]
     num_workers = config["inference"]["num_workers"]
 
     loaders = {}
-    dataset_cfg = config.get("datasets", {})
+    datasets_cfg = config.get("datasets", {})
 
-    # CLEVR
-
+    # --- CLEVR ---
     if "clevr" in datasets_cfg:
         clevr_cfg = datasets_cfg["clevr"]
         root = clevr_cfg["root"]
@@ -35,13 +40,13 @@ def build_dataloaders(config):
         loaders["clevr"] = DataLoader(
             clevr_dataset,
             batch_size=batch_size,
-            shuffle=False,
+            shuffle=False,       # Evaluation — deterministic order
             num_workers=num_workers,
             pin_memory=True,
         )
-        pritn(f"[DataLoader] CLEVR: {clevr_dataset}")
-    
-    # SpatialSense
+        print(f"[DataLoader] CLEVR: {clevr_dataset}")
+
+    # --- SpatialSense ---
     if "spatialsense" in datasets_cfg:
         ss_cfg = datasets_cfg["spatialsense"]
         root = ss_cfg["root"]
@@ -59,7 +64,7 @@ def build_dataloaders(config):
         )
         print(f"[DataLoader] SpatialSense: {ss_dataset}")
 
-    # ImageNet-V2 
+    # --- ImageNet-V2 ---
     if "imagenet_v2" in datasets_cfg:
         inv2_cfg = datasets_cfg["imagenet_v2"]
         root = inv2_cfg["root"]
@@ -75,5 +80,5 @@ def build_dataloaders(config):
             pin_memory=True,
         )
         print(f"[DataLoader] ImageNet-V2: {inv2_dataset}")
-    return loaders
 
+    return loaders
