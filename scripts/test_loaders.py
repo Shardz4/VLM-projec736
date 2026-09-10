@@ -2,7 +2,6 @@
 import sys
 import os
 
-# Allow imports from project root
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import clip
@@ -14,6 +13,10 @@ from src.data_loaders.dataloader_factory import build_dataloaders
 def main():
     config = load_config()
     loaders = build_dataloaders(config)
+
+    if not loaders:
+        print("\nNo loaders could be initialized. Please check your data directory.")
+        return
 
     for name, loader in loaders.items():
         print(f"\n{'='*60}")

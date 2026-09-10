@@ -13,17 +13,17 @@ from torch.utils.data import Dataset
 class CLEVRCountingDataset(Dataset):
     """PyTorch Dataset for CLEVR object-counting evaluation.
     Expected directory layout:
-        data/clevr/
-        ├── images/          # CLEVR_v1.0 val images (CLEVR_val_XXXXXX.png)
+        data/clevr/ (or data/CLEVR_v1.0/)
+        ├── images/          # CLEVR_v1.0 val images (or images/val/)
         └── annotations.json # Pre-parsed {filename: count} mapping
-                             # OR original CLEVR_val_scenes.json
+                             # OR scenes/CLEVR_val_scenes.json
     Args:
-        image_dir:       Path to the directory containing CLEVR images.
+        image_dir:        Path to the directory containing CLEVR images.
         annotations_path: Path to annotations JSON — either a pre-parsed
-                         {filename: count} dict, or the original CLEVR
-                         scenes JSON (auto-detected).
+                          {filename: count} dict, or the original CLEVR
+                          scenes JSON (auto-detected).
         clip_preprocess:  The ``preprocess`` transform returned by
-                         ``clip.load()``. Applied to every image.
+                          ``clip.load()``. Applied to every image.
         max_objects:      Maximum object count to include (default 10).
     """
     def __init__(self, image_dir, annotations_path, clip_preprocess, max_objects=10):
@@ -31,8 +31,40 @@ class CLEVRCountingDataset(Dataset):
         self.clip_preprocess = clip_preprocess
         self.max_objects = max_objects
 
+        # Auto-resolve image_dir if pointed to dataset root
+        if not (self.image_dir / "CLEVR_val_000000.png").exists():
+            if (self.image_dir / "images" / "val").exists():
+                self.image_dir = self.image_dir / "images" / "val"
+            elif (self.image_dir / "val").exists():
+                self.image_dir = self.image_dir / "val"
+            elif (self.image_dir / "images").exists():
+                self.image_dir = self.image_dir / "images"
+
+        # Auto-resolve annotations_path if pointed to directory or alternative location
+        ann_path = Path(annotations_path)
+        if not ann_path.is_file():
+            candidates = [
+                ann_path,
+                ann_path / "scenes" / "CLEVR_val_scenes.json",
+                ann_path / "annotations.json",
+                self.image_dir.parent / "scenes" / "CLEVR_val_scenes.json",
+                self.image_dir.parent.parent / "scenes" / "CLEVR_val_scenes.json",
+                Path("data/CLEVR_v1.0/scenes/CLEVR_val_scenes.json"),
+                Path("data/clevr/annotations.json"),
+            ]
+            for cand in candidates:
+                if cand.is_file():
+                    ann_path = cand
+                    break
+
+        if not ann_path.is_file():
+            raise FileNotFoundError(
+                f"CLEVR annotations file not found at '{annotations_path}' "
+                f"or any standard fallback locations."
+            )
+
         # Load and parse annotations
-        with open(annotations_path, "r") as f:
+        with open(ann_path, "r") as f:
             raw = json.load(f)
 
         # Support both the original CLEVR scenes JSON and a pre-parsed mapping

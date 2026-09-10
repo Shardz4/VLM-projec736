@@ -12,22 +12,20 @@ from torch.utils.data import Dataset
 class ImageNetV2Dataset(Dataset):
     """PyTorch Dataset for ImageNet-V2 zero-shot classification baseline.
     Expected directory layout (matched-frequency variant):
-        data/imagenet_v2/
+        data/imagenet_v2/ (or data/imagenetv2-matched-frequency/)
         ├── 0/          # Class folder (class index)
         │   ├── 0.jpeg
-        │   ├── 1.jpeg
         │   └── ...
         ├── 1/
         └── ...         # Up to 999/
     Args:
         root_dir:        Root directory of ImageNet-V2.
         clip_preprocess: The ``preprocess`` transform returned by
-                        ``clip.load()``. Applied to every image.
+                         ``clip.load()``. Applied to every image.
         class_names:     Optional list of 1000 ImageNet class names
-                        (index-aligned). If None, integer class indices
-                        are used as labels.
+                         (index-aligned). If None, integer class indices
+                         are used as labels.
     """
-    # Standard ImageNet-V2 image extensions
     VALID_EXTENSIONS = {".jpg", ".jpeg", ".png", ".JPEG", ".JPG", ".PNG"}
 
     def __init__(self, root_dir, clip_preprocess, class_names=None):
@@ -35,24 +33,47 @@ class ImageNetV2Dataset(Dataset):
         self.clip_preprocess = clip_preprocess
         self.class_names = class_names
 
+        # Auto-resolve root_dir if nested or standard variants exist
+        candidates = [
+            self.root_dir,
+            self.root_dir / "imagenetv2-matched-frequency",
+            self.root_dir / "matched-frequency",
+            Path("data/imagenet_v2"),
+            Path("data/imagenetv2-matched-frequency"),
+            Path("data/ImageNetV2-master/imagenetv2-matched-frequency"),
+        ]
+        resolved = None
+        for cand in candidates:
+            if cand.is_dir():
+                # Check if it contains class folders (e.g., '0')
+                if (cand / "0").is_dir() or any(d.is_dir() and d.name.isdigit() for d in cand.iterdir()):
+                    resolved = cand
+                    break
+
+        if resolved is not None:
+            self.root_dir = resolved
+
         # Discover all (image_path, class_index) pairs
         self.samples = []
-        for class_folder in sorted(self.root_dir.iterdir()):
-            if not class_folder.is_dir():
-                continue
-            try:
-                class_idx = int(class_folder.name)
-            except ValueError:
-                continue  # Skip non-integer folder names
+        if self.root_dir.is_dir():
+            for class_folder in sorted(self.root_dir.iterdir()):
+                if not class_folder.is_dir():
+                    continue
+                try:
+                    class_idx = int(class_folder.name)
+                except ValueError:
+                    continue  # Skip non-integer folder names
 
-            for img_file in sorted(class_folder.iterdir()):
-                if img_file.suffix in self.VALID_EXTENSIONS:
-                    self.samples.append((str(img_file), class_idx))
+                for img_file in sorted(class_folder.iterdir()):
+                    if img_file.suffix in self.VALID_EXTENSIONS:
+                        self.samples.append((str(img_file), class_idx))
 
         if len(self.samples) == 0:
             raise RuntimeError(
                 f"No valid images found in '{self.root_dir}'. "
-                f"Expected class-indexed subfolders (0/, 1/, ..., 999/)."
+                f"Expected class-indexed subfolders (0/, 1/, ..., 999/). "
+                f"Please ensure the ImageNet-V2 test set (matched-frequency variant) "
+                f"tarball is extracted into '{self.root_dir}'."
             )
 
         # Compute basic stats
