@@ -6,14 +6,14 @@ device: "cuda"
 # === Dataset Paths ===
 datasets:
   clevr:
-    root: "data/clevr"
+    root: "data/CLEVR_v1.0"
     split: "val"
     max_objects: 10
   spatialsense:
     root: "data/spatialsense"
     split: "val"
   imagenet_v2:
-    root: "data/imagenet_v2"
+    root: "data/ImageNetV2-master/imagenetv2-matched-frequency-format-val"
     variant: "matched-frequency"
 
 # === Inference Configuration ===

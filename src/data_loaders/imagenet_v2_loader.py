@@ -36,9 +36,12 @@ class ImageNetV2Dataset(Dataset):
         # Auto-resolve root_dir if nested or standard variants exist
         candidates = [
             self.root_dir,
+            self.root_dir / "imagenetv2-matched-frequency-format-val",
             self.root_dir / "imagenetv2-matched-frequency",
             self.root_dir / "matched-frequency",
             Path("data/imagenet_v2"),
+            Path("data/ImageNetV2-master/imagenetv2-matched-frequency-format-val"),
+            Path("data/imagenetv2-matched-frequency-format-val"),
             Path("data/imagenetv2-matched-frequency"),
             Path("data/ImageNetV2-master/imagenetv2-matched-frequency"),
         ]

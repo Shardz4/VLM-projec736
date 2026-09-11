@@ -28,9 +28,10 @@ class SpatialSenseDataset(Dataset):
         clip_preprocess:  The ``preprocess`` transform returned by
                           ``clip.load()``. Applied to every image.
     """
-    def __init__(self, image_dir, annotations_path, clip_preprocess):
+    def __init__(self, image_dir, annotations_path, clip_preprocess, split="val"):
         self.image_dir = Path(image_dir)
         self.clip_preprocess = clip_preprocess
+        self.split = split
 
         # Auto-resolve image_dir if pointed to data/spatialsense but images are in data/images
         if not (self.image_dir / "flickr").exists() and not (self.image_dir / "nyu").exists():
@@ -72,6 +73,12 @@ class SpatialSenseDataset(Dataset):
         if isinstance(raw_data, list) and len(raw_data) > 0 and "annotations" in raw_data[0]:
             # Official Princeton SpatialSense format
             for item in raw_data:
+                if self.split and self.split != "all":
+                    item_split = item.get("split", "")
+                    target_split = "valid" if self.split in ("val", "valid") else self.split
+                    curr_split = "valid" if item_split in ("val", "valid") else item_split
+                    if curr_split != target_split:
+                        continue
                 # Resolve filename from url or image key
                 url = item.get("url", "")
                 filename = url.split("/")[-1] if url else item.get("image", "")

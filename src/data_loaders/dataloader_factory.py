@@ -40,7 +40,7 @@ def build_dataloaders(config):
         root = clevr_cfg.get("root", "data/clevr")
         split = clevr_cfg.get("split", "val")
 
-        # Check candidate root directories (e.g., data/CLEVR_v1.0 or data/clevr)
+        # Check candidate root directories (preferring those that actually contain images or scenes)
         candidate_roots = [
             Path(root),
             Path("data/CLEVR_v1.0"),
@@ -48,9 +48,14 @@ def build_dataloaders(config):
         ]
         clevr_root = None
         for cand in candidate_roots:
-            if cand.is_dir():
+            if cand.is_dir() and ((cand / "images").is_dir() or (cand / "scenes").is_dir()):
                 clevr_root = cand
                 break
+        if clevr_root is None:
+            for cand in candidate_roots:
+                if cand.is_dir():
+                    clevr_root = cand
+                    break
 
         if clevr_root is not None:
             try:
@@ -105,10 +110,12 @@ def build_dataloaders(config):
 
         if img_dir and ann_file:
             try:
+                split = ss_cfg.get("split", "val")
                 ss_dataset = SpatialSenseDataset(
                     image_dir=str(img_dir),
                     annotations_path=str(ann_file),
                     clip_preprocess=preprocess,
+                    split=split,
                 )
                 loaders["spatialsense"] = DataLoader(
                     ss_dataset,
@@ -135,6 +142,8 @@ def build_dataloaders(config):
 
         candidate_roots = [
             Path(root),
+            Path("data/ImageNetV2-master/imagenetv2-matched-frequency-format-val"),
+            Path("data/imagenetv2-matched-frequency-format-val"),
             Path("data/imagenetv2-matched-frequency"),
             Path("data/ImageNetV2-master/imagenetv2-matched-frequency"),
             Path("data/imagenet_v2"),
