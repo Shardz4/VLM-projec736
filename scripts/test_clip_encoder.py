@@ -85,7 +85,7 @@ def main():
     print(f"  Probabilities: {probs[0].tolist()}")
     print(f"  Probabilities sum: {probs.sum().item():.4f}")
     print(f"  Predicted class index: {preds.item()}")
-    assert torch.allclose(probs.sum(dim=-1), torch.tensor([1.0]), atol=1e-4), (
+    assert torch.allclose(probs.sum(dim=-1), torch.ones_like(probs.sum(dim=-1)), atol=1e-4), (
         "Probabilities do not sum to 1.0!"
     )
 
