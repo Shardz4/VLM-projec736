@@ -19,10 +19,11 @@ class CountingEvaluator:
         self.text_features = self.encoder.encode_texts(self.prompts)
 
     @torch.no_grad()
-    def evaluate_batch(self, images: torch.Tensor, ground_truth_counts: torch.Tensor) -> Dicr[str, Any]:
-        images - images.to(self.device)
-        image_feats = self.encoder.compute_similarity(image_feats, self.text_features, use_logit_scale=True)
-        probs - logits.softmax(dim=-1)
+    def evaluate_batch(self, images: torch.Tensor, ground_truth_counts: torch.Tensor) -> Dict[str, Any]:
+        images = images.to(self.device)
+        image_feats = self.encoder.encode_images(images)
+        logits = self.encoder.compute_similarity(image_feats, self.text_features, use_logit_scale=True)
+        probs = logits.softmax(dim=-1)
 
         pred_indices = probs.argmax(dim=-1)
         confidence, _ = probs.max(dim=-1)
@@ -40,7 +41,7 @@ class CountingEvaluator:
     def evaluate_dataset(self,dataloader: DataLoader) -> Dict[str, Any]:
         all_preds: List[int] = []
         all_targets: List[int] = []
-        all_confs: List[int] = []
+        all_confs: List[float] = []
 
         total_batches = len(dataloader)
         print(f"\n[CountingEvaluator] Evaluating {total_batches} batches...")
@@ -95,7 +96,8 @@ class CountingEvaluator:
         for t, p in zip(all_targets_arr, all_preds_arr):
             if t in val_to_idx and p in val_to_idx:
                 conf_matrix[val_to_idx[t], val_to_idx[p]] += 1
-                conf_stats = {
+
+        conf_stats = {
             "correct_mean": float(np.mean(all_confs_arr[is_correct])) if np.any(is_correct) else 0.0,
             "incorrect_mean": float(np.mean(all_confs_arr[~is_correct])) if np.any(~is_correct) else 0.0,
         }
@@ -109,5 +111,3 @@ class CountingEvaluator:
             "confidence_stats": conf_stats,
             "count_range": self.count_range,
         }
-
-        
