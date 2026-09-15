@@ -2,7 +2,7 @@ import json
 import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from urlib.request import urlretrieve
+from urllib.request import urlretrieve
 
 import numpy as np
 import torch
@@ -14,10 +14,10 @@ IMAGENET_CLASS_INDEX_URL = (
     "data/imagenet_class_index.json"
 )
 
-def load_imagenet_class_names(cache_dir: str = "data/imagenet_class_index.json") -> List[str]:
+def load_imagenet_class_names(cache_path: str = "data/imagenet_class_index.json") -> List[str]:
     cache = Path(cache_path)
     if not cache.is_file():
-        print(f"[Imagenet] Downloading Class index to '{cache_path}")
+        print(f"[Imagenet] Downloading Class index to '{cache_path}'")
         cache.parent.mkdir(parents=True, exist_ok=True)
         urlretrieve(IMAGENET_CLASS_INDEX_URL, str(cache))
         print(f"[Imagenet] Download complete")
@@ -25,14 +25,14 @@ def load_imagenet_class_names(cache_dir: str = "data/imagenet_class_index.json")
     with open(cache, 'r') as f:
         raw = json.load(f)
     
-    class_names = [""] *1000
-    for idx_str, (wnid, naem) in raw.items():
+    class_names = [""] * 1000
+    for idx_str, (wnid, name) in raw.items():
         class_names[int(idx_str)] = name.replace("_", " ")
     return class_names
 
 class ImageNetV2Evaluator:
     def __init__(self, clip_encoder, class_names: Optional[List[str]] = None,
-    prompt_template: str = "A photo of a {class_names},", device: Optioanl[str] = None):
+    prompt_template: str = "A photo of a {class_name}.", device: Optional[str] = None):
         self.encoder = clip_encoder
         self.device = device or clip_encoder.device
         self.prompt_template = prompt_template
@@ -64,21 +64,21 @@ class ImageNetV2Evaluator:
         top1_correct = (top1_preds == labels)
 
         top5_preds = torch.topk(logits, 5, dim=1).indices
-        top5_correct = (top5_preds == labesl.unsqueeze(1)).any(dim=1)
+        top5_correct = (top5_preds == labels.unsqueeze(1)).any(dim=1)
 
         probs = logits.softmax(dim=-1)
-        confifences = probs.gather(1, top1_preds.unsqueeze(1)).squeeze(1)
+        confidences = probs.gather(1, top1_preds.unsqueeze(1)).squeeze(1)
 
         return {
             "top1_preds": top1_preds.cpu().numpy(),
             "top1_correct": top1_correct.cpu().numpy(),
             "top5_correct": top5_correct.cpu().numpy(),
-            "confifidences": confifences.cpu().numpy(),
+            "confidences": confidences.cpu().numpy(),
             "labels": labels.cpu().numpy(),
         }
     
     @torch.no_grad()
-    def evaluate_dataset(self, dataloader: DataLoader,) -> Dict[str, Any]:
+    def evaluate_dataset(self, dataloader: DataLoader) -> Dict[str, Any]:
         all_top1_correct = []
         all_top5_correct = []
         all_preds = []
@@ -99,7 +99,7 @@ class ImageNetV2Evaluator:
         
         top1_arr = np.array(all_top1_correct)
         top5_arr = np.array(all_top5_correct)
-        preds_arr = np.rray(all_preds, dtype=int)
+        preds_arr = np.array(all_preds, dtype=int)
         labels_arr = np.array(all_labels, dtype=int)
         confs_arr = np.array(all_confs, dtype=float)
         
@@ -141,10 +141,3 @@ class ImageNetV2Evaluator:
             "confidence_stats": conf_stats,
             "per_class": per_class,
         }
-        
-        
-
-        
-
-            
-        

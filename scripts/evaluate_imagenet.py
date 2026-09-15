@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.config_loader import load_config
 from src.data_loaders.dataloader_factory import build_dataloaders
-from src.evaluators.imagenet_evaluator import ImageNetEvalutaor
+from src.evaluators.imagenet_evaluator import ImageNetV2Evaluator
 from src.models.clip_encoder import CLIPEncoder
 
 
@@ -24,11 +24,11 @@ def main():
     loaders = build_dataloaders(config)
     if "imagenet_v2" not in loaders:
         print("[Error] ImageNet-V2 DataLoader could not be initialized")
-        pritn("Check that imagenet-v2 folders exist")
+        print("Check that imagenet-v2 folders exist")
         sys.exit(1)
 
     inv2_loader = loaders["imagenet_v2"]
-    print(f"ImageNet-V2 Dataloade ready: {len(inv2_loader.dataset)} ") 
+    print(f"ImageNet-V2 Dataloader ready: {len(inv2_loader.dataset)} samples") 
 
     evaluator = ImageNetV2Evaluator(clip_encoder=encoder)
     results = evaluator.evaluate_dataset(inv2_loader)
@@ -60,5 +60,6 @@ def main():
         json.dump(results, f, indent=2)
     print(f"\n[4/4] Saved results to: {output_path}")
     print("\nStep 9 execution completed.")
+
 if __name__ == "__main__":
     main()
