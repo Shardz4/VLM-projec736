@@ -130,3 +130,53 @@ class LinearProbeTrainer:
                 log_str += f" | LR: {current_lr:.2e}"
                 print(log_str)
         return history
+
+    @torch.no_grad()
+    def evaluate(self, features: torch.Tensor, labels: torch.Tensor, batch_size: int = 256) -> Dict[str, Any]:
+        self.linear_head.eval()
+        dataset = TensorDataset(features, labels)
+        loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
+
+        all_preds = []
+        all_labels = []
+
+        for feats, lbls in loader:
+            feats = feats.to(self.device)
+            logits = self.linear_head(feats)
+            preds = logits.argmax(dim=-1)
+            all_preds.extend(preds.cpu().tolist())
+            all_labels.extend(lbls.tolist())
+        
+        preds_arr = np.array(all_preds, dtype=int)
+        labels_arr = np.array(all_labels, dtype=int)
+
+        is_correct = (preds_arr == labels_arr)
+        overall_acc = float(np.mean(is_correct))
+        mae = float(np.mean(mp.abs(preds_arr - labels_arr)))
+
+        per_class = {}
+        for c in sorted(set(labels_arr)):
+            mask = (labels_arr == c)
+            cls_total = int(np.sum(mask))
+            cls_correct = int(np.sum(is_correct[mask]))
+            per_class[int(c)] = {
+                "total": cls_total,
+                "correct": cls_correct,
+                "accuracy": cls_correct / cls_total if cls_total > 0 else 0.0,
+            }
+        
+        classes = sorted(set(labels_arr) | set(preds_arr))
+        cls_to_idx = {c: i for i, c in enumerate(classes)}
+        k = len(classes)
+        conf_matrix = np.zeros((K, K), dtype=int)
+        for t, p in zip(labels_arr, preds_Arr):
+            conf_matrix[cls_to_idx[t], cls_to_idx[p]] += 1
+        
+        return {
+            "accuracy": overall_acc,
+            "mae": mae,
+            "per_class": per_class,
+            "confusion_matrix": conf_matrix.tolist(),
+            "class_order": [int(c) for c in classes],
+        }
+    
