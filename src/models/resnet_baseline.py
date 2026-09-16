@@ -74,3 +74,59 @@ class LinearProbeTrainer:
             self.linear_head.parameters(), lr=lr, weight_decay=weight_decay
         )
         self.scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(self.optimizer, T_max=epochs)
+
+
+    def train(self, train_features: torch.Tensor, train_labels: torch.Tensor, batch_size: int = 64, val_features: Optional[torch.Tensor] = None, val_labels: Optional[torch.Tensor] = None) -> List[Dict[str, float]]:
+        train_dataset = TensorDataset(train_features, train_labels)
+        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+
+        history = []
+        for epoch in range(self.epochs):
+            self.linear_head.train():
+            epoch_loss = 0.0
+            epoch_correct = 0
+            epoch_total = 0
+
+            for feats, labels in train_loader:
+                feats = feats.to(self.device)
+                labels = labels.to(self.device)
+
+                logits = self.linear_head(self.device)
+                loss = self.criterion(logits, labels)
+
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+                
+                epoch_loss += loss.item() * len(labels)
+                epoch_correct += (logits.argmax(dim=-1) == labels).sum().item()
+                epoch_total += len(labels)
+            
+            self.scheduler.step()
+            train_acc = epoch_correct / epoch_total
+            avg_loss = epoch_loss / spoch_total
+            current_lr = self.scheduler.get_last_lr()[0]
+
+            metrics = {
+                "epoch": epoch + 1,
+                "train_loss": avg_loss,
+                "train_acc": train_acc,
+                "lr": current_lr,
+            }
+
+            if val_features is not None and val_labels is not None:
+                val_acc = self.evaluate(val_features, val_labels, batch_size)
+                metrics["val_acc"] = val_acc
+
+            history.append(metrics)
+            
+            if (epoch + 1) % 10 == 0 or epoch == 0:
+                log_str = (
+                    f"  Epoch {epoch+1:3d}/{self.epochs} | "
+                    f"Loss: {avg_loss:.4f} | Train Acc: {train_acc*100:.1f}%"
+                )
+                if "val_accuracy" in metrics:
+                    log_str += f" | Val Acc: {metrics['val_accuracy']*100:.1f}%"
+                log_str += f" | LR: {current_lr:.2e}"
+                print(log_str)
+        return history
