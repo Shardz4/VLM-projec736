@@ -58,5 +58,19 @@ class ResNetFeatureExtractor:
         print(f"[ResNet] Cached features to '{cache_path}'")
         return features, labels
 
-    
+class LinearProbeTrainer:
 
+    def __init__(self, feature_dim: int = 2048, num_classes: int = 10, lr: float = 1e-4, weight_decay: float = 0.01, epochs: int = 50, device:str = "cuda"):
+        if device == "cuda" and not torch.cuda.is_available():
+            device = "cpu"
+        self.device = torch.device(device)
+
+        self.epochs = epochs
+        self.num_classes = num_classes
+
+        self.linear_head = nn.Linear(feature_dim, num_classes).to(self.device)
+        self.criterion = nn.CrossEntropyLoss()
+        self.optimizer = torch.optim.AdamW(
+            self.linear_head.parameters(), lr=lr, weight_decay=weight_decay
+        )
+        self.scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(self.optimizer, T_max=epochs)
