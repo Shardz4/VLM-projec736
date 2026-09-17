@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 import sys
+from tqdm import tqdm
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
