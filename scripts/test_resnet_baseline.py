@@ -43,3 +43,13 @@ def test_feature_extraction():
         print(f" Final train acc: {history[-1]['train_accuracy']*100:.4f}")
         print("Training Loop Passed")
         return trainer
+
+    def test_linear_probe_evaluation(trainer, features, labels):
+        print("\n Linear Probe Evaluation...")
+        results = trainer.evaluate(features, labels)
+        print(f" Accuracy: {results['accuracy']*100:.1f}%")
+        print(f" MAE: {results['mae']:.3f}")
+        assert 0.0 <= results["accuracy"] <= 1.0
+        assert "per_class" in results
+        assert "Confusion Matrix" in results
+        print("Evaluation test PASSED")
