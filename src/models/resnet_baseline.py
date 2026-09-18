@@ -9,7 +9,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 from tqdm import tqdm
-import torchvision as models
+import torchvision.models as models
 
 class ResNetFeatureExtractor:
 
@@ -18,7 +18,7 @@ class ResNetFeatureExtractor:
             device = "cpu"
         self.device = torch.device(device)
 
-        weights = models.ResNet50_Weights.IMAGENET11K_V1
+        weights = models.ResNet50_Weights.IMAGENET1K_V1
         resnet = models.resnet50(weights=weights)
         resnet.eval()
        
@@ -34,7 +34,7 @@ class ResNetFeatureExtractor:
         all_features = []
         all_labels = []
 
-        for batch in tqdm(dataloader, desc="Extracting ReasNet features", unit="batch"):
+        for batch in tqdm(dataloader, desc="Extracting ResNet features", unit="batch"):
             images = batch[0].to(self.device)
             labels = batch[1]
             features = self.feature_extractor(images)
@@ -42,16 +42,16 @@ class ResNetFeatureExtractor:
             all_features.append(features.cpu())
             all_labels.append(labels)
 
-        return tprch.cat(all_features, dim=0), torch.cat(all_labels, dim=0)
+        return torch.cat(all_features, dim=0), torch.cat(all_labels, dim=0)
     
     def extract_and_cache(self, dataloader: DataLoader, cache_path: str) -> Tuple[torch.Tensor, torch.Tensor]:
         cache = Path(cache_path)
         if cache.is_file():
             print(f"[ResNet] Loading cached features from {cache_path}")
-            data = torch.load(Cache, weights_only = True)
+            data = torch.load(cache, weights_only=True)
             return data["features"], data["labels"]
         
-        print(f"[ResNet] Extracting features (will cache to '{cache_path})")
+        print(f"[ResNet] Extracting features (will cache to '{cache_path}')")
         features, labels = self.extract_features(dataloader)
         cache.parent.mkdir(parents=True, exist_ok=True)
         torch.save({"features": features, "labels": labels}, cache)
@@ -82,7 +82,7 @@ class LinearProbeTrainer:
 
         history = []
         for epoch in range(self.epochs):
-            self.linear_head.train():
+            self.linear_head.train()
             epoch_loss = 0.0
             epoch_correct = 0
             epoch_total = 0
@@ -91,7 +91,7 @@ class LinearProbeTrainer:
                 feats = feats.to(self.device)
                 labels = labels.to(self.device)
 
-                logits = self.linear_head(self.device)
+                logits = self.linear_head(feats)
                 loss = self.criterion(logits, labels)
 
                 self.optimizer.zero_grad()
@@ -104,19 +104,19 @@ class LinearProbeTrainer:
             
             self.scheduler.step()
             train_acc = epoch_correct / epoch_total
-            avg_loss = epoch_loss / spoch_total
+            avg_loss = epoch_loss / epoch_total
             current_lr = self.scheduler.get_last_lr()[0]
 
             metrics = {
                 "epoch": epoch + 1,
                 "train_loss": avg_loss,
-                "train_acc": train_acc,
-                "lr": current_lr,
+                "train_accuracy": train_acc,
+                "learning_rate": current_lr,
             }
 
             if val_features is not None and val_labels is not None:
-                val_acc = self.evaluate(val_features, val_labels, batch_size)
-                metrics["val_acc"] = val_acc
+                val_acc = self.evaluate(val_features, val_labels)["accuracy"]
+                metrics["val_accuracy"] = val_acc
 
             history.append(metrics)
             
@@ -152,7 +152,7 @@ class LinearProbeTrainer:
 
         is_correct = (preds_arr == labels_arr)
         overall_acc = float(np.mean(is_correct))
-        mae = float(np.mean(mp.abs(preds_arr - labels_arr)))
+        mae = float(np.mean(np.abs(preds_arr - labels_arr)))
 
         per_class = {}
         for c in sorted(set(labels_arr)):
@@ -167,16 +167,16 @@ class LinearProbeTrainer:
         
         classes = sorted(set(labels_arr) | set(preds_arr))
         cls_to_idx = {c: i for i, c in enumerate(classes)}
-        k = len(classes)
+        K = len(classes)
         conf_matrix = np.zeros((K, K), dtype=int)
-        for t, p in zip(labels_arr, preds_Arr):
+        for t, p in zip(labels_arr, preds_arr):
             conf_matrix[cls_to_idx[t], cls_to_idx[p]] += 1
         
         return {
             "accuracy": overall_acc,
             "mae": mae,
+            "total_samples": len(labels_arr),
             "per_class": per_class,
             "confusion_matrix": conf_matrix.tolist(),
             "class_order": [int(c) for c in classes],
         }
-    

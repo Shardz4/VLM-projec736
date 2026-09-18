@@ -18,11 +18,11 @@ def main():
 
     config = load_config()
     device = config.get("device", "cuda")
-    lp_cfg = comfig.get("linear_probe", {})
+    lp_cfg = config.get("linear_probe", {})
 
     print("\n Building SpatialSense DataLoader....")
     loaders = build_dataloaders(config)
-    if "spatial" not in loaders:
+    if "spatialsense" not in loaders:
         print("[Error] SpatialSense Dataloader not available.")
         sys.exit(1)
     
@@ -35,7 +35,7 @@ def main():
 
     cache_path = Path("results/cache/spatial_resnet_features.pt")
     if cache_path.is_file():
-        print(f" Loading cached features form '{cached_path}'")
+        print(f" Loading cached features from '{cache_path}'")
         data = torch.load(cache_path, weights_only=True)
         features, labels = data["features"], data["labels"]
     else:

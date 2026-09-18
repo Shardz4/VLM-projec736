@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.diname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import torch
 from torch.utils.data import DataLoader, TensorDataset
@@ -38,9 +38,9 @@ def test_linear_probe_training(features, labels):
     )
     history = trainer.train(features, labels, batch_size=2)
     assert len(history) == 5
-    assert all("train_loss" in h and "train_Accuracy" in h for h in history)
-    print(f" Final Train loss: {history[-1]['train_loass']:.4f}")
-    print(f" Final train acc: {history[-1]['train_accuracy']*100:.4f}")
+    assert all("train_loss" in h and "train_accuracy" in h for h in history)
+    print(f" Final Train loss: {history[-1]['train_loss']:.4f}")
+    print(f" Final train acc: {history[-1]['train_accuracy']*100:.1f}%")
     print("Training Loop Passed")
     return trainer
 
@@ -51,7 +51,7 @@ def test_linear_probe_evaluation(trainer, features, labels):
     print(f" MAE: {results['mae']:.3f}")
     assert 0.0 <= results["accuracy"] <= 1.0
     assert "per_class" in results
-    assert "Confusion Matrix" in results
+    assert "confusion_matrix" in results
     print("Evaluation test PASSED")
 
 def main():
