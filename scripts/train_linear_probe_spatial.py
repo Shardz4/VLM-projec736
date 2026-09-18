@@ -20,7 +20,7 @@ def main():
     device = config.get("device", "cuda")
     lp_cfg = config.get("linear_probe", {})
 
-    print("\n Building SpatialSense DataLoader....")
+    print("\n[1/4] Building SpatialSense DataLoader....")
     loaders = build_dataloaders(config)
     if "spatialsense" not in loaders:
         print("[Error] SpatialSense Dataloader not available.")
@@ -28,14 +28,14 @@ def main():
     
     spatial_loader = loaders["spatialsense"]
     total_samples = len(spatial_loader.dataset)
-    print(f" SpatialSense samples: {total_samples}")
+    print(f"      SpatialSense samples: {total_samples}")
 
-    print("\n Extracting ResNet-50 features...")
+    print("\n[2/4] Extracting ResNet-50 features...")
     extractor = ResNetFeatureExtractor(device=device)
 
     cache_path = Path("results/cache/spatial_resnet_features.pt")
     if cache_path.is_file():
-        print(f" Loading cached features from '{cache_path}'")
+        print(f"      Loading cached features from '{cache_path}'")
         data = torch.load(cache_path, weights_only=True)
         features, labels = data["features"], data["labels"]
     else:
@@ -54,10 +54,10 @@ def main():
 
         cache_path.parent.mkdir(parents=True, exist_ok=True)
         torch.save({"features": features, "labels": labels}, cache_path)          
-        print(f" Cached {len(features)} feature vectors")
+        print(f"      Cached {len(features)} feature vectors")
     
-    print(f" Features shape: {features.shape}")
-    print(f" Labels shape: {labels.shape}")
+    print(f"      Features shape: {features.shape}")
+    print(f"      Labels shape: {labels.shape}")
 
     labels = labels.long()
     num_classes = 2
@@ -69,16 +69,22 @@ def main():
     
     train_feats, train_labels = features[train_idx], labels[train_idx]
     test_feats, test_labels = features[test_idx], labels[test_idx]
-    print(f" Train: {len(train_feats)} | Test: {len(test_feats)}")
+    print(f"      Train: {len(train_feats)} | Test: {len(test_feats)}")
 
-    print("\n Training linear probe...")
+    print("\n[3/4] Training linear probe...")
     trainer = LinearProbeTrainer(
-        feature_dim = extractor.feature_dim,
-        num_classes = num_classes,
-        lr = lp_cfg.get("learning_rate", 1e-4),
-        weight_decay = lp_cfg.get("weight_decay", 0.01),
-        epochs = lp_cfg.get("epochs", 50),
-        device = device,
+        feature_dim=extractor.feature_dim,
+        num_classes=num_classes,
+        lr=lp_cfg.get("learning_rate", 1e-4),
+        weight_decay=lp_cfg.get("weight_decay", 0.01),
+        epochs=lp_cfg.get("epochs", 50),
+        device=device,
+        early_stopping_patience=10,
+        checkpoint_dir="results/checkpoints/spatial",
+        use_wandb=True,
+        wandb_project="vlm-linear-probe",
+        wandb_run_name="spatial-probe",
+        wandb_config={"task": "spatialsense_binary"},
     )
 
     history = trainer.train(

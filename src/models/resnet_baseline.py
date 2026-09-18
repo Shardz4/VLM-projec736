@@ -11,6 +11,14 @@ from torch.utils.data import DataLoader, TensorDataset
 from tqdm import tqdm
 import torchvision.models as models
 
+# Optional wandb import — gracefully degrade if not installed
+try:
+    import wandb
+    WANDB_AVAILABLE = True
+except ImportError:
+    WANDB_AVAILABLE = False
+
+
 class ResNetFeatureExtractor:
 
     def __init__(self, device: str = "cuda"):
@@ -58,15 +66,36 @@ class ResNetFeatureExtractor:
         print(f"[ResNet] Cached features to '{cache_path}'")
         return features, labels
 
+
 class LinearProbeTrainer:
 
-    def __init__(self, feature_dim: int = 2048, num_classes: int = 10, lr: float = 1e-4, weight_decay: float = 0.01, epochs: int = 50, device:str = "cuda"):
+    def __init__(
+        self,
+        feature_dim: int = 2048,
+        num_classes: int = 10,
+        lr: float = 1e-4,
+        weight_decay: float = 0.01,
+        epochs: int = 50,
+        device: str = "cuda",
+        early_stopping_patience: int = 10,
+        checkpoint_dir: Optional[str] = "results/checkpoints",
+        use_wandb: bool = False,
+        wandb_project: Optional[str] = None,
+        wandb_run_name: Optional[str] = None,
+        wandb_config: Optional[Dict[str, Any]] = None,
+    ):
         if device == "cuda" and not torch.cuda.is_available():
             device = "cpu"
         self.device = torch.device(device)
 
         self.epochs = epochs
         self.num_classes = num_classes
+        self.early_stopping_patience = early_stopping_patience
+
+        # Checkpoint directory
+        self.checkpoint_dir = Path(checkpoint_dir) if checkpoint_dir else None
+        if self.checkpoint_dir:
+            self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
         self.linear_head = nn.Linear(feature_dim, num_classes).to(self.device)
         self.criterion = nn.CrossEntropyLoss()
@@ -75,10 +104,78 @@ class LinearProbeTrainer:
         )
         self.scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(self.optimizer, T_max=epochs)
 
+        # W&B setup
+        self.use_wandb = use_wandb and WANDB_AVAILABLE
+        if use_wandb and not WANDB_AVAILABLE:
+            print("[Warning] wandb not installed. Install with: pip install wandb")
+            print("          Continuing without W&B logging.")
+        
+        if self.use_wandb:
+            wandb.init(
+                project=wandb_project or "vlm-linear-probe",
+                name=wandb_run_name,
+                config={
+                    "feature_dim": feature_dim,
+                    "num_classes": num_classes,
+                    "lr": lr,
+                    "weight_decay": weight_decay,
+                    "epochs": epochs,
+                    "early_stopping_patience": early_stopping_patience,
+                    **(wandb_config or {}),
+                },
+            )
+            wandb.watch(self.linear_head, log="all", log_freq=10)
+            print("[W&B] Logging initialized.")
 
-    def train(self, train_features: torch.Tensor, train_labels: torch.Tensor, batch_size: int = 64, val_features: Optional[torch.Tensor] = None, val_labels: Optional[torch.Tensor] = None) -> List[Dict[str, float]]:
+    def _save_checkpoint(self, epoch: int, val_acc: float, is_best: bool = False):
+        """Save a training checkpoint."""
+        if self.checkpoint_dir is None:
+            return
+
+        state = {
+            "epoch": epoch,
+            "model_state_dict": self.linear_head.state_dict(),
+            "optimizer_state_dict": self.optimizer.state_dict(),
+            "scheduler_state_dict": self.scheduler.state_dict(),
+            "val_accuracy": val_acc,
+        }
+
+        # Always save latest
+        latest_path = self.checkpoint_dir / "latest_checkpoint.pt"
+        torch.save(state, latest_path)
+
+        # Save best model separately
+        if is_best:
+            best_path = self.checkpoint_dir / "best_model.pt"
+            torch.save(state, best_path)
+            print(f"  [Checkpoint] New best model saved (val_acc={val_acc*100:.2f}%)")
+
+    def load_checkpoint(self, path: str):
+        """Load a saved checkpoint to resume training or for inference."""
+        checkpoint = torch.load(path, weights_only=False, map_location=self.device)
+        self.linear_head.load_state_dict(checkpoint["model_state_dict"])
+        self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+        self.scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
+        print(f"[Checkpoint] Loaded from '{path}' (epoch {checkpoint['epoch']}, val_acc={checkpoint['val_accuracy']*100:.2f}%)")
+        return checkpoint["epoch"], checkpoint["val_accuracy"]
+
+    def train(
+        self,
+        train_features: torch.Tensor,
+        train_labels: torch.Tensor,
+        batch_size: int = 64,
+        val_features: Optional[torch.Tensor] = None,
+        val_labels: Optional[torch.Tensor] = None,
+    ) -> List[Dict[str, float]]:
         train_dataset = TensorDataset(train_features, train_labels)
         train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+
+        has_val = val_features is not None and val_labels is not None
+
+        # Early stopping state
+        best_val_acc = -1.0
+        patience_counter = 0
+        stopped_early = False
 
         history = []
         for epoch in range(self.epochs):
@@ -114,21 +211,70 @@ class LinearProbeTrainer:
                 "learning_rate": current_lr,
             }
 
-            if val_features is not None and val_labels is not None:
+            # Validation
+            val_acc = 0.0
+            if has_val:
                 val_acc = self.evaluate(val_features, val_labels)["accuracy"]
                 metrics["val_accuracy"] = val_acc
 
             history.append(metrics)
+
+            # W&B logging
+            if self.use_wandb:
+                wandb.log(metrics, step=epoch + 1)
+
+            # Checkpointing & early stopping (only if we have validation)
+            if has_val:
+                is_best = val_acc > best_val_acc
+                if is_best:
+                    best_val_acc = val_acc
+                    patience_counter = 0
+                else:
+                    patience_counter += 1
+
+                self._save_checkpoint(epoch + 1, val_acc, is_best=is_best)
+
+                # Early stopping check
+                if patience_counter >= self.early_stopping_patience:
+                    print(f"\n  [Early Stopping] No improvement for {self.early_stopping_patience} epochs. "
+                          f"Best val_acc={best_val_acc*100:.2f}% at epoch {epoch + 1 - patience_counter}.")
+                    stopped_early = True
+
+                    # Restore best model weights
+                    if self.checkpoint_dir and (self.checkpoint_dir / "best_model.pt").is_file():
+                        self.load_checkpoint(str(self.checkpoint_dir / "best_model.pt"))
+                    break
             
+            # Console logging
             if (epoch + 1) % 10 == 0 or epoch == 0:
                 log_str = (
                     f"  Epoch {epoch+1:3d}/{self.epochs} | "
                     f"Loss: {avg_loss:.4f} | Train Acc: {train_acc*100:.1f}%"
                 )
-                if "val_accuracy" in metrics:
-                    log_str += f" | Val Acc: {metrics['val_accuracy']*100:.1f}%"
+                if has_val:
+                    log_str += f" | Val Acc: {val_acc*100:.1f}%"
                 log_str += f" | LR: {current_lr:.2e}"
+                if has_val:
+                    log_str += f" | Patience: {patience_counter}/{self.early_stopping_patience}"
                 print(log_str)
+
+        # Training complete summary
+        if stopped_early:
+            print(f"  Training stopped early at epoch {len(history)}/{self.epochs}")
+        else:
+            print(f"  Training completed all {self.epochs} epochs.")
+
+        if has_val:
+            print(f"  Best validation accuracy: {best_val_acc*100:.2f}%")
+
+        # Finalize W&B
+        if self.use_wandb:
+            wandb.summary["best_val_accuracy"] = best_val_acc
+            wandb.summary["stopped_early"] = stopped_early
+            wandb.summary["total_epochs_trained"] = len(history)
+            wandb.finish()
+            print("[W&B] Run finished and synced.")
+
         return history
 
     @torch.no_grad()

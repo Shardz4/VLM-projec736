@@ -7,8 +7,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import torch
 from src.config_loader import load_config
-from src.data_loader.dataloader_factory import build_dataloaders
+from src.data_loaders.dataloader_factory import build_dataloaders
 from src.models.resnet_baseline import ResNetFeatureExtractor, LinearProbeTrainer
+
 
 def main():
     print("="*70)
@@ -19,23 +20,23 @@ def main():
     device = config.get("device", "cuda")
     lp_cfg = config.get("linear_probe", {})
 
-    print("\n Building CLEVR Dataloader")
-    loader = build_dataloaders(config)
+    print("\n[1/4] Building CLEVR Dataloader...")
+    loaders = build_dataloaders(config)
     if "clevr" not in loaders:
         print("[Error] CLEVR Dataloader not available.")
         sys.exit(1)
     
     clevr_loader = loaders["clevr"]
     total_samples = len(clevr_loader.dataset)
-    print(f" CLEVR samples: {total_samples}")
+    print(f"      CLEVR samples: {total_samples}")
 
-    print("\n Extracting ResNet-50 features...")
+    print("\n[2/4] Extracting ResNet-50 features...")
     extractor = ResNetFeatureExtractor(device=device)
     features, labels = extractor.extract_and_cache(
         clevr_loader, cache_path="results/cache/clevr_resnet_features.pt"
     )
-    print(f" Features shape: {features.shape}")
-    print(f" Labels shape: {labels.shape}")
+    print(f"      Features shape: {features.shape}")
+    print(f"      Labels shape: {labels.shape}")
 
     labels = labels.long() - 1
     num_classes = 10
@@ -47,27 +48,32 @@ def main():
 
     train_feats, train_labels = features[train_idx], labels[train_idx]
     test_feats, test_labels = features[test_idx], labels[test_idx]
-    print(f" Train: {len(train_feats)} | Test: {len(test_feats)}")
+    print(f"      Train: {len(train_feats)} | Test: {len(test_feats)}")
 
-    print("\n Training Linear probe...")
+    print("\n[3/4] Training Linear probe...")
     trainer = LinearProbeTrainer(
         feature_dim=extractor.feature_dim,
         num_classes=num_classes,
         lr=lp_cfg.get("learning_rate", 1e-4),
-        weight_decay = lp_cfg.get("weight_decay", 0.01),
+        weight_decay=lp_cfg.get("weight_decay", 0.01),
         epochs=lp_cfg.get("epochs", 50),
         device=device,
+        early_stopping_patience=10,
+        checkpoint_dir="results/checkpoints/counting",
+        use_wandb=True,
+        wandb_project="vlm-linear-probe",
+        wandb_run_name="counting-probe",
+        wandb_config={"task": "clevr_counting"},
     )
     history = trainer.train(
         train_feats, train_labels,
         batch_size=64,
-        val_features=test_features,
+        val_features=test_feats,
         val_labels=test_labels,
     )
 
     print("\n[4/4] Final evaluation on test set...")
     results = trainer.evaluate(test_feats, test_labels)
-    # Remap class indices back to counts for display
     print("\n" + "=" * 70)
     print("LINEAR PROBE COUNTING RESULTS:")
     print(f"  Overall Accuracy : {results['accuracy'] * 100:.2f}%")
@@ -95,4 +101,3 @@ def main():
     
 if __name__ == "__main__":
     main()
-   
