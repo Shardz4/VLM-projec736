@@ -26,4 +26,20 @@ def test_feature_extraction():
     assert labels.shape == (4,), f"Expected (4,), got {labels.shape}"
     print("Feature extraction shape test PASSED")
     return features, labels
-    
+
+    def test_linear_probe_training(features, labels):
+        print("\nLinear probe training test...")
+        config = load_config()
+        device = config.get("device", "cuda")
+        
+        trainer = LinearProbeTrainer(
+            feature_dim=2048, num_classes=4,
+            lr=1e-3, epochs=5, device=device,
+        )
+        history = trainer.train(features, labels, batch_size=2)
+        assert len(history) == 5
+        assert all("train_loss" in h and "train_Accuracy" in h for h in history)
+        print(f" Final Train loss: {history[-1]['train_loass']:.4f}")
+        print(f" Final train acc: {history[-1]['train_accuracy']*100:.4f}")
+        print("Training Loop Passed")
+        return trainer
