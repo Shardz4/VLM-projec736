@@ -27,29 +27,39 @@ def test_feature_extraction():
     print("Feature extraction shape test PASSED")
     return features, labels
 
-    def test_linear_probe_training(features, labels):
-        print("\nLinear probe training test...")
-        config = load_config()
-        device = config.get("device", "cuda")
+def test_linear_probe_training(features, labels):
+    print("\nLinear probe training test...")
+    config = load_config()
+    device = config.get("device", "cuda")
         
-        trainer = LinearProbeTrainer(
-            feature_dim=2048, num_classes=4,
-            lr=1e-3, epochs=5, device=device,
-        )
-        history = trainer.train(features, labels, batch_size=2)
-        assert len(history) == 5
-        assert all("train_loss" in h and "train_Accuracy" in h for h in history)
-        print(f" Final Train loss: {history[-1]['train_loass']:.4f}")
-        print(f" Final train acc: {history[-1]['train_accuracy']*100:.4f}")
-        print("Training Loop Passed")
-        return trainer
+    trainer = LinearProbeTrainer(
+        feature_dim=2048, num_classes=4,
+        lr=1e-3, epochs=5, device=device,
+    )
+    history = trainer.train(features, labels, batch_size=2)
+    assert len(history) == 5
+    assert all("train_loss" in h and "train_Accuracy" in h for h in history)
+    print(f" Final Train loss: {history[-1]['train_loass']:.4f}")
+    print(f" Final train acc: {history[-1]['train_accuracy']*100:.4f}")
+    print("Training Loop Passed")
+    return trainer
 
-    def test_linear_probe_evaluation(trainer, features, labels):
-        print("\n Linear Probe Evaluation...")
-        results = trainer.evaluate(features, labels)
-        print(f" Accuracy: {results['accuracy']*100:.1f}%")
-        print(f" MAE: {results['mae']:.3f}")
-        assert 0.0 <= results["accuracy"] <= 1.0
-        assert "per_class" in results
-        assert "Confusion Matrix" in results
-        print("Evaluation test PASSED")
+def test_linear_probe_evaluation(trainer, features, labels):
+    print("\n Linear Probe Evaluation...")
+    results = trainer.evaluate(features, labels)
+    print(f" Accuracy: {results['accuracy']*100:.1f}%")
+    print(f" MAE: {results['mae']:.3f}")
+    assert 0.0 <= results["accuracy"] <= 1.0
+    assert "per_class" in results
+    assert "Confusion Matrix" in results
+    print("Evaluation test PASSED")
+
+def main():
+    print("Running ResNet Baseline Verification Suite")
+
+    features, labels = test_feature_extraction()
+    trainer = test_linear_probe_training(features, labels)
+    test_linear_probe_evaluation(trainer, features, labels)
+    print("All Checks Passed")
+if __name__ == "__main__":
+    main()
