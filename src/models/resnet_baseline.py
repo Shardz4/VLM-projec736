@@ -124,7 +124,6 @@ class LinearProbeTrainer:
                     **(wandb_config or {}),
                 },
             )
-            wandb.watch(self.linear_head, log="all", log_freq=10)
             print("[W&B] Logging initialized.")
 
     def _save_checkpoint(self, epoch: int, val_acc: float, is_best: bool = False):
@@ -272,7 +271,13 @@ class LinearProbeTrainer:
             wandb.summary["best_val_accuracy"] = best_val_acc
             wandb.summary["stopped_early"] = stopped_early
             wandb.summary["total_epochs_trained"] = len(history)
+            # Remove any lingering forward hooks before finishing
+            # to prevent 'NoneType' errors when evaluate() runs after
+            self.linear_head._forward_hooks.clear()
+            self.linear_head._forward_pre_hooks.clear()
+            self.linear_head._backward_hooks.clear()
             wandb.finish()
+            self.use_wandb = False
             print("[W&B] Run finished and synced.")
 
         return history
