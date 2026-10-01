@@ -14,6 +14,92 @@ IMAGENET_CLASS_INDEX_URL = (
     "data/imagenet_class_index.json"
 )
 
+# OpenAI's official 80 prompt templates for ImageNet zero-shot evaluation
+# Source: https://github.com/openai/CLIP/blob/main/notebooks/Prompt_Engineering_for_ImageNet.ipynb
+IMAGENET_TEMPLATES = [
+    "a bad photo of a {}.",
+    "a photo of many {}.",
+    "a sculpture of a {}.",
+    "a photo of the hard to see {}.",
+    "a low resolution photo of the {}.",
+    "a rendering of a {}.",
+    "graffiti of a {}.",
+    "a bad photo of the {}.",
+    "a cropped photo of the {}.",
+    "a tattoo of a {}.",
+    "the embroidered {}.",
+    "a photo of a hard to see {}.",
+    "a bright photo of a {}.",
+    "a photo of a clean {}.",
+    "a photo of a dirty {}.",
+    "a dark photo of the {}.",
+    "a drawing of a {}.",
+    "a photo of my {}.",
+    "the plastic {}.",
+    "a photo of the cool {}.",
+    "a close-up photo of a {}.",
+    "a black and white photo of the {}.",
+    "a painting of the {}.",
+    "a painting of a {}.",
+    "a pixelated photo of the {}.",
+    "a sculpture of the {}.",
+    "a bright photo of the {}.",
+    "a cropped photo of a {}.",
+    "a plastic {}.",
+    "a photo of the dirty {}.",
+    "a jpeg corrupted photo of a {}.",
+    "a blurry photo of the {}.",
+    "a photo of the {}.",
+    "a good photo of the {}.",
+    "a rendering of the {}.",
+    "a {} in a video game.",
+    "a photo of one {}.",
+    "a doodle of a {}.",
+    "a close-up photo of the {}.",
+    "a photo of a {}.",
+    "the origami {}.",
+    "the {} in a video game.",
+    "a sketch of a {}.",
+    "a doodle of the {}.",
+    "a origami {}.",
+    "a low resolution photo of a {}.",
+    "the toy {}.",
+    "a rendition of the {}.",
+    "a photo of the clean {}.",
+    "a photo of a large {}.",
+    "a rendition of a {}.",
+    "a photo of a nice {}.",
+    "a photo of a weird {}.",
+    "a blurry photo of a {}.",
+    "a cartoon {}.",
+    "art of a {}.",
+    "a sketch of the {}.",
+    "a embroidered {}.",
+    "a pixelated photo of a {}.",
+    "itap of the {}.",
+    "a jpeg corrupted photo of the {}.",
+    "a good photo of a {}.",
+    "a plushie {}.",
+    "a photo of the nice {}.",
+    "a photo of the small {}.",
+    "a photo of the weird {}.",
+    "the cartoon {}.",
+    "art of the {}.",
+    "a drawing of the {}.",
+    "a photo of the large {}.",
+    "a black and white photo of a {}.",
+    "the plushie {}.",
+    "a dark photo of a {}.",
+    "itap of a {}.",
+    "graffiti of the {}.",
+    "a toy {}.",
+    "itap of my {}.",
+    "a photo of a cool {}.",
+    "a photo of a small {}.",
+    "a tattoo of the {}.",
+]
+
+
 def load_imagenet_class_names(cache_path: str = "data/imagenet_class_index.json") -> List[str]:
     cache = Path(cache_path)
     if not cache.is_file():
@@ -32,22 +118,66 @@ def load_imagenet_class_names(cache_path: str = "data/imagenet_class_index.json"
 
 class ImageNetV2Evaluator:
     def __init__(self, clip_encoder, class_names: Optional[List[str]] = None,
-    prompt_template: str = "A photo of a {class_name}.", device: Optional[str] = None):
+    prompt_template: str = "A photo of a {class_name}.",
+    use_ensemble: bool = True,
+    device: Optional[str] = None):
         self.encoder = clip_encoder
         self.device = device or clip_encoder.device
         self.prompt_template = prompt_template
+        self.use_ensemble = use_ensemble
 
         if class_names is None:
             class_names = load_imagenet_class_names()
         self.class_names = class_names
         self.num_classes = len(self.class_names)
 
-        self.prompts = [
-            self.prompt_template.replace("{class_name}", name)
-            for name in self.class_names
-        ]
-        print(f"[ImageNet V2]  Pre-encoding {self.num_classes} class prompts ....")
-        self.text_features = self.encoder.encode_texts(self.prompts)
+        if self.use_ensemble:
+            print(f"[ImageNet V2] Building ensemble from {len(IMAGENET_TEMPLATES)} "
+                  f"templates × {self.num_classes} classes...")
+            self.text_features = self._build_ensemble_features()
+        else:
+            self.prompts = [
+                self.prompt_template.replace("{class_name}", name)
+                for name in self.class_names
+            ]
+            print(f"[ImageNet V2] Pre-encoding {self.num_classes} class prompts (single template)...")
+            self.text_features = self.encoder.encode_texts(self.prompts)
+
+    @torch.no_grad()
+    def _build_ensemble_features(self) -> torch.Tensor:
+        """Build text features by averaging embeddings across all 80 templates.
+
+        For each class, encode all 80 prompts, L2-normalize each, average them,
+        then L2-normalize the mean. This is CLIP's official evaluation protocol.
+        """
+        all_class_features = []
+
+        for i, classname in enumerate(tqdm(self.class_names, desc="Encoding class ensembles")):
+            # Generate all 80 prompts for this class
+            texts = [template.format(classname) for template in IMAGENET_TEMPLATES]
+
+            # Encode in one batch (80 prompts)
+            # clip.tokenize has a context length limit, so this is fine for single words
+            tokens = torch.cat([
+                __import__('clip').tokenize(texts)
+            ]).to(self.device)
+
+            class_embeddings = self.encoder.model.encode_text(tokens)
+            class_embeddings = class_embeddings.float()
+
+            # L2-normalize each template embedding
+            class_embeddings = class_embeddings / class_embeddings.norm(dim=-1, keepdim=True)
+
+            # Average across templates, then re-normalize
+            class_mean = class_embeddings.mean(dim=0)
+            class_mean = class_mean / class_mean.norm()
+
+            all_class_features.append(class_mean)
+
+        # Stack into (1000, 512) matrix
+        text_features = torch.stack(all_class_features, dim=0)
+        print(f"[ImageNet V2] Ensemble text features shape: {text_features.shape}")
+        return text_features
 
     
     @torch.no_grad()
@@ -140,4 +270,5 @@ class ImageNetV2Evaluator:
             "sanity_check_passed": sanity_pass,
             "confidence_stats": conf_stats,
             "per_class": per_class,
+            "used_ensemble": self.use_ensemble,
         }
