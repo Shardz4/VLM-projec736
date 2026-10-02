@@ -259,13 +259,16 @@ class ImageNetV2Evaluator:
             "overall_mean": float(np.mean(confs_arr)),
         }
 
-        sanity_pass = 0.55 <= top1_acc <= 0.70
+        # Threshold accounts for ImageNet-V2 accuracy drop (~5-11% below V1)
+        # ViT-B/32 on V1: ~63%, on V2: ~52-57%
+        sanity_pass = 0.50 <= top1_acc <= 0.70
 
         return {
             "top1_accuracy": top1_acc,
             "top5_accuracy": top5_acc,
             "total_samples": total,
-            "expected_top1": 0.605,
+            "expected_top1_v1": 0.632,
+            "expected_top1_v2": 0.555,
             "expected_top5": 0.860,
             "sanity_check_passed": sanity_pass,
             "confidence_stats": conf_stats,

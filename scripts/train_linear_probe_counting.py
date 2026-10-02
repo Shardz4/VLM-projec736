@@ -38,8 +38,15 @@ def main():
     print(f"      Features shape: {features.shape}")
     print(f"      Labels shape: {labels.shape}")
 
-    labels = labels.long() - 1
-    num_classes = 10
+    # Build contiguous class indices from actual counts in the dataset
+    # (CLEVR only has counts 3-10, no 1 or 2 — avoid ghost classes)
+    raw_counts = labels.long()
+    unique_counts = sorted(set(raw_counts.tolist()))
+    count_to_idx = {c: i for i, c in enumerate(unique_counts)}
+    idx_to_count = {i: c for c, i in count_to_idx.items()}
+    labels = torch.tensor([count_to_idx[c.item()] for c in raw_counts])
+    num_classes = len(unique_counts)
+    print(f"      Unique counts: {unique_counts} → {num_classes} classes")
 
     n = len(features)
     perm = torch.randperm(n)
@@ -62,8 +69,8 @@ def main():
         checkpoint_dir="results/checkpoints/counting",
         use_wandb=True,
         wandb_project="vlm-linear-probe",
-        wandb_run_name="counting-probe",
-        wandb_config={"task": "clevr_counting"},
+        wandb_run_name="counting-probe-v2",
+        wandb_config={"task": "clevr_counting", "num_classes": num_classes, "counts": unique_counts},
     )
     history = trainer.train(
         train_feats, train_labels,
@@ -82,7 +89,7 @@ def main():
     print("=" * 70)
     print("\nPER-COUNT ACCURACY:")
     for cls_idx, stats in results["per_class"].items():
-        count = cls_idx + 1
+        count = idx_to_count.get(cls_idx, cls_idx)
         print(f"  Count {count:2d}: {stats['accuracy']*100:6.1f}% ({stats['correct']}/{stats['total']})")
     # Save results
     results_dir = Path(config.get("output", {}).get("results_dir", "results/logs"))
