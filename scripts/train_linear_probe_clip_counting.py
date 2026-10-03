@@ -1,7 +1,7 @@
-"""Step 10b: Train & evaluate a linear probe on SpatialSense (binary classification).
+"""Train & evaluate a linear probe on frozen CLIP ViT-B/32 visual embeddings for CLEVR counting.
 
-Uses ResNet-50 frozen features (2048-d) + nn.Linear(2048, 2).
-Uses ResNet ImageNet preprocessing to ensure correct feature extraction.
+Probes whether CLIP's vision backbone internally encodes object count/cardinality,
+isolating whether counting failure is visual or a language-projection breakdown.
 """
 import json
 import os
@@ -14,52 +14,49 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import torch
 from torch.utils.data import DataLoader
 from src.config_loader import load_config
-from src.data_loaders.spatialsense_loader import SpatialSenseDataset
-from src.models.resnet_baseline import ResNetFeatureExtractor, LinearProbeTrainer
+from src.data_loaders.clevr_loader import CLEVRCountingDataset
+from src.models.clip_encoder import CLIPEncoder
+from src.models.resnet_baseline import LinearProbeTrainer
 
 
 def main():
     print("=" * 70)
-    print("Linear Probe: SpatialSense Binary Classification")
+    print("Linear Probe: CLIP ViT-B/32 Image Features on CLEVR Counting")
     print("=" * 70)
 
     config = load_config()
     device = config.get("device", "cuda")
     lp_cfg = config.get("linear_probe", {})
-    spatial_cfg = config.get("datasets", {}).get("spatialsense", {})
+    clevr_cfg = config.get("datasets", {}).get("clevr", {})
+    model_name = config.get("clip_model", "ViT-B/32")
 
-    # 1. Initialize ResNet-50 extractor
-    print("\n[1/4] Initializing ResNet-50 feature extractor...")
-    extractor = ResNetFeatureExtractor(device=device, spatial=False)
+    # 1. Initialize CLIP Encoder
+    print(f"\n[1/4] Initializing CLIP model ({model_name})...")
+    encoder = CLIPEncoder(model_name=model_name, device=device)
 
-    # 2. Build SpatialSense DataLoader with ResNet ImageNet preprocessing
-    print("\n[2/4] Building SpatialSense DataLoader with ResNet preprocessing...")
-    root = spatial_cfg.get("root", "data/spatialsense")
-    ann_path = Path(root) / "annotations.json"
-    if not ann_path.is_file():
-        ann_path = Path("data/spatialsense/annotations.json")
+    # 2. Build CLEVR DataLoader with CLIP preprocessing
+    print("\n[2/4] Building CLEVR DataLoader with CLIP preprocessing...")
+    clevr_root = Path(clevr_cfg.get("root", "data/CLEVR_v1.0"))
+    max_objects = clevr_cfg.get("max_objects", 10)
 
-    dataset = SpatialSenseDataset(
-        image_dir=root,
-        annotations_path=ann_path,
-        clip_preprocess=extractor.preprocess,
-        split=spatial_cfg.get("split", "val"),
+    dataset = CLEVRCountingDataset(
+        image_dir=clevr_root,
+        annotations_path=clevr_root,
+        clip_preprocess=encoder.preprocess,
+        max_objects=max_objects,
     )
 
     batch_size = config.get("inference", {}).get("batch_size", 32)
     num_workers = config.get("inference", {}).get("num_workers", 4)
-    spatial_loader = DataLoader(
+    clevr_loader = DataLoader(
         dataset, batch_size=batch_size, shuffle=False,
         num_workers=num_workers, pin_memory=True,
     )
+    print(f"      CLEVR samples: {len(dataset)}")
 
-    total_samples = len(dataset)
-    print(f"      SpatialSense samples: {total_samples}")
-    print(f"      Preprocessing: ResNet ImageNet (NOT CLIP)")
-
-    # 3. Extract ResNet-50 features
-    print("\n[3/4] Extracting ResNet-50 features...")
-    cache_path = Path("results/cache/spatial_resnet_features.pt")
+    # 3. Extract & cache CLIP image features (512-d)
+    print("\n[3/4] Extracting CLIP image features...")
+    cache_path = Path("results/cache/clevr_clip_vit_features.pt")
     if cache_path.is_file():
         print(f"      Loading cached features from '{cache_path}'")
         data = torch.load(cache_path, weights_only=True)
@@ -67,12 +64,11 @@ def main():
     else:
         all_features = []
         all_labels = []
-        for batch in tqdm(spatial_loader, desc="Extracting ResNet features", unit="batch"):
-            images = batch[0].to(extractor.device)
-            batch_labels = batch[4]
-
+        for batch in tqdm(clevr_loader, desc="Extracting CLIP features", unit="batch"):
+            images = batch[0].to(device)
+            batch_labels = batch[1]
             with torch.no_grad():
-                feats = extractor.feature_extractor(images).squeeze(-1).squeeze(-1)
+                feats = encoder.encode_images(images)  # (B, 512) normalized
             all_features.append(feats.cpu())
             all_labels.append(batch_labels)
         features = torch.cat(all_features, dim=0)
@@ -80,13 +76,19 @@ def main():
 
         cache_path.parent.mkdir(parents=True, exist_ok=True)
         torch.save({"features": features, "labels": labels}, cache_path)
-        print(f"      Cached {len(features)} feature vectors to '{cache_path}'")
+        print(f"      Cached features to '{cache_path}'")
 
     print(f"      Features shape: {features.shape}")
     print(f"      Labels shape: {labels.shape}")
 
-    labels = labels.long()
-    num_classes = 2
+    # Contiguous mapping
+    raw_counts = labels.long()
+    unique_counts = sorted(set(raw_counts.tolist()))
+    count_to_idx = {c: i for i, c in enumerate(unique_counts)}
+    idx_to_count = {i: c for c, i in count_to_idx.items()}
+    labels = torch.tensor([count_to_idx[c.item()] for c in raw_counts])
+    num_classes = len(unique_counts)
+    print(f"      Unique counts: {unique_counts} → {num_classes} classes")
 
     # Split into train (80%) and test (20%)
     n = len(features)
@@ -99,27 +101,29 @@ def main():
     print(f"      Train: {len(train_feats)} | Test: {len(test_feats)}")
 
     # 4. Train linear probe
-    print("\n[4/4] Training linear probe...")
+    print("\n[4/4] Training linear probe on CLIP vision features...")
     lr = lp_cfg.get("learning_rate", 1e-4)
     probe_lr = max(lr, 1e-3)
     epochs = lp_cfg.get("epochs", 50)
     probe_epochs = max(epochs, 100)
 
     trainer = LinearProbeTrainer(
-        feature_dim=extractor.feature_dim,
+        feature_dim=features.shape[1],  # 512
         num_classes=num_classes,
         lr=probe_lr,
         weight_decay=lp_cfg.get("weight_decay", 0.01),
         epochs=probe_epochs,
         device=device,
         early_stopping_patience=None,
-        checkpoint_dir="results/checkpoints/spatial",
+        checkpoint_dir="results/checkpoints/clip_counting",
         use_wandb=True,
         wandb_project="vlm-linear-probe",
-        wandb_run_name="spatial-probe",
+        wandb_run_name="clip-counting-probe",
         wandb_config={
-            "task": "spatialsense_binary",
-            "preprocess": "resnet_imagenet",
+            "task": "clevr_counting_clip_vit",
+            "num_classes": num_classes,
+            "counts": unique_counts,
+            "feature_dim": features.shape[1],
             "lr": probe_lr,
             "epochs": probe_epochs,
         },
@@ -135,28 +139,28 @@ def main():
     print("\nFinal evaluation on test set...")
     results = trainer.evaluate(test_feats, test_labels)
     print("\n" + "=" * 70)
-    print("LINEAR PROBE SPATIAL RESULTS:")
-    print(f"  Overall Accuracy : {results['accuracy'] * 100:.2f}%  (Random baseline: 50.00%)")
+    print("CLIP VISION LINEAR PROBE COUNTING RESULTS:")
+    print(f"  Overall Accuracy : {results['accuracy'] * 100:.2f}%")
+    print(f"  MAE              : {results['mae']:.3f}")
     print(f"  Total Test       : {results['total_samples']}")
     print("=" * 70)
-    print("\nPER-CLASS ACCURACY:")
-    class_labels = {0: "Incorrect/Negative", 1: "Correct/Positive"}
-    for cls_idx, stats in results["per_class"].items():
-        label = class_labels.get(cls_idx, str(cls_idx))
-        print(f"  {label}: {stats['accuracy']*100:6.1f}% ({stats['correct']}/{stats['total']})")
 
-    # Save results
+    print("\nPER-COUNT ACCURACY:")
+    for cls_idx, stats in results["per_class"].items():
+        count = idx_to_count.get(cls_idx, cls_idx)
+        print(f"  Count {count:2d}: {stats['accuracy']*100:6.1f}% ({stats['correct']}/{stats['total']})")
+
     results_dir = Path(config.get("output", {}).get("results_dir", "results/logs"))
     results_dir.mkdir(parents=True, exist_ok=True)
     output = {
-        "task": "spatialsense_binary",
-        "model": "resnet50_linear_probe",
-        "preprocess": "resnet_imagenet",
+        "task": "clevr_counting",
+        "model": "clip_vit_b32_linear_probe",
         **results,
         "training_history": history,
         "config": lp_cfg,
+        "idx_to_count": idx_to_count,
     }
-    output_path = results_dir / "linear_probe_spatial.json"
+    output_path = results_dir / "linear_probe_clip_counting.json"
     with open(output_path, "w") as f:
         json.dump(output, f, indent=2)
     print(f"\nSaved results to: {output_path}")
