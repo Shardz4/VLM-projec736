@@ -21,21 +21,37 @@ except ImportError:
 
 class ResNetFeatureExtractor:
 
-    def __init__(self, device: str = "cuda"):
+    def __init__(self, device: str = "cuda", spatial: bool = False):
+        """
+        Args:
+            device: Target device.
+            spatial: If True, extract spatial features (mean+max+std pooling 
+                     of the 7x7 feature map → 6144-d) instead of avgpool (2048-d).
+                     Spatial features preserve counting-relevant information
+                     that avgpool destroys.
+        """
         if device == "cuda" and not torch.cuda.is_available():
             device = "cpu"
         self.device = torch.device(device)
+        self.spatial = spatial
 
         weights = models.ResNet50_Weights.IMAGENET1K_V1
         resnet = models.resnet50(weights=weights)
         resnet.eval()
-       
-        self.feature_extractor = nn.Sequential(*list(resnet.children())[:-1])
+
+        if spatial:
+            # Remove both avgpool AND fc — keep the 7×7×2048 feature map
+            self.feature_extractor = nn.Sequential(*list(resnet.children())[:-2])
+            self.feature_dim = 2048 * 3  # mean + max + std = 6144
+        else:
+            # Original: remove only fc, keep avgpool → 2048-d
+            self.feature_extractor = nn.Sequential(*list(resnet.children())[:-1])
+            self.feature_dim = 2048
+
         self.feature_extractor.to(self.device)
         self.feature_extractor.eval()
 
         self.preprocess = weights.transforms()
-        self.feature_dim = 2048
     
     @torch.no_grad()
     def extract_features(self, dataloader: DataLoader):
@@ -45,8 +61,19 @@ class ResNetFeatureExtractor:
         for batch in tqdm(dataloader, desc="Extracting ResNet features", unit="batch"):
             images = batch[0].to(self.device)
             labels = batch[1]
-            features = self.feature_extractor(images)
-            features = features.squeeze(-1).squeeze(-1)
+            feat_map = self.feature_extractor(images)
+
+            if self.spatial:
+                # feat_map shape: (B, 2048, 7, 7)
+                b, c, h, w = feat_map.shape
+                flat = feat_map.view(b, c, h * w)  # (B, 2048, 49)
+                f_mean = flat.mean(dim=2)           # (B, 2048)
+                f_max = flat.max(dim=2).values      # (B, 2048)
+                f_std = flat.std(dim=2)             # (B, 2048)
+                features = torch.cat([f_mean, f_max, f_std], dim=1)  # (B, 6144)
+            else:
+                features = feat_map.squeeze(-1).squeeze(-1)  # (B, 2048)
+
             all_features.append(features.cpu())
             all_labels.append(labels)
 
@@ -59,7 +86,8 @@ class ResNetFeatureExtractor:
             data = torch.load(cache, weights_only=True)
             return data["features"], data["labels"]
         
-        print(f"[ResNet] Extracting features (will cache to '{cache_path}')")
+        mode = "spatial (6144-d)" if self.spatial else "avgpool (2048-d)"
+        print(f"[ResNet] Extracting {mode} features (will cache to '{cache_path}')")
         features, labels = self.extract_features(dataloader)
         cache.parent.mkdir(parents=True, exist_ok=True)
         torch.save({"features": features, "labels": labels}, cache)
@@ -77,7 +105,7 @@ class LinearProbeTrainer:
         weight_decay: float = 0.01,
         epochs: int = 50,
         device: str = "cuda",
-        early_stopping_patience: int = 10,
+        early_stopping_patience: Optional[int] = None,
         checkpoint_dir: Optional[str] = "results/checkpoints",
         use_wandb: bool = False,
         wandb_project: Optional[str] = None,
@@ -90,7 +118,7 @@ class LinearProbeTrainer:
 
         self.epochs = epochs
         self.num_classes = num_classes
-        self.early_stopping_patience = early_stopping_patience
+        self.early_stopping_patience = early_stopping_patience  # None = disabled
 
         # Checkpoint directory
         self.checkpoint_dir = Path(checkpoint_dir) if checkpoint_dir else None
@@ -171,7 +199,6 @@ class LinearProbeTrainer:
 
         has_val = val_features is not None and val_labels is not None
 
-        # Early stopping state
         best_val_acc = -1.0
         patience_counter = 0
         stopped_early = False
@@ -222,7 +249,7 @@ class LinearProbeTrainer:
             if self.use_wandb:
                 wandb.log(metrics, step=epoch + 1)
 
-            # Checkpointing & early stopping (only if we have validation)
+            # Checkpointing (only if we have validation)
             if has_val:
                 is_best = val_acc > best_val_acc
                 if is_best:
@@ -233,13 +260,11 @@ class LinearProbeTrainer:
 
                 self._save_checkpoint(epoch + 1, val_acc, is_best=is_best)
 
-                # Early stopping check
-                if patience_counter >= self.early_stopping_patience:
+                # Early stopping (only if enabled)
+                if self.early_stopping_patience is not None and patience_counter >= self.early_stopping_patience:
                     print(f"\n  [Early Stopping] No improvement for {self.early_stopping_patience} epochs. "
                           f"Best val_acc={best_val_acc*100:.2f}% at epoch {epoch + 1 - patience_counter}.")
                     stopped_early = True
-
-                    # Restore best model weights
                     if self.checkpoint_dir and (self.checkpoint_dir / "best_model.pt").is_file():
                         self.load_checkpoint(str(self.checkpoint_dir / "best_model.pt"))
                     break
@@ -253,7 +278,7 @@ class LinearProbeTrainer:
                 if has_val:
                     log_str += f" | Val Acc: {val_acc*100:.1f}%"
                 log_str += f" | LR: {current_lr:.2e}"
-                if has_val:
+                if has_val and self.early_stopping_patience is not None:
                     log_str += f" | Patience: {patience_counter}/{self.early_stopping_patience}"
                 print(log_str)
 

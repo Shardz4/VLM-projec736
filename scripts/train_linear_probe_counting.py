@@ -28,9 +28,10 @@ def main():
     lp_cfg = config.get("linear_probe", {})
     clevr_cfg = config.get("datasets", {}).get("clevr", {})
 
-    # 1. Build ResNet extractor FIRST to get correct preprocessing
-    print("\n[1/4] Initializing ResNet-50 feature extractor...")
-    extractor = ResNetFeatureExtractor(device=device)
+    # 1. Build ResNet extractor with SPATIAL features (mean+max+std of 7x7 map → 6144-d)
+    #    avgpool destroys spatial info needed for counting
+    print("\n[1/4] Initializing ResNet-50 feature extractor (spatial mode)...")
+    extractor = ResNetFeatureExtractor(device=device, spatial=True)
 
     # 2. Build CLEVR DataLoader with ResNet's ImageNet preprocessing (NOT CLIP's)
     print("\n[2/4] Building CLEVR DataLoader with ResNet preprocessing...")
@@ -63,7 +64,7 @@ def main():
     # 3. Extract features
     print("\n[3/4] Extracting ResNet-50 features...")
     features, labels = extractor.extract_and_cache(
-        clevr_loader, cache_path="results/cache/clevr_resnet_features_v2.pt"
+        clevr_loader, cache_path="results/cache/clevr_resnet_spatial_features.pt"
     )
     print(f"      Features shape: {features.shape}")
     print(f"      Labels shape: {labels.shape}")
@@ -101,11 +102,10 @@ def main():
         weight_decay=lp_cfg.get("weight_decay", 0.01),
         epochs=probe_epochs,
         device=device,
-        early_stopping_patience=15,
         checkpoint_dir="results/checkpoints/counting",
         use_wandb=True,
         wandb_project="vlm-linear-probe",
-        wandb_run_name="counting-probe-v3",
+        wandb_run_name="counting-probe-spatial",
         wandb_config={
             "task": "clevr_counting",
             "num_classes": num_classes,
