@@ -1,3 +1,6 @@
+# === Global Configuration ===
+seed: 42
+
 # === Model Configuration ===
 clip_model: "ViT-B/32"
 baseline_model: "resnet50"
@@ -20,16 +23,19 @@ datasets:
 inference:
   batch_size: 32
   num_workers: 4
-  similarity_metric: "cosine"
+  similarity_metric: "cosine"  # L2-normalized inner product
 
 # === Linear Probe Baseline ===
 linear_probe:
   optimizer: "adamw"
-  learning_rate: 1.0e-4
+  learning_rate: 1.0e-3
   scheduler: "cosine_annealing"
   loss_function: "cross_entropy"
-  epochs: 50
+  epochs: 100
+  batch_size: 64
   weight_decay: 0.01
+  mode: "spatial"  # 'spatial' (6144-d) or 'avgpool' (2048-d)
+  relation_conditioned: true  # Condition spatial probe on relation query
 
 # === Prompt Templates ===
 prompts:
@@ -37,10 +43,12 @@ prompts:
     template: "A photo of {N} objects."
     range: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   spatial:
-    relations: ["on", "below", "left of", "right of", "in front of", "behind"]
+    relations: ["above", "behind", "in", "in front of", "next to", "on", "to the left of", "to the right of", "under"]
 
 # === Output Configuration ===
 output:
   results_dir: "./results/logs"
   figures_dir: "./results/figures"
+  cache_dir: "./results/cache"
+  checkpoints_dir: "./results/checkpoints"
   save_predictions: true
