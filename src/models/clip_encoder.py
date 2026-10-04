@@ -137,6 +137,52 @@ class CLIPEncoder:
         preds = probs.argmax(dim=-1)
         return probs, preds
 
+    @torch.no_grad()
+    def extract_features(
+        self,
+        dataloader: torch.utils.data.DataLoader,
+        desc: str = "Extracting CLIP features",
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Extract L2-normalized visual embeddings for an entire DataLoader.
+        
+        Returns:
+            Tuple[torch.Tensor, torch.Tensor]:
+                - features: (N_samples, 512) tensor on CPU.
+                - labels: (N_samples,) tensor on CPU.
+        """
+        all_features = []
+        all_labels = []
+
+        for batch in dataloader:
+            images = batch[0].to(self.device)
+            labels = batch[1]
+            feats = self.encode_images(images)
+            all_features.append(feats.cpu())
+            all_labels.append(labels)
+
+        return torch.cat(all_features, dim=0), torch.cat(all_labels, dim=0)
+
+    def extract_and_cache(
+        self,
+        dataloader: torch.utils.data.DataLoader,
+        cache_path: str,
+        desc: str = "Extracting CLIP features",
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Extract or load cached visual embeddings."""
+        from pathlib import Path
+        cache = Path(cache_path)
+        if cache.is_file():
+            print(f"[CLIP] Loading cached features from '{cache}'")
+            data = torch.load(cache, weights_only=True)
+            return data["features"], data["labels"]
+
+        print(f"[CLIP] Extracting features (will cache to '{cache}')")
+        features, labels = self.extract_features(dataloader, desc=desc)
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        torch.save({"features": features, "labels": labels}, cache)
+        print(f"[CLIP] Cached {len(features)} feature vectors to '{cache}'")
+        return features, labels
+
     def __repr__(self) -> str:
         return (
             f"CLIPEncoder(model='{self.model_name}', "

@@ -9,27 +9,37 @@ from .spatialsense_loader import SpatialSenseDataset
 from .imagenet_v2_loader import ImageNetV2Dataset
 
 
-def build_dataloaders(config):
+from src.utils import seed_worker
+
+
+def build_dataloaders(config, preprocess=None):
     """Build DataLoaders for datasets specified in the experiment config.
     Auto-detects dataset layouts (e.g. data/CLEVR_v1.0, data/images, etc.)
     and gracefully handles partially downloaded environments.
 
     Args:
         config: Parsed experiment config dict (from ``load_config()``).
+        preprocess: Optional image preprocessing transform. If None,
+                    CLIP's standard preprocess transform is loaded and used.
     Returns:
         dict: Mapping of dataset name → DataLoader instance.
               Keys: "clevr", "spatialsense", "imagenet_v2"
               (only those present and found on disk are included).
     """
-    # Load CLIP model to get the preprocess transform
     device = config.get("device", "cuda")
     if device == "cuda" and not torch.cuda.is_available():
         device = "cpu"
-    model_name = config.get("clip_model", "ViT-B/32")
-    _, preprocess = clip.load(model_name, device=device)
 
-    batch_size = config["inference"]["batch_size"]
-    num_workers = config["inference"]["num_workers"]
+    if preprocess is None:
+        model_name = config.get("clip_model", "ViT-B/32")
+        _, preprocess = clip.load(model_name, device=device)
+
+    batch_size = config.get("inference", {}).get("batch_size", 32)
+    num_workers = config.get("inference", {}).get("num_workers", 4)
+    seed = config.get("seed", 42)
+
+    g = torch.Generator()
+    g.manual_seed(seed)
 
     loaders = {}
     datasets_cfg = config.get("datasets", {})
@@ -81,6 +91,8 @@ def build_dataloaders(config):
                     shuffle=False,       # Evaluation — deterministic order
                     num_workers=num_workers,
                     pin_memory=True,
+                    worker_init_fn=seed_worker,
+                    generator=g,
                 )
                 print(f"[DataLoader] CLEVR: {clevr_dataset}")
             except Exception as e:
@@ -123,6 +135,8 @@ def build_dataloaders(config):
                     shuffle=False,
                     num_workers=num_workers,
                     pin_memory=True,
+                    worker_init_fn=seed_worker,
+                    generator=g,
                 )
                 print(f"[DataLoader] SpatialSense: {ss_dataset}")
             except Exception as e:
@@ -162,6 +176,8 @@ def build_dataloaders(config):
                     shuffle=False,
                     num_workers=num_workers,
                     pin_memory=True,
+                    worker_init_fn=seed_worker,
+                    generator=g,
                 )
                 print(f"[DataLoader] ImageNet-V2: {inv2_dataset}")
             except Exception as e:

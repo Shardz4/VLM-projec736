@@ -140,6 +140,8 @@ class SpatialSenseDataset(Dataset):
 
         # Catalogue available relations
         self._relations = sorted(set(a["relation"] for a in self.annotations))
+        self.relation_to_idx = {r: i for i, r in enumerate(self._relations)}
+        self.idx_to_relation = {i: r for i, r in enumerate(self._relations)}
 
     def _find_image(self, filename):
         """Locate image file in root or common subdirectories (flickr/, nyu/)."""
@@ -164,6 +166,18 @@ class SpatialSenseDataset(Dataset):
             ann["object"],
             ann["label"],
         )
+
+    def get_triplet(self, idx):
+        """Return the raw metadata dictionary for sample idx."""
+        ann = self.annotations[idx]
+        return {
+            "image_path": ann["image_path"],
+            "subject": ann["subject"],
+            "relation": ann["relation"],
+            "relation_idx": self.relation_to_idx[ann["relation"]],
+            "object": ann["object"],
+            "label": ann["label"],
+        }
 
     def __len__(self):
         return len(self.annotations)
