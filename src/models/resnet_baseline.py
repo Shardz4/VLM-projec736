@@ -356,3 +356,225 @@ class LinearProbeTrainer:
             "confusion_matrix": conf_matrix.tolist(),
             "class_order": [int(c) for c in classes],
         }
+
+
+class RelationConditionedLinearProbe(nn.Module):
+    """Relation-conditioned linear probe for spatial relationship verification.
+
+    Addresses the core architectural problem where visual features alone cannot
+    verify a relation query (is Subject R Object true or swapped?) without knowing R.
+    Concatenates visual features with a learned relation embedding.
+    """
+    def __init__(
+        self,
+        visual_dim: int = 2048,
+        num_relations: int = 9,
+        relation_embed_dim: int = 128,
+        num_classes: int = 2,
+    ):
+        super().__init__()
+        self.visual_dim = visual_dim
+        self.num_relations = num_relations
+        self.relation_embedding = nn.Embedding(num_relations, relation_embed_dim)
+        self.classifier = nn.Linear(visual_dim + relation_embed_dim, num_classes)
+
+    def forward(self, visual_features: torch.Tensor, relation_indices: torch.Tensor) -> torch.Tensor:
+        rel_embed = self.relation_embedding(relation_indices)
+        combined = torch.cat([visual_features, rel_embed], dim=-1)
+        return self.classifier(combined)
+
+
+class RelationProbeTrainer:
+    """Trainer for RelationConditionedLinearProbe with checkpointing, cosine scheduling, and eval."""
+    def __init__(
+        self,
+        visual_dim: int = 2048,
+        num_relations: int = 9,
+        relation_embed_dim: int = 128,
+        num_classes: int = 2,
+        lr: float = 1e-3,
+        weight_decay: float = 0.01,
+        epochs: int = 50,
+        device: str = "cuda",
+        checkpoint_dir: Optional[str] = "results/checkpoints/spatial",
+        use_wandb: bool = False,
+        wandb_project: Optional[str] = None,
+        wandb_run_name: Optional[str] = None,
+        wandb_config: Optional[Dict[str, Any]] = None,
+    ):
+        if device == "cuda" and not torch.cuda.is_available():
+            device = "cpu"
+        self.device = torch.device(device)
+        self.epochs = epochs
+        self.checkpoint_dir = Path(checkpoint_dir) if checkpoint_dir else None
+        if self.checkpoint_dir:
+            self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
+
+        self.model = RelationConditionedLinearProbe(
+            visual_dim=visual_dim,
+            num_relations=num_relations,
+            relation_embed_dim=relation_embed_dim,
+            num_classes=num_classes,
+        ).to(self.device)
+
+        self.criterion = nn.CrossEntropyLoss()
+        self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=lr, weight_decay=weight_decay)
+        self.scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(self.optimizer, T_max=epochs)
+
+        self.use_wandb = use_wandb and WANDB_AVAILABLE
+        if self.use_wandb:
+            wandb.init(
+                project=wandb_project or "vlm-linear-probe",
+                name=wandb_run_name,
+                config={
+                    "visual_dim": visual_dim,
+                    "num_relations": num_relations,
+                    "relation_embed_dim": relation_embed_dim,
+                    "lr": lr,
+                    "epochs": epochs,
+                    **(wandb_config or {}),
+                },
+            )
+
+    def _save_checkpoint(self, epoch: int, val_acc: float, is_best: bool = False):
+        if self.checkpoint_dir is None:
+            return
+        state = {
+            "epoch": epoch,
+            "model_state_dict": self.model.state_dict(),
+            "optimizer_state_dict": self.optimizer.state_dict(),
+            "scheduler_state_dict": self.scheduler.state_dict(),
+            "val_accuracy": val_acc,
+        }
+        torch.save(state, self.checkpoint_dir / "latest_checkpoint.pt")
+        if is_best:
+            torch.save(state, self.checkpoint_dir / "best_model.pt")
+
+    def train(
+        self,
+        train_features: torch.Tensor,
+        train_rel_indices: torch.Tensor,
+        train_labels: torch.Tensor,
+        batch_size: int = 64,
+        val_features: Optional[torch.Tensor] = None,
+        val_rel_indices: Optional[torch.Tensor] = None,
+        val_labels: Optional[torch.Tensor] = None,
+    ) -> List[Dict[str, float]]:
+        dataset = TensorDataset(train_features, train_rel_indices, train_labels)
+        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+        has_val = val_features is not None and val_rel_indices is not None and val_labels is not None
+
+        best_val_acc = -1.0
+        history = []
+
+        for epoch in range(self.epochs):
+            self.model.train()
+            epoch_loss = 0.0
+            epoch_corr = 0
+            epoch_tot = 0
+
+            for feats, rels, lbls in loader:
+                feats = feats.to(self.device)
+                rels = rels.to(self.device)
+                lbls = lbls.to(self.device)
+
+                logits = self.model(feats, rels)
+                loss = self.criterion(logits, lbls)
+
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+
+                epoch_loss += loss.item() * len(lbls)
+                epoch_corr += (logits.argmax(dim=-1) == lbls).sum().item()
+                epoch_tot += len(lbls)
+
+            self.scheduler.step()
+            train_acc = epoch_corr / epoch_tot
+            avg_loss = epoch_loss / epoch_tot
+            current_lr = self.scheduler.get_last_lr()[0]
+
+            metrics = {
+                "epoch": epoch + 1,
+                "train_loss": avg_loss,
+                "train_accuracy": train_acc,
+                "learning_rate": current_lr,
+            }
+
+            val_acc = 0.0
+            if has_val:
+                val_res = self.evaluate(val_features, val_rel_indices, val_labels)
+                val_acc = val_res["accuracy"]
+                metrics["val_accuracy"] = val_acc
+                is_best = val_acc > best_val_acc
+                if is_best:
+                    best_val_acc = val_acc
+                self._save_checkpoint(epoch + 1, val_acc, is_best=is_best)
+
+            history.append(metrics)
+            if self.use_wandb:
+                wandb.log(metrics, step=epoch + 1)
+
+            if (epoch + 1) % 10 == 0 or epoch == 0:
+                log_str = f"  Epoch {epoch+1:3d}/{self.epochs} | Loss: {avg_loss:.4f} | Train Acc: {train_acc*100:.1f}%"
+                if has_val:
+                    log_str += f" | Val Acc: {val_acc*100:.1f}%"
+                log_str += f" | LR: {current_lr:.2e}"
+                print(log_str)
+
+        if self.use_wandb:
+            wandb.finish()
+            self.use_wandb = False
+
+        return history
+
+    @torch.no_grad()
+    def evaluate(
+        self,
+        features: torch.Tensor,
+        rel_indices: torch.Tensor,
+        labels: torch.Tensor,
+        batch_size: int = 256,
+        idx_to_relation: Optional[Dict[int, str]] = None,
+    ) -> Dict[str, Any]:
+        self.model.eval()
+        dataset = TensorDataset(features, rel_indices, labels)
+        loader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
+
+        all_preds = []
+        all_labels = []
+        all_rels = []
+
+        for feats, rels, lbls in loader:
+            feats = feats.to(self.device)
+            rels = rels.to(self.device)
+            logits = self.model(feats, rels)
+            preds = logits.argmax(dim=-1)
+            all_preds.extend(preds.cpu().tolist())
+            all_labels.extend(lbls.tolist())
+            all_rels.extend(rels.tolist())
+
+        preds_arr = np.array(all_preds, dtype=int)
+        labels_arr = np.array(all_labels, dtype=int)
+        rels_arr = np.array(all_rels, dtype=int)
+
+        is_corr = (preds_arr == labels_arr)
+        overall_acc = float(np.mean(is_corr))
+
+        per_rel = {}
+        for r_idx in sorted(set(rels_arr)):
+            mask = (rels_arr == r_idx)
+            tot = int(np.sum(mask))
+            corr = int(np.sum(is_corr[mask]))
+            rel_name = idx_to_relation.get(r_idx, str(r_idx)) if idx_to_relation else str(r_idx)
+            per_rel[rel_name] = {
+                "total": tot,
+                "correct": corr,
+                "accuracy": corr / tot if tot > 0 else 0.0,
+            }
+
+        return {
+            "accuracy": overall_acc,
+            "total_samples": len(labels_arr),
+            "per_relation": per_rel,
+        }

@@ -65,8 +65,8 @@ vlm_proj/
 │   └── ImageNetV2-master/           # ImageNet-V2 matched-frequency
 ├── src/
 │   ├── __init__.py
+│   ├── utils.py                     # Seed & reproducibility utilities
 │   ├── config_loader.py             # YAML config loader utility
-│   ├── evaluate_counting.py         # Standalone counting evaluation entry point
 │   ├── data_loaders/
 │   │   ├── __init__.py
 │   │   ├── clevr_loader.py          # CLEVRCountingDataset
@@ -75,23 +75,26 @@ vlm_proj/
 │   │   └── dataloader_factory.py    # build_dataloaders() factory
 │   ├── models/
 │   │   ├── __init__.py
-│   │   ├── clip_encoder.py          # CLIPEncoder (dual-encoder wrapper)
-│   │   └── resnet_baseline.py       # ResNetFeatureExtractor + LinearProbeTrainer
+│   │   ├── clip_encoder.py          # CLIPEncoder (dual-encoder wrapper + extraction)
+│   │   └── resnet_baseline.py       # ResNetFeatureExtractor + LinearProbeTrainer + RelationProbeTrainer
 │   └── evaluators/
 │       ├── __init__.py
 │       ├── counting_evaluator.py    # CountingEvaluator (zero-shot counting)
 │       ├── spatial_evaluator.py     # SpatialEvaluator (contrastive spatial)
 │       └── imagenet_evaluator.py    # ImageNetV2Evaluator (sanity check)
 ├── scripts/
+│   ├── validate_data.py             # Step 4: Dataset integrity validation
 │   ├── test_clip_encoder.py         # CLIPEncoder verification suite
 │   ├── test_loaders.py              # DataLoader smoke test
 │   ├── test_resnet_baseline.py      # ResNet feature extraction & linear probe test
 │   ├── evaluate_counting.py         # Step 7: CLEVR counting evaluation
+│   ├── evaluate_spatial.py          # Step 8: SpatialSense spatial reasoning evaluation
 │   ├── evaluate_imagenet.py         # Step 9: ImageNet-V2 sanity check
-│   ├── train_linear_probe_counting.py  # Step 10: Counting linear probe
-│   └── train_linear_probe_spatial.py   # Step 10: Spatial linear probe
-├── notebooks/                       # Exploratory analysis (empty)
-├── results/                         # Logs, figures, checkpoints (git-ignored)
+│   ├── train_linear_probe_counting.py      # Step 10: Counting linear probe (spatial / avgpool)
+│   ├── train_linear_probe_spatial.py       # Step 10: Spatial linear probe (conditioned / unconditioned)
+│   └── train_linear_probe_clip_counting.py # Step 10: CLIP visual embedding linear probe
+├── notebooks/                       # Exploratory analysis
+├── results/                         # Logs, figures, checkpoints, cache (git-ignored)
 ├── pixi.toml                        # Pixi package manager config
 ├── pixi.lock
 ├── implementation_plan.md           # Full 15-step research plan
@@ -241,7 +244,9 @@ Generates candidate prompts `"A photo of {N} objects."` for N ∈ [1, 10], encod
 
 ### 5. Zero-Shot Spatial Reasoning Probe (Step 8)
 
-> *Script to be added* — the evaluator module (`src/evaluators/spatial_evaluator.py`) is complete.
+```bash
+python scripts/evaluate_spatial.py
+```
 
 For each image, generates a contrastive prompt pair:
 - Correct: `"The {subject} is {relation} the {object}."`
@@ -251,25 +256,40 @@ Binary forced-choice: CLIP must assign higher similarity to the correct prompt. 
 
 **Metrics**: Overall binary accuracy, per-relation accuracy, margin distribution, failure case logging.
 
-### 6. ResNet-50 Linear Probe Baselines (Step 10)
+**Outputs**:
+- `results/logs/spatial_results.json`
+- `results/logs/spatial_per_relation.csv`
+
+### 6. Linear Probe Supervised Baselines (Step 10)
 
 ```bash
-# Counting task
-python scripts/train_linear_probe_counting.py
+# 1. ResNet-50 Counting Probe (Spatial Pooling: 6144-d)
+python scripts/train_linear_probe_counting.py --mode spatial --lr 1e-3 --epochs 100
 
-# Spatial reasoning task
-python scripts/train_linear_probe_spatial.py
+# 2. ResNet-50 Counting Probe (Average Pooling: 2048-d)
+python scripts/train_linear_probe_counting.py --mode avgpool --lr 1e-3 --epochs 100
+
+# 3. CLIP ViT-B/32 Visual Embedding Counting Probe (512-d)
+python scripts/train_linear_probe_clip_counting.py --lr 1e-3 --epochs 100
+
+# 4. SpatialSense Relation-Conditioned Linear Probe
+python scripts/train_linear_probe_spatial.py --mode avgpool --lr 1e-3 --epochs 100
+
+# 5. SpatialSense Unconditioned (Image-Only) Baseline Probe
+python scripts/train_linear_probe_spatial.py --unconditioned --mode avgpool --lr 1e-3 --epochs 100
 ```
 
-Extracts frozen ResNet-50 features (2048-d), caches to disk, then trains a single `nn.Linear` layer with AdamW (LR=1e-4), cosine annealing, and cross-entropy loss for 50 epochs with early stopping (patience=10).
+Extracts frozen features, caches them to disk (`results/cache/`), and trains probe classifiers using AdamW with cosine annealing and cross-entropy loss.
 
-**Features**: W&B integration, checkpointing (best + latest), and train/val split (80/20).
+**Features**: Configurable CLI args (`--mode`, `--lr`, `--epochs`, `--seed`, `--no-wandb`), deterministic seeding, and checkpointing (`best_model.pt` + `latest_checkpoint.pt`).
 
 **Outputs**:
-- `results/logs/linear_probe_counting.json`
-- `results/logs/linear_probe_spatial.json`
-- `results/checkpoints/counting/best_model.pt`
-- `results/checkpoints/spatial/best_model.pt`
+- `results/logs/linear_probe_counting_spatial.json`
+- `results/logs/linear_probe_counting_avgpool.json`
+- `results/logs/linear_probe_clip_counting.json`
+- `results/logs/linear_probe_spatial_conditioned.json`
+- `results/logs/linear_probe_spatial_unconditioned.json`
+- `results/checkpoints/`
 
 ---
 
@@ -279,14 +299,15 @@ All hyperparameters are centralised in [`config/experiment_config.yaml`](config/
 
 | Parameter | Value | Description |
 |-----------|-------|-------------|
+| `seed` | `42` | Global random seed for full reproducibility |
 | `clip_model` | `ViT-B/32` | CLIP backbone variant |
 | `baseline_model` | `resnet50` | Supervised baseline |
 | `inference.batch_size` | 32 | Evaluation batch size |
-| `linear_probe.lr` | 1e-4 | AdamW learning rate |
-| `linear_probe.epochs` | 50 | Max training epochs |
+| `linear_probe.lr` | 1e-3 | Probe learning rate |
+| `linear_probe.epochs` | 100 | Training epochs |
 | `linear_probe.weight_decay` | 0.01 | AdamW weight decay |
 | `prompts.counting.template` | `"A photo of {N} objects."` | Counting prompt template |
-| `prompts.spatial.relations` | `[on, below, left of, ...]` | Evaluated spatial relations |
+| `prompts.spatial.relations` | `[above, behind, in, ...]` | Evaluated spatial relations |
 
 ---
 
@@ -297,19 +318,24 @@ All results are saved to `results/` (git-ignored):
 ```
 results/
 ├── logs/
-│   ├── counting_results.json           # Step 7 full metrics
-│   ├── counting_per_count.csv          # Per-count accuracy breakdown
-│   ├── counting_confusion_matrix.csv   # 10×10 confusion matrix
-│   ├── imagenet_v2_results.json        # Step 9 sanity check
-│   ├── linear_probe_counting.json      # Step 10 counting baseline
-│   └── linear_probe_spatial.json       # Step 10 spatial baseline
+│   ├── counting_results.json                 # Step 7 full metrics
+│   ├── counting_per_count.csv                # Per-count accuracy breakdown
+│   ├── counting_confusion_matrix.csv         # 10×10 confusion matrix
+│   ├── spatial_results.json                  # Step 8 full metrics & margins
+│   ├── spatial_per_relation.csv              # Per-relation breakdown
+│   ├── imagenet_v2_results.json              # Step 9 sanity check
+│   ├── linear_probe_counting_spatial.json    # Step 10 spatial counting probe
+│   ├── linear_probe_clip_counting.json       # Step 10 CLIP vision probe
+│   └── linear_probe_spatial_conditioned.json # Step 10 conditioned spatial probe
 ├── cache/
-│   ├── clevr_resnet_features.pt        # Cached ResNet features (CLEVR)
-│   └── spatial_resnet_features.pt      # Cached ResNet features (SpatialSense)
+│   ├── clevr_resnet_spatial_features.pt      # Cached ResNet spatial features
+│   ├── clevr_clip_vit_features.pt            # Cached CLIP ViT features
+│   └── spatial_resnet_avgpool_features.pt    # Cached SpatialSense features
 ├── checkpoints/
-│   ├── counting/                       # Linear probe counting checkpoints
-│   └── spatial/                        # Linear probe spatial checkpoints
-└── figures/                            # Generated visualisations (Step 12)
+│   ├── counting/                             # Linear probe counting checkpoints
+│   ├── clip_counting/                        # CLIP counting probe checkpoints
+│   └── spatial/                              # Spatial probe checkpoints
+└── figures/                                  # Generated visualisations (Step 12)
 ```
 
 ---
@@ -321,13 +347,13 @@ results/
 | 1 | Environment Setup & Dependency Installation | ✅ Complete |
 | 2 | Project Structure & Codebase Scaffolding | ✅ Complete |
 | 3 | Configuration Management & Hyperparameter Registry | ✅ Complete |
-| 4 | Dataset Acquisition & Preparation | ✅ Complete |
-| 5 | Dataset Loaders & Pre-processing Pipeline | ✅ Complete |
-| 6 | CLIP Model Loading & Encoding Wrapper | ✅ Complete |
-| 7 | Zero-Shot Counting Probe (CLEVR) | ✅ Complete |
-| 8 | Zero-Shot Spatial Reasoning Probe (SpatialSense) | ✅ Evaluator complete, entry-point script pending |
-| 9 | ImageNet-V2 Baseline Sanity Check | ✅ Complete |
-| 10 | ResNet-50 Supervised Linear Probe Baseline | ✅ Complete (counting + spatial) |
+| 4 | Dataset Acquisition & Preparation | ✅ Complete (`validate_data.py`) |
+| 5 | Dataset Loaders & Pre-processing Pipeline | ✅ Complete (deterministic seeding) |
+| 6 | CLIP Model Loading & Encoding Wrapper | ✅ Complete (`clip_encoder.py`) |
+| 7 | Zero-Shot Counting Probe (CLEVR) | ✅ Complete (`evaluate_counting.py`) |
+| 8 | Zero-Shot Spatial Reasoning Probe (SpatialSense) | ✅ Complete (`evaluate_spatial.py`) |
+| 9 | ImageNet-V2 Baseline Sanity Check | ✅ Complete (`evaluate_imagenet.py`) |
+| 10 | ResNet-50 Supervised Linear Probe Baseline | ✅ Complete (CLI suite + conditioned probe) |
 | 11 | Metrics Computation & Statistical Analysis | 🔲 Pending |
 | 12 | Visualisation & Figure Generation | 🔲 Pending |
 | 13 | Ablation Studies & Extended Analysis | 🔲 Pending |

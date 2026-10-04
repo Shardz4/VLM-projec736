@@ -3,11 +3,12 @@
 Probes whether CLIP's vision backbone internally encodes object count/cardinality,
 isolating whether counting failure is visual or a language-projection breakdown.
 """
+
+import argparse
 import json
 import os
 from pathlib import Path
 import sys
-from tqdm import tqdm
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -17,16 +18,40 @@ from src.config_loader import load_config
 from src.data_loaders.clevr_loader import CLEVRCountingDataset
 from src.models.clip_encoder import CLIPEncoder
 from src.models.resnet_baseline import LinearProbeTrainer
+from src.utils import set_seed, seed_worker
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Train & evaluate linear probe on CLIP visual embeddings for CLEVR counting"
+    )
+    parser.add_argument("--lr", type=float, default=1e-3, help="Learning rate (default: 1e-3)")
+    parser.add_argument("--epochs", type=int, default=100, help="Training epochs (default: 100)")
+    parser.add_argument("--batch-size", type=int, default=64, help="Batch size (default: 64)")
+    parser.add_argument("--weight-decay", type=float, default=0.01, help="Weight decay (default: 0.01)")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
+    parser.add_argument("--cache-dir", type=str, default="results/cache", help="Cache directory")
+    parser.add_argument(
+        "--checkpoint-dir",
+        type=str,
+        default="results/checkpoints/clip_counting",
+        help="Model checkpoint directory",
+    )
+    parser.add_argument("--no-wandb", action="store_true", help="Disable W&B experiment tracking")
+    parser.add_argument("--force-extract", action="store_true", help="Force re-extraction of features")
+    return parser.parse_args()
 
 
 def main():
+    args = parse_args()
+    set_seed(args.seed)
+
     print("=" * 70)
     print("Linear Probe: CLIP ViT-B/32 Image Features on CLEVR Counting")
     print("=" * 70)
 
     config = load_config()
     device = config.get("device", "cuda")
-    lp_cfg = config.get("linear_probe", {})
     clevr_cfg = config.get("datasets", {}).get("clevr", {})
     model_name = config.get("clip_model", "ViT-B/32")
 
@@ -48,36 +73,27 @@ def main():
 
     batch_size = config.get("inference", {}).get("batch_size", 32)
     num_workers = config.get("inference", {}).get("num_workers", 4)
+    g = torch.Generator().manual_seed(args.seed)
+
     clevr_loader = DataLoader(
-        dataset, batch_size=batch_size, shuffle=False,
-        num_workers=num_workers, pin_memory=True,
+        dataset,
+        batch_size=batch_size,
+        shuffle=False,
+        num_workers=num_workers,
+        pin_memory=True,
+        worker_init_fn=seed_worker,
+        generator=g,
     )
     print(f"      CLEVR samples: {len(dataset)}")
 
     # 3. Extract & cache CLIP image features (512-d)
-    print("\n[3/4] Extracting CLIP image features...")
-    cache_path = Path("results/cache/clevr_clip_vit_features.pt")
-    if cache_path.is_file():
-        print(f"      Loading cached features from '{cache_path}'")
-        data = torch.load(cache_path, weights_only=True)
-        features, labels = data["features"], data["labels"]
-    else:
-        all_features = []
-        all_labels = []
-        for batch in tqdm(clevr_loader, desc="Extracting CLIP features", unit="batch"):
-            images = batch[0].to(device)
-            batch_labels = batch[1]
-            with torch.no_grad():
-                feats = encoder.encode_images(images)  # (B, 512) normalized
-            all_features.append(feats.cpu())
-            all_labels.append(batch_labels)
-        features = torch.cat(all_features, dim=0)
-        labels = torch.cat(all_labels, dim=0)
+    print("\n[3/4] Extracting / Loading CLIP image features...")
+    cache_path = Path(args.cache_dir) / "clevr_clip_vit_features.pt"
 
-        cache_path.parent.mkdir(parents=True, exist_ok=True)
-        torch.save({"features": features, "labels": labels}, cache_path)
-        print(f"      Cached features to '{cache_path}'")
+    if args.force_extract and cache_path.is_file():
+        cache_path.unlink()
 
+    features, labels = encoder.extract_and_cache(clevr_loader, cache_path=str(cache_path))
     print(f"      Features shape: {features.shape}")
     print(f"      Labels shape: {labels.shape}")
 
@@ -90,9 +106,10 @@ def main():
     num_classes = len(unique_counts)
     print(f"      Unique counts: {unique_counts} → {num_classes} classes")
 
-    # Split into train (80%) and test (20%)
+    # Deterministic split (80/20)
     n = len(features)
-    perm = torch.randperm(n)
+    perm_gen = torch.Generator().manual_seed(args.seed)
+    perm = torch.randperm(n, generator=perm_gen)
     split = int(0.8 * n)
     train_idx, test_idx = perm[:split], perm[split:]
 
@@ -100,46 +117,47 @@ def main():
     test_feats, test_labels = features[test_idx], labels[test_idx]
     print(f"      Train: {len(train_feats)} | Test: {len(test_feats)}")
 
-    # 4. Train linear probe
-    print("\n[4/4] Training linear probe on CLIP vision features...")
-    lr = lp_cfg.get("learning_rate", 1e-4)
-    probe_lr = max(lr, 1e-3)
-    epochs = lp_cfg.get("epochs", 50)
-    probe_epochs = max(epochs, 100)
+    # 4. Train linear probe on frozen CLIP embeddings
+    print(f"\n[4/4] Training Linear probe ({args.epochs} epochs, LR={args.lr})...")
+    ckpt_dir = Path(args.checkpoint_dir)
+    ckpt_dir.mkdir(parents=True, exist_ok=True)
 
+    use_wandb = not args.no_wandb
     trainer = LinearProbeTrainer(
-        feature_dim=features.shape[1],  # 512
+        feature_dim=encoder.embedding_dim,
         num_classes=num_classes,
-        lr=probe_lr,
-        weight_decay=lp_cfg.get("weight_decay", 0.01),
-        epochs=probe_epochs,
+        lr=args.lr,
+        weight_decay=args.weight_decay,
+        epochs=args.epochs,
         device=device,
-        early_stopping_patience=None,
-        checkpoint_dir="results/checkpoints/clip_counting",
-        use_wandb=True,
-        wandb_project="vlm-linear-probe",
-        wandb_run_name="clip-counting-probe",
+        checkpoint_dir=str(ckpt_dir),
+        use_wandb=use_wandb,
+        wandb_project=config.get("linear_probe", {}).get("wandb_project", "vlm-linear-probe"),
+        wandb_run_name="counting-probe-clip-vit",
         wandb_config={
             "task": "clevr_counting_clip_vit",
+            "backbone": model_name,
+            "feature_dim": encoder.embedding_dim,
             "num_classes": num_classes,
-            "counts": unique_counts,
-            "feature_dim": features.shape[1],
-            "lr": probe_lr,
-            "epochs": probe_epochs,
+            "lr": args.lr,
+            "epochs": args.epochs,
+            "seed": args.seed,
         },
     )
 
     history = trainer.train(
-        train_feats, train_labels,
-        batch_size=64,
+        train_feats,
+        train_labels,
+        batch_size=args.batch_size,
         val_features=test_feats,
         val_labels=test_labels,
     )
 
     print("\nFinal evaluation on test set...")
     results = trainer.evaluate(test_feats, test_labels)
+
     print("\n" + "=" * 70)
-    print("CLIP VISION LINEAR PROBE COUNTING RESULTS:")
+    print("LINEAR PROBE ON CLIP ViT-B/32 FEATURES RESULTS:")
     print(f"  Overall Accuracy : {results['accuracy'] * 100:.2f}%")
     print(f"  MAE              : {results['mae']:.3f}")
     print(f"  Total Test       : {results['total_samples']}")
@@ -150,14 +168,18 @@ def main():
         count = idx_to_count.get(cls_idx, cls_idx)
         print(f"  Count {count:2d}: {stats['accuracy']*100:6.1f}% ({stats['correct']}/{stats['total']})")
 
+    # Save results
     results_dir = Path(config.get("output", {}).get("results_dir", "results/logs"))
     results_dir.mkdir(parents=True, exist_ok=True)
     output = {
         "task": "clevr_counting",
         "model": "clip_vit_b32_linear_probe",
+        "feature_dim": encoder.embedding_dim,
+        "seed": args.seed,
+        "lr": args.lr,
+        "epochs": args.epochs,
         **results,
         "training_history": history,
-        "config": lp_cfg,
         "idx_to_count": idx_to_count,
     }
     output_path = results_dir / "linear_probe_clip_counting.json"
