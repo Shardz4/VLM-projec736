@@ -19,6 +19,7 @@ from src.config_loader import load_config
 from src.data_loaders.dataloader_factory import build_dataloaders
 from src.evaluators.spatial_evaluator import SpatialEvaluator
 from src.models.clip_encoder import CLIPEncoder
+from src.utils import set_seed
 
 
 def main():
@@ -27,6 +28,7 @@ def main():
     print("=" * 70)
 
     config = load_config()
+    set_seed(config.get("seed", 42))
     device = config.get("device", "cuda")
     model_name = config.get("clip_model", "ViT-B/32")
 

@@ -8,14 +8,16 @@ from src.config_loader import load_config
 from src.data_loaders.dataloader_factory import build_dataloaders
 from src.evaluators.imagenet_evaluator import ImageNetV2Evaluator
 from src.models.clip_encoder import CLIPEncoder
+from src.utils import set_seed
 
 
 def main():
-    print("="*70)
-    print("Imagenet-V2 Zero-Shot baseline sanity check")
-    print("="*70)
+    print("=" * 70)
+    print("Step 9 — ImageNet-V2 Zero-Shot Baseline Sanity Check")
+    print("=" * 70)
 
     config = load_config()
+    set_seed(config.get("seed", 42))
     device = config.get("device", "cuda")
 
     model_name = config.get("clip_model", "ViT-B/32")
