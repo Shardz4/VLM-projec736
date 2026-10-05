@@ -39,6 +39,13 @@ def parse_args():
     )
     parser.add_argument("--no-wandb", action="store_true", help="Disable W&B experiment tracking")
     parser.add_argument("--force-extract", action="store_true", help="Force re-extraction of features")
+    parser.add_argument(
+        "--device",
+        type=str,
+        default=None,
+        choices=["cuda", "cpu"],
+        help="Execution device ('cuda' or 'cpu'). Using 'cpu' prevents laptop thermal shutdown on cached features.",
+    )
     return parser.parse_args()
 
 
@@ -46,12 +53,12 @@ def main():
     args = parse_args()
     set_seed(args.seed)
 
-    print("=" * 70)
-    print("Linear Probe: CLIP ViT-B/32 Image Features on CLEVR Counting")
-    print("=" * 70)
-
     config = load_config()
-    device = config.get("device", "cuda")
+    device = args.device if args.device is not None else config.get("device", "cuda")
+
+    print("=" * 70)
+    print(f"Linear Probe: CLIP ViT-B/32 Image Features on CLEVR Counting (Device: {device.upper()})")
+    print("=" * 70)
     clevr_cfg = config.get("datasets", {}).get("clevr", {})
     model_name = config.get("clip_model", "ViT-B/32")
 

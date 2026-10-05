@@ -59,6 +59,13 @@ def parse_args():
     )
     parser.add_argument("--no-wandb", action="store_true", help="Disable W&B experiment tracking")
     parser.add_argument("--force-extract", action="store_true", help="Force re-extraction of features")
+    parser.add_argument(
+        "--device",
+        type=str,
+        default=None,
+        choices=["cuda", "cpu"],
+        help="Execution device ('cuda' or 'cpu'). Using 'cpu' prevents laptop thermal shutdown on cached features.",
+    )
     return parser.parse_args()
 
 
@@ -66,15 +73,15 @@ def main():
     args = parse_args()
     set_seed(args.seed)
 
+    config = load_config()
+    device = args.device if args.device is not None else config.get("device", "cuda")
+
     conditioned = not args.unconditioned
     cond_str = "CONDITIONED" if conditioned else "UNCONDITIONED (IMAGE-ONLY)"
 
     print("=" * 70)
-    print(f"Linear Probe: SpatialSense Binary Classification [{cond_str}]")
+    print(f"Linear Probe: SpatialSense Binary Classification [{cond_str} | Device: {device.upper()}]")
     print("=" * 70)
-
-    config = load_config()
-    device = config.get("device", "cuda")
     spatial_cfg = config.get("datasets", {}).get("spatialsense", {})
 
     use_spatial = (args.mode == "spatial")
