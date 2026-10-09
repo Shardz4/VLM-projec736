@@ -1,0 +1,64 @@
+# Step 12: Weights & Biases Bayesian Sweep Configuration
+# 40-Run Hyperparameter Optimization over 5 Continuous & Categorical Parameters
+# Evaluates Multimodal Fusion Models on CLEVR Object Counting & Compositionality
+
+program: scripts/train_fusion_probe.py
+method: bayes
+
+metric:
+  name: val/accuracy
+  goal: maximize
+
+parameters:
+  strategy:
+    values:
+      - cross_attention
+      - early
+      - late
+
+  visual_backbone:
+    values:
+      - clip_vit
+      - resnet_avgpool
+      - resnet_spatial
+
+  learning_rate:
+    distribution: log_uniform_values
+    min: 0.0001
+    max: 0.01
+
+  weight_decay:
+    distribution: log_uniform_values
+    min: 0.00001
+    max: 0.1
+
+  modality_dropout:
+    distribution: uniform
+    min: 0.0
+    max: 0.6
+
+  hidden_dim:
+    values:
+      - 128
+      - 256
+      - 512
+
+  num_heads:
+    values:
+      - 2
+      - 4
+      - 8
+
+  epochs:
+    value: 50
+
+  batch_size:
+    value: 64
+
+  device:
+    value: cpu
+
+early_terminate:
+  type: hyperband
+  min_iter: 10
+  eta: 3
