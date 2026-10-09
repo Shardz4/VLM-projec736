@@ -62,8 +62,13 @@ def parse_args():
     parser.add_argument("--weight-decay", type=float, default=0.01, help="AdamW weight decay")
     parser.add_argument("--epochs", type=int, default=100, help="Training epochs")
     parser.add_argument("--batch-size", type=int, default=64, help="Batch size")
-    parser.add_argument("--seed", type=int, default=42, help="Random seed")
-    parser.add_argument("--device", type=str, default="cpu", choices=["cpu", "cuda"], help="Execution device")
+    parser.add_argument(
+        "--device",
+        type=str,
+        default="cuda" if torch.cuda.is_available() else "cpu",
+        choices=["cpu", "cuda"],
+        help="Execution device ('cuda' or 'cpu')",
+    )
 
     # Tracking & logging
     parser.add_argument("--no-wandb", action="store_true", help="Disable W&B logging")
@@ -117,24 +122,41 @@ def get_task_text_features(num_samples: int, text_dim: int = 512, seed: int = 42
 
 def main():
     args = parse_args()
+
+    # 1. Initialize W&B tracking early (so sweep agent parameters override CLI args)
+    use_wandb = HAS_WANDB and not args.no_wandb
+    if use_wandb:
+        run_name = f"{args.strategy}_{args.visual_backbone}_s{args.seed}"
+        wandb.init(
+            project=args.wandb_project,
+            group=args.wandb_group,
+            name=run_name,
+            config=vars(args),
+            reinit=True,
+        )
+        if wandb.run is not None and hasattr(wandb, "config"):
+            for k, v in wandb.config.items():
+                if hasattr(args, k):
+                    setattr(args, k, v)
+
     set_seed(args.seed)
-    device = torch.device(args.device)
+    device = torch.device(args.device if (args.device == "cuda" and torch.cuda.is_available()) or args.device == "cpu" else ("cuda" if torch.cuda.is_available() else "cpu"))
 
     print("=" * 70)
     print(f"Cluster 6B Multimodal Fusion Trainer (Strategy: {args.strategy.upper()})")
-    print(f"Backbone: {args.visual_backbone} | Device: {args.device.upper()} | Seed: {args.seed}")
+    print(f"Backbone: {args.visual_backbone} | Device: {str(device).upper()} | Seed: {args.seed}")
     print("=" * 70)
 
-    # 1. Load pre-cached visual features & labels
+    # 2. Load pre-cached visual features & labels
     cache_dir = Path(args.cache_dir)
     visual_feats, labels, num_classes = load_cached_features(cache_dir, args.visual_backbone)
     num_samples, visual_dim = visual_feats.shape
     text_dim = 512
 
-    # 2. Generate task query text features (512-d)
+    # 3. Generate task query text features (512-d)
     text_feats = get_task_text_features(num_samples, text_dim=text_dim, seed=args.seed)
 
-    # 3. Deterministic train/test split (80/20)
+    # 4. Deterministic train/test split (80/20)
     perm_gen = torch.Generator().manual_seed(args.seed)
     perm = torch.randperm(num_samples, generator=perm_gen)
     split = int(0.8 * num_samples)
@@ -151,7 +173,7 @@ def main():
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False)
 
-    # 4. Build Fusion Model
+    # 5. Build Fusion Model
     model = build_fusion_model(
         strategy=args.strategy,
         visual_dim=visual_dim,
@@ -166,18 +188,6 @@ def main():
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
     criterion = nn.CrossEntropyLoss()
-
-    # 5. Initialize W&B tracking
-    use_wandb = HAS_WANDB and not args.no_wandb
-    if use_wandb:
-        run_name = f"{args.strategy}_{args.visual_backbone}_s{args.seed}"
-        wandb.init(
-            project=args.wandb_project,
-            group=args.wandb_group,
-            name=run_name,
-            config=vars(args),
-            reinit=True,
-        )
 
     # 6. Training Loop
     print(f"\nTraining {args.strategy} probe for {args.epochs} epochs on {args.device}...")

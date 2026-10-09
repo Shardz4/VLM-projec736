@@ -14,7 +14,7 @@ def _to_numpy(x: Union[np.ndarray, Sequence[float], torch.Tensor]) -> np.ndarray
         return x.detach().cpu().numpy().ravel().astype(np.float64)
     if isinstance(x, np.ndarray):
         return x.ravel().astype(np.float64)
-    return np.asarray(x, dtype=np.flaot64).ravel()
+    return np.asarray(x, dtype=np.float64).ravel()
 
 def paired_t_test(
     baseline: Union[np.ndarray, Sequence[float], torch.Tensor],
@@ -29,14 +29,29 @@ def paired_t_test(
     if len(b) < 2:
         raise ValueError(f"Sample size must be at least 2, got {len(b)}")
 
-    diff = e-b
-    t_stat, p_val = stats.ttest_rel(e,b)
+    diff = e - b
+    std_diff = float(np.std(diff, ddof=1))
+    mean_diff = float(np.mean(diff))
+
+    if np.allclose(diff, 0.0):
+        t_stat, p_val = 0.0, 1.0
+    elif std_diff == 0.0 or np.isclose(std_diff, 0.0):
+        # All differences identical and non-zero
+        t_stat = float("inf") if mean_diff > 0 else float("-inf")
+        p_val = 0.0
+    else:
+        res = stats.ttest_rel(e, b)
+        t_stat = float(res.statistic)
+        p_val = float(res.pvalue)
+        if np.isnan(t_stat):
+            t_stat = 0.0
+            p_val = 1.0
 
     return {
         "t_statistic": float(t_stat),
         "p_value": float(p_val),
-        "mean_diff": float(np.mean(diff)),
-        "std_diff": float(np.std(diff, ddof=1)),
+        "mean_diff": mean_diff,
+        "std_diff": std_diff,
         "df": int(len(b) - 1),
         "is_significant_05": bool(p_val < 0.05),
         "is_significant_01": bool(p_val < 0.01),
@@ -53,14 +68,16 @@ def wilcoxon_signed_rank_test(
         raise ValueError("Sample sizes must match.")
 
     diff = e - b
-    if np.allclose(diff, 0.0):
+    nonzero_diff = diff[~np.isclose(diff, 0.0)]
+    if len(nonzero_diff) == 0:
         return {
             "statistic": 0.0,
             "p_value": 1.0,
             "median_diff": 0.0,
             "is_significant_05": False,
         }
-    res = stats.wilcoxon(e, b, zero_method="wilcox", alternative="two-sized")
+
+    res = stats.wilcoxon(e, b, zero_method="wilcox", alternative="two-sided")
     return {
         "statistic": float(res.statistic),
         "p_value": float(res.pvalue),

@@ -56,7 +56,7 @@ parameters:
     value: 64
 
   device:
-    value: cpu
+    value: cuda
 
 early_terminate:
   type: hyperband
