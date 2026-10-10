@@ -1,4 +1,4 @@
-﻿"""From-scratch Cluster 6B multimodal metric suite.
+"""From-scratch Cluster 6B multimodal metric suite.
 
 Implements:
   - Bidirectional Recall@K  (K in {1, 5, 10}), both I->T and T->I directions.
@@ -192,10 +192,18 @@ class MultimodalEvaluator:
         correct: Optional[Union[torch.Tensor, np.ndarray]] = None,
     ) -> Dict:
         results: Dict = {}
-        results["recall"] = recall_at_k(image_features, text_features, self.k_values)
-        results["ranks"] = median_rank(image_features, text_features)
-        results["modality_gap"] = modality_gap(image_features, text_features)
-        results["cross_modal_alignment"] = cross_modal_alignment(image_features, text_features)
+        img = _to_tensor(image_features)
+        txt = _to_tensor(text_features)
+        if img.shape[-1] == txt.shape[-1]:
+            results["recall"] = recall_at_k(img, txt, self.k_values)
+            results["ranks"] = median_rank(img, txt)
+            results["modality_gap"] = modality_gap(img, txt)
+            results["cross_modal_alignment"] = cross_modal_alignment(img, txt)
+        else:
+            results["recall"] = {"i2t": {}, "t2i": {}, "note": "dimension mismatch"}
+            results["ranks"] = {"i2t_median_rank": float("nan"), "t2i_median_rank": float("nan")}
+            results["modality_gap"] = float("nan")
+            results["cross_modal_alignment"] = float("nan")
         if confidences is not None and correct is not None:
             results["ece"] = expected_calibration_error(
                 confidences, correct, n_bins=self.n_ece_bins
@@ -218,16 +226,26 @@ class MultimodalEvaluator:
             )
             print(f"{tag}    {label:>12}: {vals}")
         rnk = results.get("ranks", {})
+        i2t_rnk = rnk.get("i2t_median_rank")
+        t2i_rnk = rnk.get("t2i_median_rank")
+        i2t_str = f"{i2t_rnk:.1f}" if isinstance(i2t_rnk, (int, float)) and not np.isnan(i2t_rnk) else "N/A"
+        t2i_str = f"{t2i_rnk:.1f}" if isinstance(t2i_rnk, (int, float)) and not np.isnan(t2i_rnk) else "N/A"
         print(f"\n{tag}  Median Rank:")
-        print(f"{tag}    Image->Text: {rnk.get('i2t_median_rank', 'N/A'):.1f}")
-        print(f"{tag}    Text->Image: {rnk.get('t2i_median_rank', 'N/A'):.1f}")
+        print(f"{tag}    Image->Text: {i2t_str}")
+        print(f"{tag}    Text->Image: {t2i_str}")
+        mg = results.get("modality_gap")
+        mg_str = f"{mg:.4f}" if isinstance(mg, (int, float)) and not np.isnan(mg) else "N/A"
         print(
             f"\n{tag}  Modality Gap (Delta_gap): "
-            f"{results.get('modality_gap', 'N/A'):.4f}  "
+            f"{mg_str}  "
             f"(0=aligned, sqrt2~1.414=orthogonal)"
         )
-        print(f"{tag}  Cross-Modal Alignment:    {results.get('cross_modal_alignment', 'N/A'):.4f}")
+        cma = results.get("cross_modal_alignment")
+        cma_str = f"{cma:.4f}" if isinstance(cma, (int, float)) and not np.isnan(cma) else "N/A"
+        print(f"{tag}  Cross-Modal Alignment:    {cma_str}")
         ece = results.get("ece", {})
         if ece:
-            print(f"\n{tag}  ECE: {ece.get('ece', 'N/A'):.4f}")
+            ece_val = ece.get("ece")
+            ece_str = f"{ece_val:.4f}" if isinstance(ece_val, (int, float)) and not np.isnan(ece_val) else "N/A"
+            print(f"\n{tag}  ECE: {ece_str}")
         print(f"{tag}{sep}\n")

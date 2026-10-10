@@ -46,22 +46,24 @@ def parse_args():
         help="Fusion strategy: 'cross_attention' (Ours), 'early', or 'late'",
     )
     parser.add_argument(
-        "--visual-backbone",
+        "--visual-backbone", "--visual_backbone",
+        dest="visual_backbone",
         type=str,
         default="clip_vit",
         choices=["clip_vit", "resnet_avgpool", "resnet_spatial"],
         help="Visual feature source",
     )
-    parser.add_argument("--hidden-dim", type=int, default=256, help="Hidden / d_model dim")
-    parser.add_argument("--num-heads", type=int, default=4, help="Attention heads (cross_attention)")
-    parser.add_argument("--modality-dropout", type=float, default=0.2, help="Modality dropout probability")
+    parser.add_argument("--hidden-dim", "--hidden_dim", dest="hidden_dim", type=int, default=256, help="Hidden / d_model dim")
+    parser.add_argument("--num-heads", "--num_heads", dest="num_heads", type=int, default=4, help="Attention heads (cross_attention)")
+    parser.add_argument("--modality-dropout", "--modality_dropout", dest="modality_dropout", type=float, default=0.2, help="Modality dropout probability")
     parser.add_argument("--dropout", type=float, default=0.1, help="Activation / attention dropout")
 
     # Optimization
-    parser.add_argument("--lr", type=float, default=1e-3, help="Learning rate")
-    parser.add_argument("--weight-decay", type=float, default=0.01, help="AdamW weight decay")
+    parser.add_argument("--lr", "--learning-rate", "--learning_rate", dest="lr", type=float, default=1e-3, help="Learning rate")
+    parser.add_argument("--weight-decay", "--weight_decay", dest="weight_decay", type=float, default=0.01, help="AdamW weight decay")
     parser.add_argument("--epochs", type=int, default=100, help="Training epochs")
-    parser.add_argument("--batch-size", type=int, default=64, help="Batch size")
+    parser.add_argument("--batch-size", "--batch_size", dest="batch_size", type=int, default=64, help="Batch size")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed")
     parser.add_argument(
         "--device",
         type=str,
@@ -71,14 +73,15 @@ def parse_args():
     )
 
     # Tracking & logging
-    parser.add_argument("--no-wandb", action="store_true", help="Disable W&B logging")
-    parser.add_argument("--wandb-project", type=str, default="vlm_multimodal_fusion", help="W&B project")
-    parser.add_argument("--wandb-group", type=str, default="step12_sweep", help="W&B run group")
-    parser.add_argument("--cache-dir", type=str, default="results/cache", help="Feature cache directory")
-    parser.add_argument("--output-dir", type=str, default="results/logs", help="Results directory")
-    parser.add_argument("--checkpoint-dir", type=str, default="results/checkpoints/fusion", help="Checkpoint dir")
+    parser.add_argument("--no-wandb", "--no_wandb", dest="no_wandb", action="store_true", help="Disable W&B logging")
+    parser.add_argument("--wandb-project", "--wandb_project", dest="wandb_project", type=str, default="vlm_multimodal_fusion", help="W&B project")
+    parser.add_argument("--wandb-group", "--wandb_group", dest="wandb_group", type=str, default="step12_sweep", help="W&B run group")
+    parser.add_argument("--cache-dir", "--cache_dir", dest="cache_dir", type=str, default="results/cache", help="Feature cache directory")
+    parser.add_argument("--output-dir", "--output_dir", dest="output_dir", type=str, default="results/logs", help="Results directory")
+    parser.add_argument("--checkpoint-dir", "--checkpoint_dir", dest="checkpoint_dir", type=str, default="results/checkpoints/fusion", help="Checkpoint dir")
 
-    return parser.parse_args()
+    args, unknown = parser.parse_known_args()
+    return args
 
 
 def load_cached_features(cache_dir: Path, visual_backbone: str) -> Tuple[torch.Tensor, torch.Tensor, int]:
@@ -138,6 +141,8 @@ def main():
             for k, v in wandb.config.items():
                 if hasattr(args, k):
                     setattr(args, k, v)
+                elif k == "learning_rate":
+                    setattr(args, "lr", v)
 
     set_seed(args.seed)
     device = torch.device(args.device if (args.device == "cuda" and torch.cuda.is_available()) or args.device == "cpu" else ("cuda" if torch.cuda.is_available() else "cpu"))
@@ -281,9 +286,18 @@ def main():
 
     # Full Step 11 evaluator
     evaluator = MultimodalEvaluator(k_values=(1, 5, 10))
+    if v_test.shape[-1] == t_test.shape[-1]:
+        eval_v, eval_t = v_test, t_test
+    elif hasattr(model, "proj_v") and hasattr(model, "proj_t"):
+        with torch.no_grad():
+            eval_v = model.proj_v(v_test.to(device)).detach().cpu()
+            eval_t = model.proj_t(t_test.to(device)).detach().cpu()
+    else:
+        eval_v, eval_t = v_test, t_test
+
     metrics_suite = evaluator.compute_all(
-        image_features=v_test,
-        text_features=t_test,
+        image_features=eval_v,
+        text_features=eval_t,
         confidences=confs,
         correct=correct_flags,
     )
