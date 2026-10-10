@@ -1,0 +1,6017 @@
+{
+  "top1_accuracy": 0.5324,
+  "top5_accuracy": 0.7972,
+  "total_samples": 10000,
+  "expected_top1_v1": 0.632,
+  "expected_top1_v2": 0.555,
+  "expected_top5": 0.86,
+  "sanity_check_passed": true,
+  "confidence_stats": {
+    "correct_mean": 0.6940089172664764,
+    "incorrect_mean": 0.4029638937051457,
+    "overall_mean": 0.5579162642491982
+  },
+  "per_class": {
+    "0": {
+      "class_name": "tench",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "1": {
+      "class_name": "goldfish",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "2": {
+      "class_name": "great white shark",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "3": {
+      "class_name": "tiger shark",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "4": {
+      "class_name": "hammerhead",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "5": {
+      "class_name": "electric ray",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "6": {
+      "class_name": "stingray",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "7": {
+      "class_name": "cock",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "8": {
+      "class_name": "hen",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "9": {
+      "class_name": "ostrich",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "10": {
+      "class_name": "brambling",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "11": {
+      "class_name": "goldfinch",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "12": {
+      "class_name": "house finch",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "13": {
+      "class_name": "junco",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "14": {
+      "class_name": "indigo bunting",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "15": {
+      "class_name": "robin",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "16": {
+      "class_name": "bulbul",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "17": {
+      "class_name": "jay",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "18": {
+      "class_name": "magpie",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "19": {
+      "class_name": "chickadee",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "20": {
+      "class_name": "water ouzel",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "21": {
+      "class_name": "kite",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "22": {
+      "class_name": "bald eagle",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "23": {
+      "class_name": "vulture",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "24": {
+      "class_name": "great grey owl",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "25": {
+      "class_name": "European fire salamander",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "26": {
+      "class_name": "common newt",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "27": {
+      "class_name": "eft",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "28": {
+      "class_name": "spotted salamander",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "29": {
+      "class_name": "axolotl",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "30": {
+      "class_name": "bullfrog",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "31": {
+      "class_name": "tree frog",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "32": {
+      "class_name": "tailed frog",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "33": {
+      "class_name": "loggerhead",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "34": {
+      "class_name": "leatherback turtle",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "35": {
+      "class_name": "mud turtle",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "36": {
+      "class_name": "terrapin",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "37": {
+      "class_name": "box turtle",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "38": {
+      "class_name": "banded gecko",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "39": {
+      "class_name": "common iguana",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "40": {
+      "class_name": "American chameleon",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "41": {
+      "class_name": "whiptail",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "42": {
+      "class_name": "agama",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "43": {
+      "class_name": "frilled lizard",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "44": {
+      "class_name": "alligator lizard",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "45": {
+      "class_name": "Gila monster",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "46": {
+      "class_name": "green lizard",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "47": {
+      "class_name": "African chameleon",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "48": {
+      "class_name": "Komodo dragon",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "49": {
+      "class_name": "African crocodile",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "50": {
+      "class_name": "American alligator",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "51": {
+      "class_name": "triceratops",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "52": {
+      "class_name": "thunder snake",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "53": {
+      "class_name": "ringneck snake",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "54": {
+      "class_name": "hognose snake",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "55": {
+      "class_name": "green snake",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "56": {
+      "class_name": "king snake",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "57": {
+      "class_name": "garter snake",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "58": {
+      "class_name": "water snake",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "59": {
+      "class_name": "vine snake",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "60": {
+      "class_name": "night snake",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "61": {
+      "class_name": "boa constrictor",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "62": {
+      "class_name": "rock python",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "63": {
+      "class_name": "Indian cobra",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "64": {
+      "class_name": "green mamba",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "65": {
+      "class_name": "sea snake",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "66": {
+      "class_name": "horned viper",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "67": {
+      "class_name": "diamondback",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "68": {
+      "class_name": "sidewinder",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "69": {
+      "class_name": "trilobite",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "70": {
+      "class_name": "harvestman",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "71": {
+      "class_name": "scorpion",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "72": {
+      "class_name": "black and gold garden spider",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "73": {
+      "class_name": "barn spider",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "74": {
+      "class_name": "garden spider",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "75": {
+      "class_name": "black widow",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "76": {
+      "class_name": "tarantula",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "77": {
+      "class_name": "wolf spider",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "78": {
+      "class_name": "tick",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "79": {
+      "class_name": "centipede",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "80": {
+      "class_name": "black grouse",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "81": {
+      "class_name": "ptarmigan",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "82": {
+      "class_name": "ruffed grouse",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "83": {
+      "class_name": "prairie chicken",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "84": {
+      "class_name": "peacock",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "85": {
+      "class_name": "quail",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "86": {
+      "class_name": "partridge",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "87": {
+      "class_name": "African grey",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "88": {
+      "class_name": "macaw",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "89": {
+      "class_name": "sulphur-crested cockatoo",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "90": {
+      "class_name": "lorikeet",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "91": {
+      "class_name": "coucal",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "92": {
+      "class_name": "bee eater",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "93": {
+      "class_name": "hornbill",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "94": {
+      "class_name": "hummingbird",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "95": {
+      "class_name": "jacamar",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "96": {
+      "class_name": "toucan",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "97": {
+      "class_name": "drake",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "98": {
+      "class_name": "red-breasted merganser",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "99": {
+      "class_name": "goose",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "100": {
+      "class_name": "black swan",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "101": {
+      "class_name": "tusker",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "102": {
+      "class_name": "echidna",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "103": {
+      "class_name": "platypus",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "104": {
+      "class_name": "wallaby",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "105": {
+      "class_name": "koala",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "106": {
+      "class_name": "wombat",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "107": {
+      "class_name": "jellyfish",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "108": {
+      "class_name": "sea anemone",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "109": {
+      "class_name": "brain coral",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "110": {
+      "class_name": "flatworm",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "111": {
+      "class_name": "nematode",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "112": {
+      "class_name": "conch",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "113": {
+      "class_name": "snail",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "114": {
+      "class_name": "slug",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "115": {
+      "class_name": "sea slug",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "116": {
+      "class_name": "chiton",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "117": {
+      "class_name": "chambered nautilus",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "118": {
+      "class_name": "Dungeness crab",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "119": {
+      "class_name": "rock crab",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "120": {
+      "class_name": "fiddler crab",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "121": {
+      "class_name": "king crab",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "122": {
+      "class_name": "American lobster",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "123": {
+      "class_name": "spiny lobster",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "124": {
+      "class_name": "crayfish",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "125": {
+      "class_name": "hermit crab",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "126": {
+      "class_name": "isopod",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "127": {
+      "class_name": "white stork",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "128": {
+      "class_name": "black stork",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "129": {
+      "class_name": "spoonbill",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "130": {
+      "class_name": "flamingo",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "131": {
+      "class_name": "little blue heron",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "132": {
+      "class_name": "American egret",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "133": {
+      "class_name": "bittern",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "134": {
+      "class_name": "crane",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "135": {
+      "class_name": "limpkin",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "136": {
+      "class_name": "European gallinule",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "137": {
+      "class_name": "American coot",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "138": {
+      "class_name": "bustard",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "139": {
+      "class_name": "ruddy turnstone",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "140": {
+      "class_name": "red-backed sandpiper",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "141": {
+      "class_name": "redshank",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "142": {
+      "class_name": "dowitcher",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "143": {
+      "class_name": "oystercatcher",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "144": {
+      "class_name": "pelican",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "145": {
+      "class_name": "king penguin",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "146": {
+      "class_name": "albatross",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "147": {
+      "class_name": "grey whale",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "148": {
+      "class_name": "killer whale",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "149": {
+      "class_name": "dugong",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "150": {
+      "class_name": "sea lion",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "151": {
+      "class_name": "Chihuahua",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "152": {
+      "class_name": "Japanese spaniel",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "153": {
+      "class_name": "Maltese dog",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "154": {
+      "class_name": "Pekinese",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "155": {
+      "class_name": "Shih-Tzu",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "156": {
+      "class_name": "Blenheim spaniel",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "157": {
+      "class_name": "papillon",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "158": {
+      "class_name": "toy terrier",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "159": {
+      "class_name": "Rhodesian ridgeback",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "160": {
+      "class_name": "Afghan hound",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "161": {
+      "class_name": "basset",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "162": {
+      "class_name": "beagle",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "163": {
+      "class_name": "bloodhound",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "164": {
+      "class_name": "bluetick",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "165": {
+      "class_name": "black-and-tan coonhound",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "166": {
+      "class_name": "Walker hound",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "167": {
+      "class_name": "English foxhound",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "168": {
+      "class_name": "redbone",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "169": {
+      "class_name": "borzoi",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "170": {
+      "class_name": "Irish wolfhound",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "171": {
+      "class_name": "Italian greyhound",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "172": {
+      "class_name": "whippet",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "173": {
+      "class_name": "Ibizan hound",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "174": {
+      "class_name": "Norwegian elkhound",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "175": {
+      "class_name": "otterhound",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "176": {
+      "class_name": "Saluki",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "177": {
+      "class_name": "Scottish deerhound",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "178": {
+      "class_name": "Weimaraner",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "179": {
+      "class_name": "Staffordshire bullterrier",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "180": {
+      "class_name": "American Staffordshire terrier",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "181": {
+      "class_name": "Bedlington terrier",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "182": {
+      "class_name": "Border terrier",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "183": {
+      "class_name": "Kerry blue terrier",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "184": {
+      "class_name": "Irish terrier",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "185": {
+      "class_name": "Norfolk terrier",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "186": {
+      "class_name": "Norwich terrier",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "187": {
+      "class_name": "Yorkshire terrier",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "188": {
+      "class_name": "wire-haired fox terrier",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "189": {
+      "class_name": "Lakeland terrier",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "190": {
+      "class_name": "Sealyham terrier",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "191": {
+      "class_name": "Airedale",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "192": {
+      "class_name": "cairn",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "193": {
+      "class_name": "Australian terrier",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "194": {
+      "class_name": "Dandie Dinmont",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "195": {
+      "class_name": "Boston bull",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "196": {
+      "class_name": "miniature schnauzer",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "197": {
+      "class_name": "giant schnauzer",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "198": {
+      "class_name": "standard schnauzer",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "199": {
+      "class_name": "Scotch terrier",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "200": {
+      "class_name": "Tibetan terrier",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "201": {
+      "class_name": "silky terrier",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "202": {
+      "class_name": "soft-coated wheaten terrier",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "203": {
+      "class_name": "West Highland white terrier",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "204": {
+      "class_name": "Lhasa",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "205": {
+      "class_name": "flat-coated retriever",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "206": {
+      "class_name": "curly-coated retriever",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "207": {
+      "class_name": "golden retriever",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "208": {
+      "class_name": "Labrador retriever",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "209": {
+      "class_name": "Chesapeake Bay retriever",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "210": {
+      "class_name": "German short-haired pointer",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "211": {
+      "class_name": "vizsla",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "212": {
+      "class_name": "English setter",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "213": {
+      "class_name": "Irish setter",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "214": {
+      "class_name": "Gordon setter",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "215": {
+      "class_name": "Brittany spaniel",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "216": {
+      "class_name": "clumber",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "217": {
+      "class_name": "English springer",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "218": {
+      "class_name": "Welsh springer spaniel",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "219": {
+      "class_name": "cocker spaniel",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "220": {
+      "class_name": "Sussex spaniel",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "221": {
+      "class_name": "Irish water spaniel",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "222": {
+      "class_name": "kuvasz",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "223": {
+      "class_name": "schipperke",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "224": {
+      "class_name": "groenendael",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "225": {
+      "class_name": "malinois",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "226": {
+      "class_name": "briard",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "227": {
+      "class_name": "kelpie",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "228": {
+      "class_name": "komondor",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "229": {
+      "class_name": "Old English sheepdog",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "230": {
+      "class_name": "Shetland sheepdog",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "231": {
+      "class_name": "collie",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "232": {
+      "class_name": "Border collie",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "233": {
+      "class_name": "Bouvier des Flandres",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "234": {
+      "class_name": "Rottweiler",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "235": {
+      "class_name": "German shepherd",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "236": {
+      "class_name": "Doberman",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "237": {
+      "class_name": "miniature pinscher",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "238": {
+      "class_name": "Greater Swiss Mountain dog",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "239": {
+      "class_name": "Bernese mountain dog",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "240": {
+      "class_name": "Appenzeller",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "241": {
+      "class_name": "EntleBucher",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "242": {
+      "class_name": "boxer",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "243": {
+      "class_name": "bull mastiff",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "244": {
+      "class_name": "Tibetan mastiff",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "245": {
+      "class_name": "French bulldog",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "246": {
+      "class_name": "Great Dane",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "247": {
+      "class_name": "Saint Bernard",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "248": {
+      "class_name": "Eskimo dog",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "249": {
+      "class_name": "malamute",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "250": {
+      "class_name": "Siberian husky",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "251": {
+      "class_name": "dalmatian",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "252": {
+      "class_name": "affenpinscher",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "253": {
+      "class_name": "basenji",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "254": {
+      "class_name": "pug",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "255": {
+      "class_name": "Leonberg",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "256": {
+      "class_name": "Newfoundland",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "257": {
+      "class_name": "Great Pyrenees",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "258": {
+      "class_name": "Samoyed",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "259": {
+      "class_name": "Pomeranian",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "260": {
+      "class_name": "chow",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "261": {
+      "class_name": "keeshond",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "262": {
+      "class_name": "Brabancon griffon",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "263": {
+      "class_name": "Pembroke",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "264": {
+      "class_name": "Cardigan",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "265": {
+      "class_name": "toy poodle",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "266": {
+      "class_name": "miniature poodle",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "267": {
+      "class_name": "standard poodle",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "268": {
+      "class_name": "Mexican hairless",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "269": {
+      "class_name": "timber wolf",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "270": {
+      "class_name": "white wolf",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "271": {
+      "class_name": "red wolf",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "272": {
+      "class_name": "coyote",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "273": {
+      "class_name": "dingo",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "274": {
+      "class_name": "dhole",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "275": {
+      "class_name": "African hunting dog",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "276": {
+      "class_name": "hyena",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "277": {
+      "class_name": "red fox",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "278": {
+      "class_name": "kit fox",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "279": {
+      "class_name": "Arctic fox",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "280": {
+      "class_name": "grey fox",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "281": {
+      "class_name": "tabby",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "282": {
+      "class_name": "tiger cat",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "283": {
+      "class_name": "Persian cat",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "284": {
+      "class_name": "Siamese cat",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "285": {
+      "class_name": "Egyptian cat",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "286": {
+      "class_name": "cougar",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "287": {
+      "class_name": "lynx",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "288": {
+      "class_name": "leopard",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "289": {
+      "class_name": "snow leopard",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "290": {
+      "class_name": "jaguar",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "291": {
+      "class_name": "lion",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "292": {
+      "class_name": "tiger",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "293": {
+      "class_name": "cheetah",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "294": {
+      "class_name": "brown bear",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "295": {
+      "class_name": "American black bear",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "296": {
+      "class_name": "ice bear",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "297": {
+      "class_name": "sloth bear",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "298": {
+      "class_name": "mongoose",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "299": {
+      "class_name": "meerkat",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "300": {
+      "class_name": "tiger beetle",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "301": {
+      "class_name": "ladybug",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "302": {
+      "class_name": "ground beetle",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "303": {
+      "class_name": "long-horned beetle",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "304": {
+      "class_name": "leaf beetle",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "305": {
+      "class_name": "dung beetle",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "306": {
+      "class_name": "rhinoceros beetle",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "307": {
+      "class_name": "weevil",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "308": {
+      "class_name": "fly",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "309": {
+      "class_name": "bee",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "310": {
+      "class_name": "ant",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "311": {
+      "class_name": "grasshopper",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "312": {
+      "class_name": "cricket",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "313": {
+      "class_name": "walking stick",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "314": {
+      "class_name": "cockroach",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "315": {
+      "class_name": "mantis",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "316": {
+      "class_name": "cicada",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "317": {
+      "class_name": "leafhopper",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "318": {
+      "class_name": "lacewing",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "319": {
+      "class_name": "dragonfly",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "320": {
+      "class_name": "damselfly",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "321": {
+      "class_name": "admiral",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "322": {
+      "class_name": "ringlet",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "323": {
+      "class_name": "monarch",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "324": {
+      "class_name": "cabbage butterfly",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "325": {
+      "class_name": "sulphur butterfly",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "326": {
+      "class_name": "lycaenid",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "327": {
+      "class_name": "starfish",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "328": {
+      "class_name": "sea urchin",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "329": {
+      "class_name": "sea cucumber",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "330": {
+      "class_name": "wood rabbit",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "331": {
+      "class_name": "hare",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "332": {
+      "class_name": "Angora",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "333": {
+      "class_name": "hamster",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "334": {
+      "class_name": "porcupine",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "335": {
+      "class_name": "fox squirrel",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "336": {
+      "class_name": "marmot",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "337": {
+      "class_name": "beaver",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "338": {
+      "class_name": "guinea pig",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "339": {
+      "class_name": "sorrel",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "340": {
+      "class_name": "zebra",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "341": {
+      "class_name": "hog",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "342": {
+      "class_name": "wild boar",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "343": {
+      "class_name": "warthog",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "344": {
+      "class_name": "hippopotamus",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "345": {
+      "class_name": "ox",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "346": {
+      "class_name": "water buffalo",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "347": {
+      "class_name": "bison",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "348": {
+      "class_name": "ram",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "349": {
+      "class_name": "bighorn",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "350": {
+      "class_name": "ibex",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "351": {
+      "class_name": "hartebeest",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "352": {
+      "class_name": "impala",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "353": {
+      "class_name": "gazelle",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "354": {
+      "class_name": "Arabian camel",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "355": {
+      "class_name": "llama",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "356": {
+      "class_name": "weasel",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "357": {
+      "class_name": "mink",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "358": {
+      "class_name": "polecat",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "359": {
+      "class_name": "black-footed ferret",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "360": {
+      "class_name": "otter",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "361": {
+      "class_name": "skunk",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "362": {
+      "class_name": "badger",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "363": {
+      "class_name": "armadillo",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "364": {
+      "class_name": "three-toed sloth",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "365": {
+      "class_name": "orangutan",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "366": {
+      "class_name": "gorilla",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "367": {
+      "class_name": "chimpanzee",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "368": {
+      "class_name": "gibbon",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "369": {
+      "class_name": "siamang",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "370": {
+      "class_name": "guenon",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "371": {
+      "class_name": "patas",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "372": {
+      "class_name": "baboon",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "373": {
+      "class_name": "macaque",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "374": {
+      "class_name": "langur",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "375": {
+      "class_name": "colobus",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "376": {
+      "class_name": "proboscis monkey",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "377": {
+      "class_name": "marmoset",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "378": {
+      "class_name": "capuchin",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "379": {
+      "class_name": "howler monkey",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "380": {
+      "class_name": "titi",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "381": {
+      "class_name": "spider monkey",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "382": {
+      "class_name": "squirrel monkey",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "383": {
+      "class_name": "Madagascar cat",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "384": {
+      "class_name": "indri",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "385": {
+      "class_name": "Indian elephant",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "386": {
+      "class_name": "African elephant",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "387": {
+      "class_name": "lesser panda",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "388": {
+      "class_name": "giant panda",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "389": {
+      "class_name": "barracouta",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "390": {
+      "class_name": "eel",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "391": {
+      "class_name": "coho",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "392": {
+      "class_name": "rock beauty",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "393": {
+      "class_name": "anemone fish",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "394": {
+      "class_name": "sturgeon",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "395": {
+      "class_name": "gar",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "396": {
+      "class_name": "lionfish",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "397": {
+      "class_name": "puffer",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "398": {
+      "class_name": "abacus",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "399": {
+      "class_name": "abaya",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "400": {
+      "class_name": "academic gown",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "401": {
+      "class_name": "accordion",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "402": {
+      "class_name": "acoustic guitar",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "403": {
+      "class_name": "aircraft carrier",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "404": {
+      "class_name": "airliner",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "405": {
+      "class_name": "airship",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "406": {
+      "class_name": "altar",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "407": {
+      "class_name": "ambulance",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "408": {
+      "class_name": "amphibian",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "409": {
+      "class_name": "analog clock",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "410": {
+      "class_name": "apiary",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "411": {
+      "class_name": "apron",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "412": {
+      "class_name": "ashcan",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "413": {
+      "class_name": "assault rifle",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "414": {
+      "class_name": "backpack",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "415": {
+      "class_name": "bakery",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "416": {
+      "class_name": "balance beam",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "417": {
+      "class_name": "balloon",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "418": {
+      "class_name": "ballpoint",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "419": {
+      "class_name": "Band Aid",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "420": {
+      "class_name": "banjo",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "421": {
+      "class_name": "bannister",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "422": {
+      "class_name": "barbell",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "423": {
+      "class_name": "barber chair",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "424": {
+      "class_name": "barbershop",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "425": {
+      "class_name": "barn",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "426": {
+      "class_name": "barometer",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "427": {
+      "class_name": "barrel",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "428": {
+      "class_name": "barrow",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "429": {
+      "class_name": "baseball",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "430": {
+      "class_name": "basketball",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "431": {
+      "class_name": "bassinet",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "432": {
+      "class_name": "bassoon",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "433": {
+      "class_name": "bathing cap",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "434": {
+      "class_name": "bath towel",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "435": {
+      "class_name": "bathtub",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "436": {
+      "class_name": "beach wagon",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "437": {
+      "class_name": "beacon",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "438": {
+      "class_name": "beaker",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "439": {
+      "class_name": "bearskin",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "440": {
+      "class_name": "beer bottle",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "441": {
+      "class_name": "beer glass",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "442": {
+      "class_name": "bell cote",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "443": {
+      "class_name": "bib",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "444": {
+      "class_name": "bicycle-built-for-two",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "445": {
+      "class_name": "bikini",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "446": {
+      "class_name": "binder",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "447": {
+      "class_name": "binoculars",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "448": {
+      "class_name": "birdhouse",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "449": {
+      "class_name": "boathouse",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "450": {
+      "class_name": "bobsled",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "451": {
+      "class_name": "bolo tie",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "452": {
+      "class_name": "bonnet",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "453": {
+      "class_name": "bookcase",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "454": {
+      "class_name": "bookshop",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "455": {
+      "class_name": "bottlecap",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "456": {
+      "class_name": "bow",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "457": {
+      "class_name": "bow tie",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "458": {
+      "class_name": "brass",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "459": {
+      "class_name": "brassiere",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "460": {
+      "class_name": "breakwater",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "461": {
+      "class_name": "breastplate",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "462": {
+      "class_name": "broom",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "463": {
+      "class_name": "bucket",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "464": {
+      "class_name": "buckle",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "465": {
+      "class_name": "bulletproof vest",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "466": {
+      "class_name": "bullet train",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "467": {
+      "class_name": "butcher shop",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "468": {
+      "class_name": "cab",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "469": {
+      "class_name": "caldron",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "470": {
+      "class_name": "candle",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "471": {
+      "class_name": "cannon",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "472": {
+      "class_name": "canoe",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "473": {
+      "class_name": "can opener",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "474": {
+      "class_name": "cardigan",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "475": {
+      "class_name": "car mirror",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "476": {
+      "class_name": "carousel",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "477": {
+      "class_name": "carpenter's kit",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "478": {
+      "class_name": "carton",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "479": {
+      "class_name": "car wheel",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "480": {
+      "class_name": "cash machine",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "481": {
+      "class_name": "cassette",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "482": {
+      "class_name": "cassette player",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "483": {
+      "class_name": "castle",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "484": {
+      "class_name": "catamaran",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "485": {
+      "class_name": "CD player",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "486": {
+      "class_name": "cello",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "487": {
+      "class_name": "cellular telephone",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "488": {
+      "class_name": "chain",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "489": {
+      "class_name": "chainlink fence",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "490": {
+      "class_name": "chain mail",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "491": {
+      "class_name": "chain saw",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "492": {
+      "class_name": "chest",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "493": {
+      "class_name": "chiffonier",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "494": {
+      "class_name": "chime",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "495": {
+      "class_name": "china cabinet",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "496": {
+      "class_name": "Christmas stocking",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "497": {
+      "class_name": "church",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "498": {
+      "class_name": "cinema",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "499": {
+      "class_name": "cleaver",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "500": {
+      "class_name": "cliff dwelling",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "501": {
+      "class_name": "cloak",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "502": {
+      "class_name": "clog",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "503": {
+      "class_name": "cocktail shaker",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "504": {
+      "class_name": "coffee mug",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "505": {
+      "class_name": "coffeepot",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "506": {
+      "class_name": "coil",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "507": {
+      "class_name": "combination lock",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "508": {
+      "class_name": "computer keyboard",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "509": {
+      "class_name": "confectionery",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "510": {
+      "class_name": "container ship",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "511": {
+      "class_name": "convertible",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "512": {
+      "class_name": "corkscrew",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "513": {
+      "class_name": "cornet",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "514": {
+      "class_name": "cowboy boot",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "515": {
+      "class_name": "cowboy hat",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "516": {
+      "class_name": "cradle",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "517": {
+      "class_name": "crane",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "518": {
+      "class_name": "crash helmet",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "519": {
+      "class_name": "crate",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "520": {
+      "class_name": "crib",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "521": {
+      "class_name": "Crock Pot",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "522": {
+      "class_name": "croquet ball",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "523": {
+      "class_name": "crutch",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "524": {
+      "class_name": "cuirass",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "525": {
+      "class_name": "dam",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "526": {
+      "class_name": "desk",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "527": {
+      "class_name": "desktop computer",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "528": {
+      "class_name": "dial telephone",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "529": {
+      "class_name": "diaper",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "530": {
+      "class_name": "digital clock",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "531": {
+      "class_name": "digital watch",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "532": {
+      "class_name": "dining table",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "533": {
+      "class_name": "dishrag",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "534": {
+      "class_name": "dishwasher",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "535": {
+      "class_name": "disk brake",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "536": {
+      "class_name": "dock",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "537": {
+      "class_name": "dogsled",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "538": {
+      "class_name": "dome",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "539": {
+      "class_name": "doormat",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "540": {
+      "class_name": "drilling platform",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "541": {
+      "class_name": "drum",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "542": {
+      "class_name": "drumstick",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "543": {
+      "class_name": "dumbbell",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "544": {
+      "class_name": "Dutch oven",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "545": {
+      "class_name": "electric fan",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "546": {
+      "class_name": "electric guitar",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "547": {
+      "class_name": "electric locomotive",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "548": {
+      "class_name": "entertainment center",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "549": {
+      "class_name": "envelope",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "550": {
+      "class_name": "espresso maker",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "551": {
+      "class_name": "face powder",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "552": {
+      "class_name": "feather boa",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "553": {
+      "class_name": "file",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "554": {
+      "class_name": "fireboat",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "555": {
+      "class_name": "fire engine",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "556": {
+      "class_name": "fire screen",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "557": {
+      "class_name": "flagpole",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "558": {
+      "class_name": "flute",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "559": {
+      "class_name": "folding chair",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "560": {
+      "class_name": "football helmet",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "561": {
+      "class_name": "forklift",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "562": {
+      "class_name": "fountain",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "563": {
+      "class_name": "fountain pen",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "564": {
+      "class_name": "four-poster",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "565": {
+      "class_name": "freight car",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "566": {
+      "class_name": "French horn",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "567": {
+      "class_name": "frying pan",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "568": {
+      "class_name": "fur coat",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "569": {
+      "class_name": "garbage truck",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "570": {
+      "class_name": "gasmask",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "571": {
+      "class_name": "gas pump",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "572": {
+      "class_name": "goblet",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "573": {
+      "class_name": "go-kart",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "574": {
+      "class_name": "golf ball",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "575": {
+      "class_name": "golfcart",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "576": {
+      "class_name": "gondola",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "577": {
+      "class_name": "gong",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "578": {
+      "class_name": "gown",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "579": {
+      "class_name": "grand piano",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "580": {
+      "class_name": "greenhouse",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "581": {
+      "class_name": "grille",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "582": {
+      "class_name": "grocery store",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "583": {
+      "class_name": "guillotine",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "584": {
+      "class_name": "hair slide",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "585": {
+      "class_name": "hair spray",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "586": {
+      "class_name": "half track",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "587": {
+      "class_name": "hammer",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "588": {
+      "class_name": "hamper",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "589": {
+      "class_name": "hand blower",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "590": {
+      "class_name": "hand-held computer",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "591": {
+      "class_name": "handkerchief",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "592": {
+      "class_name": "hard disc",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "593": {
+      "class_name": "harmonica",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "594": {
+      "class_name": "harp",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "595": {
+      "class_name": "harvester",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "596": {
+      "class_name": "hatchet",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "597": {
+      "class_name": "holster",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "598": {
+      "class_name": "home theater",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "599": {
+      "class_name": "honeycomb",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "600": {
+      "class_name": "hook",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "601": {
+      "class_name": "hoopskirt",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "602": {
+      "class_name": "horizontal bar",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "603": {
+      "class_name": "horse cart",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "604": {
+      "class_name": "hourglass",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "605": {
+      "class_name": "iPod",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "606": {
+      "class_name": "iron",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "607": {
+      "class_name": "jack-o'-lantern",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "608": {
+      "class_name": "jean",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "609": {
+      "class_name": "jeep",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "610": {
+      "class_name": "jersey",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "611": {
+      "class_name": "jigsaw puzzle",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "612": {
+      "class_name": "jinrikisha",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "613": {
+      "class_name": "joystick",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "614": {
+      "class_name": "kimono",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "615": {
+      "class_name": "knee pad",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "616": {
+      "class_name": "knot",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "617": {
+      "class_name": "lab coat",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "618": {
+      "class_name": "ladle",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "619": {
+      "class_name": "lampshade",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "620": {
+      "class_name": "laptop",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "621": {
+      "class_name": "lawn mower",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "622": {
+      "class_name": "lens cap",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "623": {
+      "class_name": "letter opener",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "624": {
+      "class_name": "library",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "625": {
+      "class_name": "lifeboat",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "626": {
+      "class_name": "lighter",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "627": {
+      "class_name": "limousine",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "628": {
+      "class_name": "liner",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "629": {
+      "class_name": "lipstick",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "630": {
+      "class_name": "Loafer",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "631": {
+      "class_name": "lotion",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "632": {
+      "class_name": "loudspeaker",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "633": {
+      "class_name": "loupe",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "634": {
+      "class_name": "lumbermill",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "635": {
+      "class_name": "magnetic compass",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "636": {
+      "class_name": "mailbag",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "637": {
+      "class_name": "mailbox",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "638": {
+      "class_name": "maillot",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "639": {
+      "class_name": "maillot",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "640": {
+      "class_name": "manhole cover",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "641": {
+      "class_name": "maraca",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "642": {
+      "class_name": "marimba",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "643": {
+      "class_name": "mask",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "644": {
+      "class_name": "matchstick",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "645": {
+      "class_name": "maypole",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "646": {
+      "class_name": "maze",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "647": {
+      "class_name": "measuring cup",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "648": {
+      "class_name": "medicine chest",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "649": {
+      "class_name": "megalith",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "650": {
+      "class_name": "microphone",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "651": {
+      "class_name": "microwave",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "652": {
+      "class_name": "military uniform",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "653": {
+      "class_name": "milk can",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "654": {
+      "class_name": "minibus",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "655": {
+      "class_name": "miniskirt",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "656": {
+      "class_name": "minivan",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "657": {
+      "class_name": "missile",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "658": {
+      "class_name": "mitten",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "659": {
+      "class_name": "mixing bowl",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "660": {
+      "class_name": "mobile home",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "661": {
+      "class_name": "Model T",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "662": {
+      "class_name": "modem",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "663": {
+      "class_name": "monastery",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "664": {
+      "class_name": "monitor",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "665": {
+      "class_name": "moped",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "666": {
+      "class_name": "mortar",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "667": {
+      "class_name": "mortarboard",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "668": {
+      "class_name": "mosque",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "669": {
+      "class_name": "mosquito net",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "670": {
+      "class_name": "motor scooter",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "671": {
+      "class_name": "mountain bike",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "672": {
+      "class_name": "mountain tent",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "673": {
+      "class_name": "mouse",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "674": {
+      "class_name": "mousetrap",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "675": {
+      "class_name": "moving van",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "676": {
+      "class_name": "muzzle",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "677": {
+      "class_name": "nail",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "678": {
+      "class_name": "neck brace",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "679": {
+      "class_name": "necklace",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "680": {
+      "class_name": "nipple",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "681": {
+      "class_name": "notebook",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "682": {
+      "class_name": "obelisk",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "683": {
+      "class_name": "oboe",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "684": {
+      "class_name": "ocarina",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "685": {
+      "class_name": "odometer",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "686": {
+      "class_name": "oil filter",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "687": {
+      "class_name": "organ",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "688": {
+      "class_name": "oscilloscope",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "689": {
+      "class_name": "overskirt",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "690": {
+      "class_name": "oxcart",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "691": {
+      "class_name": "oxygen mask",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "692": {
+      "class_name": "packet",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "693": {
+      "class_name": "paddle",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "694": {
+      "class_name": "paddlewheel",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "695": {
+      "class_name": "padlock",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "696": {
+      "class_name": "paintbrush",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "697": {
+      "class_name": "pajama",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "698": {
+      "class_name": "palace",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "699": {
+      "class_name": "panpipe",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "700": {
+      "class_name": "paper towel",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "701": {
+      "class_name": "parachute",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "702": {
+      "class_name": "parallel bars",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "703": {
+      "class_name": "park bench",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "704": {
+      "class_name": "parking meter",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "705": {
+      "class_name": "passenger car",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "706": {
+      "class_name": "patio",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "707": {
+      "class_name": "pay-phone",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "708": {
+      "class_name": "pedestal",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "709": {
+      "class_name": "pencil box",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "710": {
+      "class_name": "pencil sharpener",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "711": {
+      "class_name": "perfume",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "712": {
+      "class_name": "Petri dish",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "713": {
+      "class_name": "photocopier",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "714": {
+      "class_name": "pick",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "715": {
+      "class_name": "pickelhaube",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "716": {
+      "class_name": "picket fence",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "717": {
+      "class_name": "pickup",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "718": {
+      "class_name": "pier",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "719": {
+      "class_name": "piggy bank",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "720": {
+      "class_name": "pill bottle",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "721": {
+      "class_name": "pillow",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "722": {
+      "class_name": "ping-pong ball",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "723": {
+      "class_name": "pinwheel",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "724": {
+      "class_name": "pirate",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "725": {
+      "class_name": "pitcher",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "726": {
+      "class_name": "plane",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "727": {
+      "class_name": "planetarium",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "728": {
+      "class_name": "plastic bag",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "729": {
+      "class_name": "plate rack",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "730": {
+      "class_name": "plow",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "731": {
+      "class_name": "plunger",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "732": {
+      "class_name": "Polaroid camera",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "733": {
+      "class_name": "pole",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "734": {
+      "class_name": "police van",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "735": {
+      "class_name": "poncho",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "736": {
+      "class_name": "pool table",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "737": {
+      "class_name": "pop bottle",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "738": {
+      "class_name": "pot",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "739": {
+      "class_name": "potter's wheel",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "740": {
+      "class_name": "power drill",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "741": {
+      "class_name": "prayer rug",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "742": {
+      "class_name": "printer",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "743": {
+      "class_name": "prison",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "744": {
+      "class_name": "projectile",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "745": {
+      "class_name": "projector",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "746": {
+      "class_name": "puck",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "747": {
+      "class_name": "punching bag",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "748": {
+      "class_name": "purse",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "749": {
+      "class_name": "quill",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "750": {
+      "class_name": "quilt",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "751": {
+      "class_name": "racer",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "752": {
+      "class_name": "racket",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "753": {
+      "class_name": "radiator",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "754": {
+      "class_name": "radio",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "755": {
+      "class_name": "radio telescope",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "756": {
+      "class_name": "rain barrel",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "757": {
+      "class_name": "recreational vehicle",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "758": {
+      "class_name": "reel",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "759": {
+      "class_name": "reflex camera",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "760": {
+      "class_name": "refrigerator",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "761": {
+      "class_name": "remote control",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "762": {
+      "class_name": "restaurant",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "763": {
+      "class_name": "revolver",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "764": {
+      "class_name": "rifle",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "765": {
+      "class_name": "rocking chair",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "766": {
+      "class_name": "rotisserie",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "767": {
+      "class_name": "rubber eraser",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "768": {
+      "class_name": "rugby ball",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "769": {
+      "class_name": "rule",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "770": {
+      "class_name": "running shoe",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "771": {
+      "class_name": "safe",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "772": {
+      "class_name": "safety pin",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "773": {
+      "class_name": "saltshaker",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "774": {
+      "class_name": "sandal",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "775": {
+      "class_name": "sarong",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "776": {
+      "class_name": "sax",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "777": {
+      "class_name": "scabbard",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "778": {
+      "class_name": "scale",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "779": {
+      "class_name": "school bus",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "780": {
+      "class_name": "schooner",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "781": {
+      "class_name": "scoreboard",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "782": {
+      "class_name": "screen",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "783": {
+      "class_name": "screw",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "784": {
+      "class_name": "screwdriver",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "785": {
+      "class_name": "seat belt",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "786": {
+      "class_name": "sewing machine",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "787": {
+      "class_name": "shield",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "788": {
+      "class_name": "shoe shop",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "789": {
+      "class_name": "shoji",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "790": {
+      "class_name": "shopping basket",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "791": {
+      "class_name": "shopping cart",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "792": {
+      "class_name": "shovel",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "793": {
+      "class_name": "shower cap",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "794": {
+      "class_name": "shower curtain",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "795": {
+      "class_name": "ski",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "796": {
+      "class_name": "ski mask",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "797": {
+      "class_name": "sleeping bag",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "798": {
+      "class_name": "slide rule",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "799": {
+      "class_name": "sliding door",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "800": {
+      "class_name": "slot",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "801": {
+      "class_name": "snorkel",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "802": {
+      "class_name": "snowmobile",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "803": {
+      "class_name": "snowplow",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "804": {
+      "class_name": "soap dispenser",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "805": {
+      "class_name": "soccer ball",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "806": {
+      "class_name": "sock",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "807": {
+      "class_name": "solar dish",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "808": {
+      "class_name": "sombrero",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "809": {
+      "class_name": "soup bowl",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "810": {
+      "class_name": "space bar",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "811": {
+      "class_name": "space heater",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "812": {
+      "class_name": "space shuttle",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "813": {
+      "class_name": "spatula",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "814": {
+      "class_name": "speedboat",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "815": {
+      "class_name": "spider web",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "816": {
+      "class_name": "spindle",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "817": {
+      "class_name": "sports car",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "818": {
+      "class_name": "spotlight",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "819": {
+      "class_name": "stage",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "820": {
+      "class_name": "steam locomotive",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "821": {
+      "class_name": "steel arch bridge",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "822": {
+      "class_name": "steel drum",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "823": {
+      "class_name": "stethoscope",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "824": {
+      "class_name": "stole",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "825": {
+      "class_name": "stone wall",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "826": {
+      "class_name": "stopwatch",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "827": {
+      "class_name": "stove",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "828": {
+      "class_name": "strainer",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "829": {
+      "class_name": "streetcar",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "830": {
+      "class_name": "stretcher",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "831": {
+      "class_name": "studio couch",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "832": {
+      "class_name": "stupa",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "833": {
+      "class_name": "submarine",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "834": {
+      "class_name": "suit",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "835": {
+      "class_name": "sundial",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "836": {
+      "class_name": "sunglass",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "837": {
+      "class_name": "sunglasses",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "838": {
+      "class_name": "sunscreen",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "839": {
+      "class_name": "suspension bridge",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "840": {
+      "class_name": "swab",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "841": {
+      "class_name": "sweatshirt",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "842": {
+      "class_name": "swimming trunks",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "843": {
+      "class_name": "swing",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "844": {
+      "class_name": "switch",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "845": {
+      "class_name": "syringe",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "846": {
+      "class_name": "table lamp",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "847": {
+      "class_name": "tank",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "848": {
+      "class_name": "tape player",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "849": {
+      "class_name": "teapot",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "850": {
+      "class_name": "teddy",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "851": {
+      "class_name": "television",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "852": {
+      "class_name": "tennis ball",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "853": {
+      "class_name": "thatch",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "854": {
+      "class_name": "theater curtain",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "855": {
+      "class_name": "thimble",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "856": {
+      "class_name": "thresher",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "857": {
+      "class_name": "throne",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "858": {
+      "class_name": "tile roof",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "859": {
+      "class_name": "toaster",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "860": {
+      "class_name": "tobacco shop",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "861": {
+      "class_name": "toilet seat",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "862": {
+      "class_name": "torch",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "863": {
+      "class_name": "totem pole",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "864": {
+      "class_name": "tow truck",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "865": {
+      "class_name": "toyshop",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "866": {
+      "class_name": "tractor",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "867": {
+      "class_name": "trailer truck",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "868": {
+      "class_name": "tray",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "869": {
+      "class_name": "trench coat",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "870": {
+      "class_name": "tricycle",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "871": {
+      "class_name": "trimaran",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "872": {
+      "class_name": "tripod",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "873": {
+      "class_name": "triumphal arch",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "874": {
+      "class_name": "trolleybus",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "875": {
+      "class_name": "trombone",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "876": {
+      "class_name": "tub",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "877": {
+      "class_name": "turnstile",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "878": {
+      "class_name": "typewriter keyboard",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "879": {
+      "class_name": "umbrella",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "880": {
+      "class_name": "unicycle",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "881": {
+      "class_name": "upright",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "882": {
+      "class_name": "vacuum",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "883": {
+      "class_name": "vase",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "884": {
+      "class_name": "vault",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "885": {
+      "class_name": "velvet",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "886": {
+      "class_name": "vending machine",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "887": {
+      "class_name": "vestment",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "888": {
+      "class_name": "viaduct",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "889": {
+      "class_name": "violin",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "890": {
+      "class_name": "volleyball",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "891": {
+      "class_name": "waffle iron",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "892": {
+      "class_name": "wall clock",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "893": {
+      "class_name": "wallet",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "894": {
+      "class_name": "wardrobe",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "895": {
+      "class_name": "warplane",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "896": {
+      "class_name": "washbasin",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "897": {
+      "class_name": "washer",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "898": {
+      "class_name": "water bottle",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "899": {
+      "class_name": "water jug",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "900": {
+      "class_name": "water tower",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "901": {
+      "class_name": "whiskey jug",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "902": {
+      "class_name": "whistle",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "903": {
+      "class_name": "wig",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "904": {
+      "class_name": "window screen",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "905": {
+      "class_name": "window shade",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "906": {
+      "class_name": "Windsor tie",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "907": {
+      "class_name": "wine bottle",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "908": {
+      "class_name": "wing",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "909": {
+      "class_name": "wok",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "910": {
+      "class_name": "wooden spoon",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "911": {
+      "class_name": "wool",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "912": {
+      "class_name": "worm fence",
+      "total": 10,
+      "correct": 1,
+      "accuracy": 0.1
+    },
+    "913": {
+      "class_name": "wreck",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "914": {
+      "class_name": "yawl",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "915": {
+      "class_name": "yurt",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "916": {
+      "class_name": "web site",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "917": {
+      "class_name": "comic book",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "918": {
+      "class_name": "crossword puzzle",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "919": {
+      "class_name": "street sign",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "920": {
+      "class_name": "traffic light",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "921": {
+      "class_name": "book jacket",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "922": {
+      "class_name": "menu",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "923": {
+      "class_name": "plate",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "924": {
+      "class_name": "guacamole",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "925": {
+      "class_name": "consomme",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "926": {
+      "class_name": "hot pot",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "927": {
+      "class_name": "trifle",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "928": {
+      "class_name": "ice cream",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "929": {
+      "class_name": "ice lolly",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "930": {
+      "class_name": "French loaf",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "931": {
+      "class_name": "bagel",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "932": {
+      "class_name": "pretzel",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "933": {
+      "class_name": "cheeseburger",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "934": {
+      "class_name": "hotdog",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "935": {
+      "class_name": "mashed potato",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "936": {
+      "class_name": "head cabbage",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "937": {
+      "class_name": "broccoli",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "938": {
+      "class_name": "cauliflower",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "939": {
+      "class_name": "zucchini",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "940": {
+      "class_name": "spaghetti squash",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "941": {
+      "class_name": "acorn squash",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "942": {
+      "class_name": "butternut squash",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "943": {
+      "class_name": "cucumber",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "944": {
+      "class_name": "artichoke",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "945": {
+      "class_name": "bell pepper",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "946": {
+      "class_name": "cardoon",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "947": {
+      "class_name": "mushroom",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "948": {
+      "class_name": "Granny Smith",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "949": {
+      "class_name": "strawberry",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "950": {
+      "class_name": "orange",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "951": {
+      "class_name": "lemon",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "952": {
+      "class_name": "fig",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "953": {
+      "class_name": "pineapple",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "954": {
+      "class_name": "banana",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "955": {
+      "class_name": "jackfruit",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "956": {
+      "class_name": "custard apple",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "957": {
+      "class_name": "pomegranate",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "958": {
+      "class_name": "hay",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "959": {
+      "class_name": "carbonara",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "960": {
+      "class_name": "chocolate sauce",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "961": {
+      "class_name": "dough",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "962": {
+      "class_name": "meat loaf",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "963": {
+      "class_name": "pizza",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "964": {
+      "class_name": "potpie",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "965": {
+      "class_name": "burrito",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "966": {
+      "class_name": "red wine",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "967": {
+      "class_name": "espresso",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "968": {
+      "class_name": "cup",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "969": {
+      "class_name": "eggnog",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "970": {
+      "class_name": "alp",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "971": {
+      "class_name": "bubble",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "972": {
+      "class_name": "cliff",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "973": {
+      "class_name": "coral reef",
+      "total": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "974": {
+      "class_name": "geyser",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "975": {
+      "class_name": "lakeside",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "976": {
+      "class_name": "promontory",
+      "total": 10,
+      "correct": 2,
+      "accuracy": 0.2
+    },
+    "977": {
+      "class_name": "sandbar",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "978": {
+      "class_name": "seashore",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "979": {
+      "class_name": "valley",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    },
+    "980": {
+      "class_name": "volcano",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "981": {
+      "class_name": "ballplayer",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "982": {
+      "class_name": "groom",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "983": {
+      "class_name": "scuba diver",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "984": {
+      "class_name": "rapeseed",
+      "total": 10,
+      "correct": 5,
+      "accuracy": 0.5
+    },
+    "985": {
+      "class_name": "daisy",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "986": {
+      "class_name": "yellow lady's slipper",
+      "total": 10,
+      "correct": 10,
+      "accuracy": 1.0
+    },
+    "987": {
+      "class_name": "corn",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "988": {
+      "class_name": "acorn",
+      "total": 10,
+      "correct": 3,
+      "accuracy": 0.3
+    },
+    "989": {
+      "class_name": "hip",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "990": {
+      "class_name": "buckeye",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "991": {
+      "class_name": "coral fungus",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "992": {
+      "class_name": "agaric",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "993": {
+      "class_name": "gyromitra",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "994": {
+      "class_name": "stinkhorn",
+      "total": 10,
+      "correct": 9,
+      "accuracy": 0.9
+    },
+    "995": {
+      "class_name": "earthstar",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "996": {
+      "class_name": "hen-of-the-woods",
+      "total": 10,
+      "correct": 8,
+      "accuracy": 0.8
+    },
+    "997": {
+      "class_name": "bolete",
+      "total": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    },
+    "998": {
+      "class_name": "ear",
+      "total": 10,
+      "correct": 0,
+      "accuracy": 0.0
+    },
+    "999": {
+      "class_name": "toilet tissue",
+      "total": 10,
+      "correct": 4,
+      "accuracy": 0.4
+    }
+  },
+  "used_ensemble": true
+}

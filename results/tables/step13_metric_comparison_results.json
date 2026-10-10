@@ -1,0 +1,864 @@
+{
+  "scores": [
+    {
+      "Model_Name": "CLIP ViT-B/32 Zero-Shot",
+      "Accuracy": 12.433333333333334,
+      "MAE": 2.037333333333333,
+      "Macro_F1": 5.045260658622618,
+      "ECE": 0.06520753715435665,
+      "Recall@1": 0.03333333333333333,
+      "Recall@5": 0.16666666666666669,
+      "Median_Rank": 1500.0,
+      "Modality_Gap": 1.360478162765503,
+      "CMA": 0.04260748252272606
+    },
+    {
+      "Model_Name": "ResNet Avgpool Probe",
+      "Accuracy": 44.53333333333334,
+      "MAE": 0.709,
+      "Macro_F1": 43.76673424267767,
+      "ECE": 0.03706020788351695,
+      "Recall@1": 0.03333333333333333,
+      "Recall@5": 0.16666666666666669,
+      "Median_Rank": 1500.0,
+      "Modality_Gap": 1.3583823442459106,
+      "CMA": 0.04775911569595337
+    },
+    {
+      "Model_Name": "ResNet Spatial Probe",
+      "Accuracy": 44.36666666666667,
+      "MAE": 0.71,
+      "Macro_F1": 43.873167121116715,
+      "ECE": 0.04934608427683513,
+      "Recall@1": 0.03333333333333333,
+      "Recall@5": 0.16666666666666669,
+      "Median_Rank": 1500.0,
+      "Modality_Gap": 1.3665714263916016,
+      "CMA": 0.04429472237825394
+    },
+    {
+      "Model_Name": "CLIP ViT Linear Probe",
+      "Accuracy": 40.166666666666664,
+      "MAE": 0.88,
+      "Macro_F1": 36.64872760035728,
+      "ECE": 0.17077463428179426,
+      "Recall@1": 0.03333333333333333,
+      "Recall@5": 0.16666666666666669,
+      "Median_Rank": 1500.0,
+      "Modality_Gap": 1.360478162765503,
+      "CMA": 0.04260748252272606
+    },
+    {
+      "Model_Name": "Early Fusion MLP",
+      "Accuracy": 50.66666666666667,
+      "MAE": 0.602,
+      "Macro_F1": 48.74059437422659,
+      "ECE": 0.27340356369813285,
+      "Recall@1": 0.03333333333333333,
+      "Recall@5": 0.16666666666666669,
+      "Median_Rank": 1500.0,
+      "Modality_Gap": 1.360478162765503,
+      "CMA": 0.04260748252272606
+    },
+    {
+      "Model_Name": "Late Fusion Gated",
+      "Accuracy": 40.2,
+      "MAE": 0.8846666666666667,
+      "Macro_F1": 36.455445440715124,
+      "ECE": 0.17110811960697175,
+      "Recall@1": 0.03333333333333333,
+      "Recall@5": 0.16666666666666669,
+      "Median_Rank": 1500.0,
+      "Modality_Gap": 1.360478162765503,
+      "CMA": 0.04260748252272606
+    },
+    {
+      "Model_Name": "Cross-Attention Fusion (Ours)",
+      "Accuracy": 69.83333333333334,
+      "MAE": 0.32866666666666666,
+      "Macro_F1": 69.64604163062694,
+      "ECE": 0.018319462617238377,
+      "Recall@1": 0.03333333333333333,
+      "Recall@5": 0.16666666666666669,
+      "Median_Rank": 1500.0,
+      "Modality_Gap": 1.4017114639282227,
+      "CMA": -0.07515256106853485
+    },
+    {
+      "Model_Name": "Cross-Attn (ModDrop 0.5)",
+      "Accuracy": 69.26666666666667,
+      "MAE": 0.335,
+      "Macro_F1": 68.97711865381262,
+      "ECE": 0.022930733283360805,
+      "Recall@1": 0.03333333333333333,
+      "Recall@5": 0.16666666666666669,
+      "Median_Rank": 1500.0,
+      "Modality_Gap": 1.2471842765808105,
+      "CMA": 0.11229663342237473
+    }
+  ],
+  "ranks": [
+    {
+      "Model_Name": "CLIP ViT-B/32 Zero-Shot",
+      "Accuracy": 8,
+      "MAE": 8,
+      "Macro_F1": 8,
+      "ECE": 5,
+      "Recall@1": 1,
+      "Recall@5": 1,
+      "Median_Rank": 1,
+      "Modality_Gap": 3,
+      "CMA": 4
+    },
+    {
+      "Model_Name": "ResNet Avgpool Probe",
+      "Accuracy": 4,
+      "MAE": 4,
+      "Macro_F1": 5,
+      "ECE": 3,
+      "Recall@1": 1,
+      "Recall@5": 1,
+      "Median_Rank": 1,
+      "Modality_Gap": 2,
+      "CMA": 2
+    },
+    {
+      "Model_Name": "ResNet Spatial Probe",
+      "Accuracy": 5,
+      "MAE": 5,
+      "Macro_F1": 4,
+      "ECE": 4,
+      "Recall@1": 1,
+      "Recall@5": 1,
+      "Median_Rank": 1,
+      "Modality_Gap": 7,
+      "CMA": 3
+    },
+    {
+      "Model_Name": "CLIP ViT Linear Probe",
+      "Accuracy": 7,
+      "MAE": 6,
+      "Macro_F1": 6,
+      "ECE": 6,
+      "Recall@1": 1,
+      "Recall@5": 1,
+      "Median_Rank": 1,
+      "Modality_Gap": 3,
+      "CMA": 4
+    },
+    {
+      "Model_Name": "Early Fusion MLP",
+      "Accuracy": 3,
+      "MAE": 3,
+      "Macro_F1": 3,
+      "ECE": 8,
+      "Recall@1": 1,
+      "Recall@5": 1,
+      "Median_Rank": 1,
+      "Modality_Gap": 3,
+      "CMA": 4
+    },
+    {
+      "Model_Name": "Late Fusion Gated",
+      "Accuracy": 6,
+      "MAE": 7,
+      "Macro_F1": 7,
+      "ECE": 7,
+      "Recall@1": 1,
+      "Recall@5": 1,
+      "Median_Rank": 1,
+      "Modality_Gap": 3,
+      "CMA": 4
+    },
+    {
+      "Model_Name": "Cross-Attention Fusion (Ours)",
+      "Accuracy": 1,
+      "MAE": 1,
+      "Macro_F1": 1,
+      "ECE": 1,
+      "Recall@1": 1,
+      "Recall@5": 1,
+      "Median_Rank": 1,
+      "Modality_Gap": 8,
+      "CMA": 8
+    },
+    {
+      "Model_Name": "Cross-Attn (ModDrop 0.5)",
+      "Accuracy": 2,
+      "MAE": 2,
+      "Macro_F1": 2,
+      "ECE": 2,
+      "Recall@1": 1,
+      "Recall@5": 1,
+      "Median_Rank": 1,
+      "Modality_Gap": 1,
+      "CMA": 1
+    }
+  ],
+  "kendall_tau": {
+    "Accuracy": {
+      "Accuracy": 1.0,
+      "MAE": 0.9285714285714285,
+      "Macro_F1": 0.8571428571428571,
+      "ECE": 0.42857142857142855,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": 0.0,
+      "CMA": 0.16116459280507603
+    },
+    "MAE": {
+      "Accuracy": 0.9285714285714285,
+      "MAE": 1.0,
+      "Macro_F1": 0.9285714285714285,
+      "ECE": 0.4999999999999999,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": 0.0,
+      "CMA": 0.16116459280507603
+    },
+    "Macro_F1": {
+      "Accuracy": 0.8571428571428571,
+      "MAE": 0.9285714285714285,
+      "Macro_F1": 1.0,
+      "ECE": 0.42857142857142855,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": -0.08058229640253801,
+      "CMA": 0.08058229640253801
+    },
+    "ECE": {
+      "Accuracy": 0.42857142857142855,
+      "MAE": 0.4999999999999999,
+      "Macro_F1": 0.42857142857142855,
+      "ECE": 1.0,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": 0.0,
+      "CMA": 0.32232918561015206
+    },
+    "Recall@1": {
+      "Accuracy": 0.0,
+      "MAE": 0.0,
+      "Macro_F1": 0.0,
+      "ECE": 0.0,
+      "Recall@1": 1.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": 0.0,
+      "CMA": 0.0
+    },
+    "Recall@5": {
+      "Accuracy": 0.0,
+      "MAE": 0.0,
+      "Macro_F1": 0.0,
+      "ECE": 0.0,
+      "Recall@1": 0.0,
+      "Recall@5": 1.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": 0.0,
+      "CMA": 0.0
+    },
+    "Median_Rank": {
+      "Accuracy": 0.0,
+      "MAE": 0.0,
+      "Macro_F1": 0.0,
+      "ECE": 0.0,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 1.0,
+      "Modality_Gap": 0.0,
+      "CMA": 0.0
+    },
+    "Modality_Gap": {
+      "Accuracy": 0.0,
+      "MAE": 0.0,
+      "Macro_F1": -0.08058229640253801,
+      "ECE": 0.0,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": 1.0,
+      "CMA": 0.6363636363636362
+    },
+    "CMA": {
+      "Accuracy": 0.16116459280507603,
+      "MAE": 0.16116459280507603,
+      "Macro_F1": 0.08058229640253801,
+      "ECE": 0.32232918561015206,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": 0.6363636363636362,
+      "CMA": 1.0
+    }
+  },
+  "spearman_rho": {
+    "Accuracy": {
+      "Accuracy": 1.0,
+      "MAE": 0.9761904761904763,
+      "Macro_F1": 0.9523809523809524,
+      "ECE": 0.5476190476190477,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": -0.025367314471592056,
+      "CMA": 0.07610194341477616
+    },
+    "MAE": {
+      "Accuracy": 0.9761904761904763,
+      "MAE": 1.0,
+      "Macro_F1": 0.9761904761904763,
+      "ECE": 0.5714285714285715,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": -0.025367314471592056,
+      "CMA": 0.07610194341477616
+    },
+    "Macro_F1": {
+      "Accuracy": 0.9523809523809524,
+      "MAE": 0.9761904761904763,
+      "Macro_F1": 1.0,
+      "ECE": 0.5476190476190477,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": -0.15220388682955233,
+      "CMA": 0.05073462894318411
+    },
+    "ECE": {
+      "Accuracy": 0.5476190476190477,
+      "MAE": 0.5714285714285715,
+      "Macro_F1": 0.5476190476190477,
+      "ECE": 1.0,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": -0.025367314471592056,
+      "CMA": 0.22830583024432846
+    },
+    "Recall@1": {
+      "Accuracy": 0.0,
+      "MAE": 0.0,
+      "Macro_F1": 0.0,
+      "ECE": 0.0,
+      "Recall@1": 1.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": 0.0,
+      "CMA": 0.0
+    },
+    "Recall@5": {
+      "Accuracy": 0.0,
+      "MAE": 0.0,
+      "Macro_F1": 0.0,
+      "ECE": 0.0,
+      "Recall@1": 0.0,
+      "Recall@5": 1.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": 0.0,
+      "CMA": 0.0
+    },
+    "Median_Rank": {
+      "Accuracy": 0.0,
+      "MAE": 0.0,
+      "Macro_F1": 0.0,
+      "ECE": 0.0,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 1.0,
+      "Modality_Gap": 0.0,
+      "CMA": 0.0
+    },
+    "Modality_Gap": {
+      "Accuracy": -0.025367314471592056,
+      "MAE": -0.025367314471592056,
+      "Macro_F1": -0.1522038868295523,
+      "ECE": -0.025367314471592056,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": 1.0,
+      "CMA": 0.7297297297297297
+    },
+    "CMA": {
+      "Accuracy": 0.07610194341477615,
+      "MAE": 0.07610194341477615,
+      "Macro_F1": 0.05073462894318411,
+      "ECE": 0.22830583024432846,
+      "Recall@1": 0.0,
+      "Recall@5": 0.0,
+      "Median_Rank": 0.0,
+      "Modality_Gap": 0.7297297297297297,
+      "CMA": 1.0
+    }
+  },
+  "resolvability": {
+    "Accuracy": 25,
+    "MAE": 25,
+    "Macro_F1": 25,
+    "ECE": 19,
+    "Recall@1": 0,
+    "Recall@5": 0,
+    "Median_Rank": 0,
+    "Modality_Gap": 22,
+    "CMA": 22
+  },
+  "inversions_summary": {
+    "total_inversion_pairs": 111,
+    "key_accuracy_ece_inversions": [
+      {
+        "metric_1": "Accuracy",
+        "metric_2": "ECE",
+        "model_A": "CLIP ViT Linear Probe",
+        "model_B": "CLIP ViT-B/32 Zero-Shot",
+        "rank_m1_A": 7,
+        "rank_m1_B": 8,
+        "rank_m2_A": 6,
+        "rank_m2_B": 5,
+        "score_m1_A": 40.166666666666664,
+        "score_m1_B": 12.433333333333334,
+        "score_m2_A": 0.17077463428179426,
+        "score_m2_B": 0.06520753715435665
+      },
+      {
+        "metric_1": "Accuracy",
+        "metric_2": "ECE",
+        "model_A": "Early Fusion MLP",
+        "model_B": "CLIP ViT-B/32 Zero-Shot",
+        "rank_m1_A": 3,
+        "rank_m1_B": 8,
+        "rank_m2_A": 8,
+        "rank_m2_B": 5,
+        "score_m1_A": 50.66666666666667,
+        "score_m1_B": 12.433333333333334,
+        "score_m2_A": 0.27340356369813285,
+        "score_m2_B": 0.06520753715435665
+      },
+      {
+        "metric_1": "Accuracy",
+        "metric_2": "ECE",
+        "model_A": "Late Fusion Gated",
+        "model_B": "CLIP ViT-B/32 Zero-Shot",
+        "rank_m1_A": 6,
+        "rank_m1_B": 8,
+        "rank_m2_A": 7,
+        "rank_m2_B": 5,
+        "score_m1_A": 40.2,
+        "score_m1_B": 12.433333333333334,
+        "score_m2_A": 0.17110811960697175,
+        "score_m2_B": 0.06520753715435665
+      },
+      {
+        "metric_1": "Accuracy",
+        "metric_2": "ECE",
+        "model_A": "Early Fusion MLP",
+        "model_B": "ResNet Avgpool Probe",
+        "rank_m1_A": 3,
+        "rank_m1_B": 4,
+        "rank_m2_A": 8,
+        "rank_m2_B": 3,
+        "score_m1_A": 50.66666666666667,
+        "score_m1_B": 44.53333333333334,
+        "score_m2_A": 0.27340356369813285,
+        "score_m2_B": 0.03706020788351695
+      },
+      {
+        "metric_1": "Accuracy",
+        "metric_2": "ECE",
+        "model_A": "Early Fusion MLP",
+        "model_B": "ResNet Spatial Probe",
+        "rank_m1_A": 3,
+        "rank_m1_B": 5,
+        "rank_m2_A": 8,
+        "rank_m2_B": 4,
+        "score_m1_A": 50.66666666666667,
+        "score_m1_B": 44.36666666666667,
+        "score_m2_A": 0.27340356369813285,
+        "score_m2_B": 0.04934608427683513
+      }
+    ],
+    "key_accuracy_modality_gap_inversions": [
+      {
+        "metric_1": "Accuracy",
+        "metric_2": "Modality_Gap",
+        "model_A": "ResNet Spatial Probe",
+        "model_B": "CLIP ViT-B/32 Zero-Shot",
+        "rank_m1_A": 5,
+        "rank_m1_B": 8,
+        "rank_m2_A": 7,
+        "rank_m2_B": 3,
+        "score_m1_A": 44.36666666666667,
+        "score_m1_B": 12.433333333333334,
+        "score_m2_A": 1.3665714263916016,
+        "score_m2_B": 1.360478162765503
+      },
+      {
+        "metric_1": "Accuracy",
+        "metric_2": "Modality_Gap",
+        "model_A": "Cross-Attention Fusion (Ours)",
+        "model_B": "CLIP ViT-B/32 Zero-Shot",
+        "rank_m1_A": 1,
+        "rank_m1_B": 8,
+        "rank_m2_A": 8,
+        "rank_m2_B": 3,
+        "score_m1_A": 69.83333333333334,
+        "score_m1_B": 12.433333333333334,
+        "score_m2_A": 1.4017114639282227,
+        "score_m2_B": 1.360478162765503
+      },
+      {
+        "metric_1": "Accuracy",
+        "metric_2": "Modality_Gap",
+        "model_A": "Early Fusion MLP",
+        "model_B": "ResNet Avgpool Probe",
+        "rank_m1_A": 3,
+        "rank_m1_B": 4,
+        "rank_m2_A": 3,
+        "rank_m2_B": 2,
+        "score_m1_A": 50.66666666666667,
+        "score_m1_B": 44.53333333333334,
+        "score_m2_A": 1.360478162765503,
+        "score_m2_B": 1.3583823442459106
+      },
+      {
+        "metric_1": "Accuracy",
+        "metric_2": "Modality_Gap",
+        "model_A": "Cross-Attention Fusion (Ours)",
+        "model_B": "ResNet Avgpool Probe",
+        "rank_m1_A": 1,
+        "rank_m1_B": 4,
+        "rank_m2_A": 8,
+        "rank_m2_B": 2,
+        "score_m1_A": 69.83333333333334,
+        "score_m1_B": 44.53333333333334,
+        "score_m2_A": 1.4017114639282227,
+        "score_m2_B": 1.3583823442459106
+      },
+      {
+        "metric_1": "Accuracy",
+        "metric_2": "Modality_Gap",
+        "model_A": "ResNet Spatial Probe",
+        "model_B": "CLIP ViT Linear Probe",
+        "rank_m1_A": 5,
+        "rank_m1_B": 7,
+        "rank_m2_A": 7,
+        "rank_m2_B": 3,
+        "score_m1_A": 44.36666666666667,
+        "score_m1_B": 40.166666666666664,
+        "score_m2_A": 1.3665714263916016,
+        "score_m2_B": 1.360478162765503
+      }
+    ]
+  },
+  "bootstrap_95ci": {
+    "M1": {
+      "Accuracy": [
+        11.200000000000001,
+        13.600833333333334
+      ],
+      "MAE": [
+        1.9939916666666666,
+        2.0843333333333334
+      ],
+      "Macro_F1": [
+        4.601710275735114,
+        5.535387343455886
+      ],
+      "ECE": [
+        0.05418197965671619,
+        0.07739741751849652
+      ],
+      "Recall@1": [
+        0.03333333333333333,
+        0.03333333333333333
+      ],
+      "Recall@5": [
+        0.16666666666666669,
+        0.16666666666666669
+      ],
+      "Median_Rank": [
+        1500.0,
+        1500.0
+      ],
+      "Modality_Gap": [
+        1.3599520653486252,
+        1.3610138118267059
+      ],
+      "CMA": [
+        0.04207843337208032,
+        0.04313470646739006
+      ]
+    },
+    "M2": {
+      "Accuracy": [
+        42.86666666666667,
+        46.233333333333334
+      ],
+      "MAE": [
+        0.6829916666666667,
+        0.736
+      ],
+      "Macro_F1": [
+        42.17658930842064,
+        45.41959265416742
+      ],
+      "ECE": [
+        0.029655649292469038,
+        0.057033720456560466
+      ],
+      "Recall@1": [
+        0.03333333333333333,
+        0.03333333333333333
+      ],
+      "Recall@5": [
+        0.16666666666666669,
+        0.16666666666666669
+      ],
+      "Median_Rank": [
+        1500.0,
+        1500.0
+      ],
+      "Modality_Gap": [
+        1.3580197721719742,
+        1.3587745666503905
+      ],
+      "CMA": [
+        0.04744971627369523,
+        0.048106926027685404
+      ]
+    },
+    "M3": {
+      "Accuracy": [
+        42.63333333333333,
+        46.06666666666667
+      ],
+      "MAE": [
+        0.683,
+        0.7363416666666666
+      ],
+      "Macro_F1": [
+        42.246934503894636,
+        45.45222471467288
+      ],
+      "ECE": [
+        0.03854509088496366,
+        0.06693385363320511
+      ],
+      "Recall@1": [
+        0.03333333333333333,
+        0.03333333333333333
+      ],
+      "Recall@5": [
+        0.16666666666666669,
+        0.16666666666666669
+      ],
+      "Median_Rank": [
+        1500.0,
+        1500.0
+      ],
+      "Modality_Gap": [
+        1.3662822753190995,
+        1.366846576333046
+      ],
+      "CMA": [
+        0.04402828337624669,
+        0.044597920589149
+      ]
+    },
+    "M4": {
+      "Accuracy": [
+        38.5,
+        42.0
+      ],
+      "MAE": [
+        0.84865,
+        0.9123416666666666
+      ],
+      "Macro_F1": [
+        35.046104972105766,
+        38.33887402985629
+      ],
+      "ECE": [
+        0.154411028722922,
+        0.1878402346690496
+      ],
+      "Recall@1": [
+        0.03333333333333333,
+        0.03333333333333333
+      ],
+      "Recall@5": [
+        0.16666666666666669,
+        0.16666666666666669
+      ],
+      "Median_Rank": [
+        1500.0,
+        1500.0
+      ],
+      "Modality_Gap": [
+        1.3599520653486252,
+        1.3610138118267059
+      ],
+      "CMA": [
+        0.04207843337208032,
+        0.04313470646739006
+      ]
+    },
+    "M5": {
+      "Accuracy": [
+        48.93333333333334,
+        52.43416666666666
+      ],
+      "MAE": [
+        0.578,
+        0.626675
+      ],
+      "Macro_F1": [
+        47.13739492332761,
+        50.37232176923293
+      ],
+      "ECE": [
+        0.2563793586124977,
+        0.29072544527848565
+      ],
+      "Recall@1": [
+        0.03333333333333333,
+        0.03333333333333333
+      ],
+      "Recall@5": [
+        0.16666666666666669,
+        0.16666666666666669
+      ],
+      "Median_Rank": [
+        1500.0,
+        1500.0
+      ],
+      "Modality_Gap": [
+        1.3599520653486252,
+        1.3610138118267059
+      ],
+      "CMA": [
+        0.04207843337208032,
+        0.04313470646739006
+      ]
+    },
+    "M6": {
+      "Accuracy": [
+        38.46666666666667,
+        41.93333333333334
+      ],
+      "MAE": [
+        0.8546583333333333,
+        0.9166666666666666
+      ],
+      "Macro_F1": [
+        34.85811260537174,
+        38.07674944474105
+      ],
+      "ECE": [
+        0.1540198839371403,
+        0.18797746742020052
+      ],
+      "Recall@1": [
+        0.03333333333333333,
+        0.03333333333333333
+      ],
+      "Recall@5": [
+        0.16666666666666669,
+        0.16666666666666669
+      ],
+      "Median_Rank": [
+        1500.0,
+        1500.0
+      ],
+      "Modality_Gap": [
+        1.3599520653486252,
+        1.3610138118267059
+      ],
+      "CMA": [
+        0.04207843337208032,
+        0.04313470646739006
+      ]
+    },
+    "M7": {
+      "Accuracy": [
+        68.23333333333333,
+        71.4675
+      ],
+      "MAE": [
+        0.31066666666666665,
+        0.348
+      ],
+      "Macro_F1": [
+        68.01141717789415,
+        71.15696330903226
+      ],
+      "ECE": [
+        0.01713534928262235,
+        0.03987760998706024
+      ],
+      "Recall@1": [
+        0.03333333333333333,
+        0.03333333333333333
+      ],
+      "Recall@5": [
+        0.16666666666666669,
+        0.16666666666666669
+      ],
+      "Median_Rank": [
+        1500.0,
+        1500.0
+      ],
+      "Modality_Gap": [
+        1.399809217453003,
+        1.4036457985639572
+      ],
+      "CMA": [
+        -0.07602850329130888,
+        -0.07425338216125965
+      ]
+    },
+    "M8": {
+      "Accuracy": [
+        67.66583333333332,
+        70.89999999999999
+      ],
+      "MAE": [
+        0.317,
+        0.3550083333333333
+      ],
+      "Macro_F1": [
+        67.3235594930436,
+        70.52091823573393
+      ],
+      "ECE": [
+        0.01874499577482541,
+        0.044573386876781786
+      ],
+      "Recall@1": [
+        0.03333333333333333,
+        0.03333333333333333
+      ],
+      "Recall@5": [
+        0.16666666666666669,
+        0.16666666666666669
+      ],
+      "Median_Rank": [
+        1500.0,
+        1500.0
+      ],
+      "Modality_Gap": [
+        1.2446384370326995,
+        1.250001272559166
+      ],
+      "CMA": [
+        0.11154756732285023,
+        0.11308273561298847
+      ]
+    }
+  }
+}

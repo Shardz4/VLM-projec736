@@ -1,0 +1,27 @@
+{
+  "strategy": "late",
+  "visual_backbone": "resnet_spatial",
+  "seed": 42,
+  "accuracy": 0.11599999666213989,
+  "mae": 2.7720000743865967,
+  "modality_drop": {
+    "joint_accuracy": 0.11599999666213989,
+    "vision_only_accuracy": 0.12466666847467422,
+    "text_only_accuracy": 0.1326666623353958,
+    "vision_drop": -0.01666666567325592,
+    "text_drop": -0.008666671812534332,
+    "dominant_modality": "text"
+  },
+  "ece": 0.017987177769343058,
+  "modality_gap": NaN,
+  "cross_modal_alignment": NaN,
+  "recall": {
+    "i2t": {},
+    "t2i": {},
+    "note": "dimension mismatch"
+  },
+  "ranks": {
+    "i2t_median_rank": NaN,
+    "t2i_median_rank": NaN
+  }
+}

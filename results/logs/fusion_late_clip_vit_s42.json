@@ -1,0 +1,36 @@
+{
+  "strategy": "late",
+  "visual_backbone": "clip_vit",
+  "seed": 42,
+  "accuracy": 0.5243333578109741,
+  "mae": 0.5856666564941406,
+  "modality_drop": {
+    "joint_accuracy": 0.5243333578109741,
+    "vision_only_accuracy": 0.5243333578109741,
+    "text_only_accuracy": 0.1326666623353958,
+    "vision_drop": 0.3916666954755783,
+    "text_drop": 0.0,
+    "dominant_modality": "vision"
+  },
+  "ece": 0.14889658774932227,
+  "modality_gap": 1.360478162765503,
+  "cross_modal_alignment": 0.04260748252272606,
+  "recall": {
+    "i2t": {
+      "R@1": 0.03333333333333333,
+      "R@5": 0.16666666666666669,
+      "R@10": 0.33333333333333337
+    },
+    "t2i": {
+      "R@1": 0.03333333333333333,
+      "R@5": 0.16666666666666669,
+      "R@10": 0.33333333333333337
+    }
+  },
+  "ranks": {
+    "i2t_median_rank": 1500.0,
+    "t2i_median_rank": 1500.0,
+    "i2t_mean_rank": 1500.5,
+    "t2i_mean_rank": 1500.5
+  }
+}

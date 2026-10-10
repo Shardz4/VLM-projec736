@@ -1,0 +1,103 @@
+{
+  "seeds": [
+    42,
+    123,
+    999
+  ],
+  "accuracy_report": {
+    "metric": "Accuracy",
+    "n_seeds": 3,
+    "baseline_summary": "0.4179 \u00b1 0.2456",
+    "extension_summary": "0.6851 \u00b1 0.0113",
+    "delta_mean": 0.26722221076488495,
+    "relative_gain_pct": 63.94575547917493,
+    "t_test": {
+      "t_statistic": 1.815382532812851,
+      "p_value": 0.2111217138684031,
+      "mean_diff": 0.26722221076488495,
+      "std_diff": 0.25495587711671264,
+      "df": 2,
+      "is_significant_05": false,
+      "is_significant_01": false
+    },
+    "wilcoxon_test": {
+      "statistic": 0.0,
+      "p_value": 0.25,
+      "median_diff": 0.14099997282028198,
+      "is_significant_05": false
+    },
+    "cohens_d": 1.0481115940016439,
+    "bootstrap_diff_ci": {
+      "mean": 0.26722221076488495,
+      "ci_lower": 0.09999996423721313,
+      "ci_upper": 0.5606666952371597,
+      "standard_error": 0.11994141905528002,
+      "confidence_level": 0.95,
+      "excludes_zero": true
+    }
+  },
+  "mae_report": {
+    "metric": "MAE",
+    "n_seeds": 3,
+    "baseline_summary": "1.4726 \u00b1 1.6683",
+    "extension_summary": "0.3380 \u00b1 0.0092",
+    "delta_mean": -1.1345555285612743,
+    "relative_gain_pct": -77.04670601027537,
+    "t_test": {
+      "t_statistic": -1.1743807372195065,
+      "p_value": 0.3611426565716207,
+      "mean_diff": -1.1345555285612743,
+      "std_diff": 1.6733140771100592,
+      "df": 2,
+      "is_significant_05": false,
+      "is_significant_01": false
+    },
+    "wilcoxon_test": {
+      "statistic": 0.0,
+      "p_value": 0.25,
+      "median_diff": -0.20266664028167725,
+      "is_significant_05": false
+    },
+    "cohens_d": -0.6780290347647933,
+    "bootstrap_diff_ci": {
+      "mean": -1.1345555285612743,
+      "ci_lower": -3.066333293914795,
+      "ci_upper": -0.13466665148735046,
+      "standard_error": 0.7867552972581937,
+      "confidence_level": 0.95,
+      "excludes_zero": true
+    }
+  },
+  "ece_report": {
+    "metric": "ECE",
+    "n_seeds": 3,
+    "baseline_summary": "0.4176 \u00b1 0.3810",
+    "extension_summary": "0.0243 \u00b1 0.0059",
+    "delta_mean": -0.39325805689228904,
+    "relative_gain_pct": -94.18128685361594,
+    "t_test": {
+      "t_statistic": -1.7908362685777932,
+      "p_value": 0.21520152613595228,
+      "mean_diff": -0.39325805689228904,
+      "std_diff": 0.3803490843773182,
+      "df": 2,
+      "is_significant_05": false,
+      "is_significant_01": false
+    },
+    "wilcoxon_test": {
+      "statistic": 0.0,
+      "p_value": 0.25,
+      "median_diff": -0.20147880041599275,
+      "is_significant_05": false
+    },
+    "cohens_d": -1.033939801737934,
+    "bootstrap_diff_ci": {
+      "mean": -0.39325805689228904,
+      "ci_lower": -0.8313186417818069,
+      "ci_upper": -0.14697672847906748,
+      "standard_error": 0.1789172442915874,
+      "confidence_level": 0.95,
+      "excludes_zero": true
+    }
+  }
+}

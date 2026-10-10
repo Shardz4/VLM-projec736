@@ -1,0 +1,47 @@
+\begin{table*}[t]
+\centering
+\caption{Comprehensive 25-Case Multimodal Failure Taxonomy across 5 Qualitative Error Categories.}
+\label{tab:failure_taxonomy}
+\small
+\begin{tabular}{c l l p{3.2cm} p{3.2cm} p{4.8cm}}
+\toprule
+\textbf{ID} & \textbf{Category} & \textbf{Dataset} & \textbf{Ground Truth} & \textbf{Model Prediction} & \textbf{Mechanistic Root Cause} \\
+\midrule
+\multicolumn{6}{l}{\textbf{\textit{Relational Inversion}}} \\ \midrule
+C01 & SpatialSense & The person is on the statue [False] & The statue is on the person [Inverted] & Symmetric bag-of-words bias; CLIP cannot resolve asymmetric directional arrow of 'on'. \\
+C02 & SpatialSense & The door is behind the cat [True] & The cat is behind the door [Inverted] & Foreground dominance; salient domestic cat visual token dominates spatial predicate binding. \\
+C03 & SpatialSense & The picture is on the dresser [True] & The dresser is on the picture [Inverted] & Canonical support prior violation; large piece of furniture dominates similarity score. \\
+C04 & SpatialSense & The clock is above the fireplace [True] & The fireplace is above the clock [Inverted] & Vertical polarity reversal; attention pooling averages vertical tokens symmetrically. \\
+C05 & SpatialSense & The dog is under the table [True] & The table is under the dog [Inverted] & Lack of directed graph representation; predicate text embedding is permutation-invariant. \\
+\multicolumn{6}{l}{\textbf{\textit{Distractor Overload}}} \\ \midrule
+C06 & CLEVR & True Count = 10 objects & Predicted Count = 8 objects & Severe token overcrowding (N=10); patch attention blurs adjacent cylinder/cube boundaries. \\
+C07 & CLEVR & True Count = 8 objects & Predicted Count = 6 objects & High visual distractor density (N=8); small metallic spheres fail to form separate centroids. \\
+C08 & CLEVR & True Count = 9 objects & Predicted Count = 7 objects & Feature interference from multi-colored clutter; attention weight disperses across 9 entities. \\
+C09 & CLEVR & True Count = 8 objects & Predicted Count = 7 objects & Spatial crowding threshold exceeded; global ViT pooling compresses distinct objects into shared patch. \\
+C10 & CLEVR & True Count = 10 objects & Predicted Count = 8 objects & Extreme object density (N=10); model defaults to dominant dataset mode count (N=7). \\
+\multicolumn{6}{l}{\textbf{\textit{Scale \& Viewpoint Ambiguity}}} \\ \midrule
+C11 & CLEVR & True Count = 5 objects & Predicted Count = 4 objects & Small rubber cylinder in near foreground mimics large distant cube projected area; depth conflation. \\
+C12 & CLEVR & True Count = 7 objects & Predicted Count = 6 objects & Steep camera angle (45-deg elevation) foreshortens z-axis depth; back object masked by front sphere. \\
+C13 & CLEVR & True Count = 6 objects & Predicted Count = 5 objects & Perspective foreshortening shrinks distant metallic cylinder below saliency detection threshold. \\
+C14 & CLEVR & True Count = 7 objects & Predicted Count = 6 objects & Small sphere closely aligned with large background cylinder along view ray; 2D projection collapse. \\
+C15 & CLEVR & True Count = 4 objects & Predicted Count = 3 objects & Distant specular cylinder matches floor plane reflection intensity under viewpoint ray angle. \\
+\multicolumn{6}{l}{\textbf{\textit{Severe Occlusion Loss}}} \\ \midrule
+C16 & CLEVR & True Count = 6 objects & Predicted Count = 5 objects & Large brown cylinder blocks 75\% of blue sphere; only tiny specular crescent visible. \\
+C17 & CLEVR & True Count = 8 objects & Predicted Count = 7 objects & Geometric occlusion: green cube directly behind yellow cylinder along optical axis. \\
+C18 & CLEVR & True Count = 7 objects & Predicted Count = 6 objects & Floor shadow of foreground entity merges with boundary of occluded background sphere. \\
+C19 & CLEVR & True Count = 9 objects & Predicted Count = 8 objects & Overlapping bounding envelopes; model treats paired occluded spheres as a single compound object. \\
+C20 & CLEVR & True Count = 6 objects & Predicted Count = 5 objects & Cutout occlusion effect: foreground object bisects occluded entity into two sub-threshold fragments. \\
+\multicolumn{6}{l}{\textbf{\textit{Lexical \& Spatial Ambiguity}}} \\ \midrule
+C21 & SpatialSense & The cat is to the left of the mirror [True] & The mirror is to the left of the cat [Borderline] & Borderline horizontal overlap (cat bbox overlaps mirror horizontally by 12\%); razor-thin similarity margin. \\
+C22 & SpatialSense & The person is next to the statue [True] & The person is on the statue [Ambiguous] & Lexical polysemy; physical contact makes 'on' and 'next to' simultaneously plausible in human language. \\
+C23 & SpatialSense & The lamp is above the table [True] & The lamp is on the table [Ambiguous] & Semantic preposition continuum; table lamp rests 'on' surface but lamp head hovers 'above' table top. \\
+C24 & SpatialSense & The rug is in front of the couch [True] & The rug is under the couch [Ambiguous] & Partial containment ambiguity; rug extends partially beneath front legs of the couch. \\
+C25 & SpatialSense & The bowl is next to the plate [True] & The bowl is to the right of the plate [Borderline] & Perspective dependency; relation shifts from 'next to' to 'right of' depending on viewer focal coordinate frame. \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item Cases $C_{01}\text{--}C_{25}$ sampled systematically from evaluated CLEVR counting and SpatialSense relational suites.
+\item Visual thumbnails and bounding-box coordinates cataloged in accompanying interactive W\&B failure gallery.
+\end{tablenotes}
+\end{table*}

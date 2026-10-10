@@ -80,14 +80,14 @@ data/*
 # ==============================================================================
 # Experiment Runs, Logs & Generated Figures
 # ==============================================================================
-results/*
-!results/.gitkeep
-!results/README.md
+results/cache/
+results/checkpoints/
 runs/
 wandb/
 mlruns/
 tensorboard/
 *.log
+
 
 # ==============================================================================
 # Jupyter Notebooks

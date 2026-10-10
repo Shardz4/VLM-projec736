@@ -1,0 +1,45 @@
+\begin{table*}[t]
+\centering
+\caption{Quantitative Robustness Benchmark: Baseline ($M_1$) vs. Cross-Attention Extension ($M_7$) under 15 Systematic Distribution Shifts.}
+\label{tab:robustness_benchmark}
+\small
+\begin{tabular}{ll ccccc c}
+\toprule
+\textbf{Corruption Type} & \textbf{Severity} & \textbf{$M_1$ Acc (\%)} & \textbf{$M_1$ RRD (\%)} & \textbf{$M_7$ Acc (\%)} & \textbf{$M_7$ RRD (\%)} & \textbf{Margin ($\Delta$)} & \textbf{Preserved Ratio} \\
+\midrule
+\textbf{Clean (Uncorrupted)} & Level 0 & 12.43 & 0.00 & 69.40 & 0.00 & +56.97 & 1.000 \\
+\midrule
+Gaussian Noise & Level 1 & 11.77 & 5.4\% & 33.77 & 51.3\% & +22.00 & 0.487 \\
+ & Level 2 & 11.70 & 5.9\% & 16.67 & 76.0\% & +4.97 & 0.240 \\
+ & Level 3 & 11.93 & 4.0\% & 29.47 & 57.5\% & +17.53 & 0.425 \\
+\multicolumn{2}{r}{\textit{Gaussian Noise AUDC:}} & \multicolumn{2}{c}{\textit{0.949}} & \multicolumn{2}{c}{\textit{0.384}} & \multicolumn{2}{c}{\textit{-0.565}} \\
+\midrule
+Gaussian Blur & Level 1 & 12.43 & 0.0\% & 66.83 & 3.7\% & +54.40 & 0.963 \\
+ & Level 2 & 12.10 & 2.7\% & 58.23 & 16.1\% & +46.13 & 0.839 \\
+ & Level 3 & 12.40 & 0.3\% & 40.10 & 42.2\% & +27.70 & 0.578 \\
+\multicolumn{2}{r}{\textit{Gaussian Blur AUDC:}} & \multicolumn{2}{c}{\textit{0.990}} & \multicolumn{2}{c}{\textit{0.793}} & \multicolumn{2}{c}{\textit{-0.197}} \\
+\midrule
+JPEG Compression & Level 1 & 11.73 & 5.6\% & 56.53 & 18.5\% & +44.80 & 0.815 \\
+ & Level 2 & 12.80 & -2.9\% & 44.90 & 35.3\% & +32.10 & 0.647 \\
+ & Level 3 & 12.87 & -3.5\% & 28.03 & 59.6\% & +15.17 & 0.404 \\
+\multicolumn{2}{r}{\textit{JPEG Compression AUDC:}} & \multicolumn{2}{c}{\textit{1.003}} & \multicolumn{2}{c}{\textit{0.622}} & \multicolumn{2}{c}{\textit{-0.381}} \\
+\midrule
+Brightness Shift & Level 1 & 12.23 & 1.6\% & 50.10 & 27.8\% & +37.87 & 0.722 \\
+ & Level 2 & 12.23 & 1.6\% & 13.70 & 80.3\% & +1.47 & 0.197 \\
+ & Level 3 & 11.80 & 5.1\% & 12.47 & 82.0\% & +0.67 & 0.180 \\
+\multicolumn{2}{r}{\textit{Brightness Shift AUDC:}} & \multicolumn{2}{c}{\textit{0.972}} & \multicolumn{2}{c}{\textit{0.366}} & \multicolumn{2}{c}{\textit{-0.606}} \\
+\midrule
+Cutout Occlusion & Level 1 & 11.47 & 7.8\% & 54.97 & 20.8\% & +43.50 & 0.792 \\
+ & Level 2 & 12.57 & -1.1\% & 60.97 & 12.2\% & +48.40 & 0.878 \\
+ & Level 3 & 12.03 & 3.2\% & 58.43 & 15.8\% & +46.40 & 0.842 \\
+\multicolumn{2}{r}{\textit{Cutout Occlusion AUDC:}} & \multicolumn{2}{c}{\textit{0.967}} & \multicolumn{2}{c}{\textit{0.837}} & \multicolumn{2}{c}{\textit{-0.129}} \\
+\midrule
+\multicolumn{2}{l}{\textbf{Overall Mean AUDC (Resilience) score}} & \multicolumn{2}{c}{\textbf{0.976}} & \multicolumn{2}{c}{\textbf{0.601}} & \multicolumn{2}{c}{\textbf{-0.376}} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item RRD: Relative Robustness Drop ($(\text{Acc}_{\text{clean}} - \text{Acc}_{\text{corrupt}}) / \text{Acc}_{\text{clean}} \times 100\%$).
+\item AUDC: Area Under Degradation Curve normalized by clean performance. Values close to $1.000$ indicate optimal distributional stability.
+\end{tablenotes}
+\end{table*}
