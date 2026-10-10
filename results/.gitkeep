@@ -1,4 +1,1 @@
-# Keep directory structure in git
-/figures
-/logs
-/tables
+# Keep results directory structure in git
