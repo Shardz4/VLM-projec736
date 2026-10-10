@@ -118,6 +118,34 @@ class TestTaxonomySchema(unittest.TestCase):
         ]
         self.assertEqual(len(expected_categories), 5)
 
+    def test_taxonomy_case_schema(self):
+        """Ensure case dictionary schema conforms to required keys."""
+        sample_case = {
+            "case_id": "C01",
+            "category": "Relational Inversion",
+            "dataset": "SpatialSense",
+            "image_file": "sample.jpg",
+            "ground_truth": "The cat is on the table",
+            "prediction": "The table is on the cat",
+            "confidence_or_margin": -0.038,
+            "mechanistic_explanation": "Symmetric text bias",
+            "thumbnail_path": "results/figures/failures/case_01.png",
+        }
+        required_keys = [
+            "case_id",
+            "category",
+            "dataset",
+            "image_file",
+            "ground_truth",
+            "prediction",
+            "confidence_or_margin",
+            "mechanistic_explanation",
+            "thumbnail_path",
+        ]
+        for k in required_keys:
+            self.assertIn(k, sample_case)
+
 
 if __name__ == "__main__":
     unittest.main()
+
