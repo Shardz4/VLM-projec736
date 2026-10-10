@@ -1,1 +1,4 @@
 # Keep directory structure in git
+/figures
+/logs
+/tables
