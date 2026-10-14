@@ -291,7 +291,7 @@ def plot_master_grid(scores, output_dir: Path):
     grid_path = output_dir / "all_metrics_8model_grid.png"
     plt.savefig(grid_path, dpi=300)
     plt.close(fig)
-    print(f"\n✓ Saved 9-in-1 Master Dashboard Grid: {grid_path}")
+    print(f"\n[OK] Saved 9-in-1 Master Dashboard Grid: {grid_path}")
 
 
 def main():
